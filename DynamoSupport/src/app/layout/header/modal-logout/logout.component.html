@@ -1,0 +1,30 @@
+<div style="display: flex">
+  <div class="flex-1"></div>
+  <div class="modal-title c-grey" style="font-size: 20px">Perfil Usuario</div>
+  <div class="flex-1"></div>
+
+  <button (click)="close()" class="icon-btn btn-trans c-orange moda-close-btn">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+
+<div class="cli-form newvac-wrapper">
+  <div class="chart-draw">
+    <div class="up-name-card">
+      <!-- <div class="up-photo-cont">
+          <div *ngIf="phtouri == 'NONE'">{{ nameini }}</div>
+          <img *ngIf="phtouri != 'NONE'" [src]="phtouri" />
+        </div> -->
+      <div class="up-card-info">
+        <div class="up-user-name">{{ fullname }}</div>
+        <div class="up-user-subtitle">
+          <mat-icon>verified_user</mat-icon> {{ subtitle }}
+        </div>
+
+        <button (click)="logOut()" class="cli-btn btn-magenta mt-3">
+          <mat-icon class="icon-16">logout</mat-icon>Cerrar sesión
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
