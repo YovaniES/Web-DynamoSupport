@@ -1,0 +1,111 @@
+<div style="display: flex">
+  <div class="flex-1"></div>
+  <div class="modal-title c-male">{{DATA_LIQUID && DATA_LIQUID.isCreation ? 'Agregar' : 'Actualizar'}} factura</div>
+  <div class="flex-1"></div>
+
+  <button (click)="close()" class="icon-btn btn-trans c-orange moda-close-btn">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+
+<form class="row g-3" [formGroup]="facturaForm">
+  <div class="cli-form newvac-wrapper">
+    <div class="chart-draw">
+      <!-- VENTA DECLARADA---------------------------------------------------------- -->
+        <div class="pr-module-container">
+          <div class="row g-3">
+            <div class="col-sm-6 cli-form-element">
+              <div class="form-group">
+                <label>Orden de compra *</label>
+                <input
+                  type="number"
+                  min="0"
+                  class="form-control cli-input-white"
+                  formControlName="ordenCompra"/>
+                <small class="form-text text-alert" *ngIf="campoNoValido('ordenCompra')">* Ingrese Orden de compra es obligatorio</small>
+              </div>
+            </div>
+
+            <div class="col-sm-6 cli-form-element">
+              <div class="form-group">
+                <label>Importe *</label>
+                <input
+                  type="number"
+                  class="form-control cli-input-white"
+                  formControlName="importe"/>
+                <small class="form-text text-alert" *ngIf="campoNoValido('importe')">* Ingrese el Importe es obligatorio</small>
+              </div>
+            </div>
+
+            <div class="col-sm-6 cli-form-element">
+              <div class="form-group">
+                <label>Certificación *</label>
+                <input
+                  type="number"
+                  min="0"
+                  class="form-control cli-input-white"
+                  formControlName="certificacion"/>
+                <small class="form-text text-alert" *ngIf="campoNoValido('certificacion')">* Ingrese la Certificación es obligatorio</small>
+              </div>
+            </div>
+
+            <div class="col-sm-6 cli-form-element">
+              <label class="form-label">Estado *</label>
+              <select class="cli-input-white" formControlName="estFactura">
+                <option [value]="0" disabled>-Seleccione-</option>
+                <option [value]="est.id" *ngFor="let est of listEstadosFacturacion">{{est.nombre}}</option>
+              </select>
+              <small class="form-text text-alert" *ngIf="campoNoValido('estFactura')">* Ingrese el Estado es obligatorio</small>
+            </div>
+
+            <div class="col-sm-6 cli-form-element">
+              <div class="form-group">
+                <label>Factura *</label>
+                <input
+                  type="text"
+                  class="form-control cli-input-white"
+                  formControlName="factura"/>
+                <small class="form-text text-alert" *ngIf="campoNoValido('factura')">* Ingrese la Factura es obligatorio</small>
+              </div>
+            </div>
+
+            <div class=" col-sm-6 cli-form-element">
+              <div class="form-group">
+                <label>Fecha de facturación *</label>
+                <input
+                  type="date"
+                  class="form-control cli-input-white"
+                  formControlName="fechaFact"/>
+              <small class="form-text text-alert" *ngIf="campoNoValido('fechaFact')">* Ingrese la Fecha es obligatorio</small>
+              </div>
+            </div>
+
+            <div class="cli-form-element mb-2">
+              <label>Comentarios</label>
+              <textarea
+                class="form-control"
+                style="background-image: none; border-color: #bdbdbd; font-size: 14px; font-size: 12px;"
+                rows="3"
+                placeholder="Escriba algún comentario sobre la certificación..."
+                formControlName="comentario"
+              ></textarea>
+            </div>
+          </div>
+        </div>
+    </div>
+
+    <!-- --------------------------------------------BOTONES ------------------------------------------>
+    <div class="cli-form-buttons" style="margin-top: 8%">
+      <button class="cli-btn btn-m btn-cancel" type="submit" (click)="close()">
+        <mat-icon class="icon-18">cancel</mat-icon> Cancelar
+      </button>
+      <button
+        class="cli-btn btn-m btn-blue"
+        [disabled]="facturaForm.invalid"
+        (click)="agregarOactualizarCertificacion()">
+        <mat-icon class="icon-18">save</mat-icon> {{actionBtn}}
+      </button>
+    </div>
+  </div>
+</form>
+

@@ -1,0 +1,16 @@
+.cli-table {
+  width: 100%;
+  background-color: #fff;
+  & th {
+    padding: 2px;
+    font-weight: 400 !important;
+    text-align: left;
+    font-size: 10px;
+  }
+  & td {
+    vertical-align: middle;
+    text-align: left;
+    font-size: 10px;
+    // padding: 4px 8px;
+  }
+}

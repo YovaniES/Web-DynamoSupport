@@ -1,0 +1,140 @@
+@import "variables.scss";
+
+.cli-loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  width: 100%;
+}
+
+.cli-table {
+  width: 100%;
+  background-color: #fff;
+  &-user {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    // color: #6c757d;
+  }
+}
+
+.btn-crear {
+  border: none;
+  border-radius: 3px;
+  height: 26px;
+  padding: 0 4px;
+  display: flex;
+  align-items: center;
+}
+
+.cli-btn-liq {
+  // border: none;
+  border-radius: 3px;
+  margin: 0 5px;
+  height: 26px;
+  padding: 0 4px;
+  display: flex;
+  align-items: center;
+}
+
+.cli-import {
+  // border: solid 1px #6c757d;
+  // border-radius: 4px;
+  // color: #20c997;
+  color: #6c757d;
+  font-size: 12px;
+  cursor: pointer;
+  // padding: 3.5px;
+}
+
+.icon-soles {
+  font-weight: 400;
+  margin-right: 3px;
+}
+
+.total {
+  color: #97999b;
+  font-size: 18px;
+  font-weight: 550;
+}
+
+.c-green-export {
+  color: #029d55;
+  border: solid 0.5px #029d55;
+}
+
+.c-indigo-export {
+  color: #6610f2;
+  border: solid 0.5px #6610f2;
+}
+
+.date-rango {
+  color: #5c5c5c;
+  font-size: 10px;
+  font-weight: 400;
+}
+
+.fileatt {
+  &-cont {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 5px;
+    padding: 5px;
+    border: dashed 1px $color-grey-3;
+  }
+  &-btn {
+    margin: 2px;
+    display: flex;
+    align-items: center;
+    color: $color-green;
+    background-color: $color-grey-1;
+    border: none;
+    border-radius: 2px;
+  }
+  margin: 2px 3px;
+  padding: 2px 5px;
+  border-radius: 2px;
+  background-color: $color-grey-1;
+  display: flex;
+  align-items: center;
+}
+
+// estilos para el rango de fechas
+.input-group {
+  width: auto;
+  justify-content: center;
+}
+
+::ng-deep .mat-form-field-type-mat-date-range-input .mat-form-field-infix {
+  height: 50px;
+  margin-top: -10px;
+}
+
+::ng-deep .mat-date-range-input-start-wrapper {
+  font-size: 12px;
+}
+
+::ng-deep .mat-date-range-input-end-wrapper {
+  font-size: 12px;
+}
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-wrapper {
+  margin: 0 0;
+}
+
+.mat-hint {
+  font-size: 8px;
+}
+
+::ng-deep .mat-form-field-subscript-wrapper {
+  margin-top: 1px;
+}
+
+::ng-deep .mat-calendar-body-selected {
+  background-color: #0daef4;
+  color: #fff;
+}
+
+@media (max-width: 850px) {
+}

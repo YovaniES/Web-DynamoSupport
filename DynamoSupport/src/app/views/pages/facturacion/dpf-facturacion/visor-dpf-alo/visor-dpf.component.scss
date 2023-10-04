@@ -1,0 +1,70 @@
+tr.mat-row.cdk-row {
+  height: 10px;
+}
+
+.c-green-export {
+  color: #029d55;
+  // border: solid 0.5px #029d55;
+}
+
+.tabs-container {
+  // background: #eee;
+  list-style-type: none;
+  padding-left: 0;
+  margin-bottom: 0;
+  height: 30px;
+  border-bottom: 1px solid #ccc;
+  width: 100%;
+  color: #6c757d;
+}
+
+.tabs-container .tab-link {
+  width: 33.3%;
+  position: relative;
+  height: 100%;
+  padding: 4px;
+  float: left;
+  text-align: center;
+  cursor: pointer;
+}
+
+.cli-table {
+  width: 100%;
+  background-color: #fff;
+  &-user {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    color: #6c757d;
+  }
+}
+
+.active {
+  border-bottom: 3px solid #03bccf;
+  transition: ease-in-out 0.3s;
+  font-weight: 700;
+  color: #03bccf;
+  background: #e9fdff;
+
+  border-radius: 4px 4px 4px 4px;
+}
+
+.tot-cor {
+  color: #122a2c;
+  font-size: 13px;
+  text-align: right;
+}
+
+.visor {
+  font-size: 13px;
+  text-align: right;
+}
+
+.form {
+  &-buttons {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}

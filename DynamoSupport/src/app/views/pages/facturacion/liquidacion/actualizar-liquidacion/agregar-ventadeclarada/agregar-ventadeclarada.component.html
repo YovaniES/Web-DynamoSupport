@@ -1,0 +1,68 @@
+<div style="display: flex">
+  <div class="flex-1"></div>
+  <div class="modal-title c-male"> {{DATA_LIQUID && DATA_LIQUID.isCreation ? 'Agregar': 'Actualizar'}} venta declarada</div>
+  <div class="flex-1"></div>
+
+  <button (click)="close()" class="icon-btn btn-trans c-orange moda-close-btn">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+
+<form class="row g-3" [formGroup]="ventaDeclaradaForm">
+  <div class="cli-form newvac-wrapper">
+    <div class="chart-draw">
+      <!-- VENTA DECLARADA---------------------------------------------------------- -->
+        <div class="pr-module-container">
+          <div class="row g-3">
+            <div class="cli-form-element">
+              <div class="form-group">
+                <label>Importe declarado *</label>
+                <input
+                  type="number"
+                  class="form-control cli-input-white"
+                  formControlName="ventaDeclarada"/>
+                <small class="form-text text-alert" *ngIf="campoNoValido('ventaDeclarada')">* Ingrese la Venta declarada es obligatorio</small>
+              </div>
+            </div>
+
+            <div class="cli-form-element">
+              <div class="form-group">
+                <label>Periodo *</label>
+                <input
+                  type="month"
+                  class="form-control"
+                  formControlName="periodo"/>
+                  <small class="form-text text-alert" *ngIf="campoNoValido('periodo')">* Ingrese el Periodo es obligatorio</small>
+              </div>
+            </div>
+
+            <div class="cli-form-element mb-2">
+              <label>Comentario *</label>
+              <textarea
+                class="form-control"
+                style="background-image: none; border-color: #bdbdbd; font-size: 14px; font-size: 12px;"
+                rows="3"
+                placeholder="Escriba algún Comentario de la venta declarada .."
+                formControlName="comentario"
+              ></textarea>
+              <small class="form-text text-alert" *ngIf="campoNoValido('comentario')">* Ingrese el Comentario es obligatorio</small>
+            </div>
+          </div>
+        </div>
+    </div>
+
+    <!-- --------------------------------------------BOTONES ------------------------------------------>
+    <div class="cli-form-buttons" style="margin-top: 8%">
+      <button class="cli-btn btn-m btn-cancel" type="submit" (click)="close()">
+        <mat-icon class="icon-18">cancel</mat-icon> Cancelar
+      </button>
+      <button
+        class="cli-btn btn-m btn-blue"
+        [disabled]="ventaDeclaradaForm.invalid"
+        (click)="agregarOactualizarVentaDeclarada()">
+        <mat-icon class="icon-18">save</mat-icon> {{titleBtn}}
+      </button>
+    </div>
+  </div>
+</form>
+

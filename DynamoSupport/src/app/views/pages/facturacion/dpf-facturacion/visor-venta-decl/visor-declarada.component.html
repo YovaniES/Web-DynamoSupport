@@ -1,0 +1,104 @@
+<!-- <div class="modal-title-inic mt-5">Venta declarada</div>
+<div class="cli-content">
+  <div class="cli-card-body">
+    <input
+      id="filtro_vd"
+      (click)="filtrar(this)"
+      type="button"
+      style="height: 0px; width: 0px; visibility: hidden"/>
+    <p *ngIf="!listVentaDecl"><em>Cargando...</em></p>
+
+    <div class="row" style="justify-content: space-around;">
+      <div class="col-lg-6 col-12 canvas">
+        <h3 style="font-size: 20px; font-weight: 500">
+          Venta declarada por Estado
+        </h3>
+        <div class="chart-wrapper">
+          <canvas
+            baseChart
+            [data]="pieChartData"
+            [labels]="pieChartLabels"
+            [chartType]="pieChartType"
+            [options]="pieChartOptions"
+            [plugins]="pieChartPlugins"
+            [legend]="pieChartLegend"
+          >
+          </canvas>
+        </div>
+      </div>
+
+      <div class="col-lg-6 col-12 canvas">
+        <h3 style="font-size: 20px; font-weight: 500">
+          Venta declarada por Proyecto
+        </h3>
+        <div style="display: block">
+          <canvas
+            baseChart
+            [datasets]="barChartData"
+            [labels]="barChartLabels"
+            [options]="barChartOptions"
+            [legend]="barChartLegend"
+            [plugins]="barChartPlugins"
+            [chartType]="barChartType"
+          >
+          </canvas>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="card mt-5" style="padding: 10px">
+        <div
+          class="card-header border-transparent"
+          style="display: flex"
+          class="mt-2 mb-1">
+          <h3 class="card-title"><span style="font-weight: 600" id="titulo">Venta Declarada :: ({{ totalVD | number: "5.2-2" }})</span></h3>
+        </div>
+
+        <div style="overflow: auto; min-height: 430px; color: #6c757d;">
+          <div>
+            <table id="tbRes" class="cli-table stripedtable underlinedtable">
+              <thead>
+                <tr class="c-white">
+                  <th>Periodo</th>
+                  <th>Proyecto</th>
+                  <th>Sub Servicio</th>
+                  <th>Estado</th>
+                  <th>Gestor</th>
+                  <th>Importe</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let vd of listVentaDecl | paginate: {
+                            itemsPerPage: pageSize,
+                            currentPage: page,
+                            totalItems: totalFacturas }">
+                  <td>{{ vd.periodo | date: "yyyy-MM" }}</td>
+                  <td>{{ vd.proyecto }}</td>
+                  <td style="text-align: left;">{{ vd.subservicio }}</td>
+                  <td>
+                    <span
+                    [ngStyle]="{color:vd.estado == 'En Elaboración'? 'red': vd.estado == 'Enviado'? 'blue': 'green'}">{{ vd.estado }}</span>
+                  </td>
+                  <td style="text-align: left;">{{ vd.gestor }}</td>
+                  <td>{{ vd.venta_Declarada | number: "3.2-2" }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card-footer pb-0 pt-3">
+          <pagination-controls
+            previousLabel="Anterior"
+            nextLabel="Siguiente"
+            [responsive]="false"
+            (pageChange)="cambiarPagina($event)">
+          </pagination-controls>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+
+<!-- [ngStyle]="{color:vd.estado == 'MO_Visado'? 'red': vd.estado == 'Facturado'? 'blue': 'green'}">{{ vd.estado }}</span> -->

@@ -1,0 +1,60 @@
+<div style="display: flex">
+  <div class="flex-1"></div>
+  <div class="modal-title c-male"> Actualización masiva</div>
+    <div class="flex-1"></div>
+
+    <button (click)="close()" class="icon-btn btn-trans c-orange moda-close-btn">
+      <mat-icon>close</mat-icon>
+    </button>
+</div>
+
+<form class="row g-3" [formGroup]="facturaForm">
+  <div class="cli-form newvac-wrapper">
+    <div class="row g-3">
+      <div class="col-sm-12 cli-form-element">
+        <label>Proyecto *</label>
+        <select class="cli-input-white" formControlName="id_proyecto">
+          <option [value]="0" disabled>- Seleccione -</option>
+          <option [value]="cod.id" *ngFor="let cod of listProyectos">{{ cod.valor_texto_1 }}</option>
+        </select>
+        <small class="form-text text-alert" *ngIf="campoNoValido('id_proyecto')">* Seleccione el Proyecto es obligatorio</small>
+      </div>
+
+      <div class="col-sm-12 cli-form-element">
+        <label class="form-label">Estado *</label>
+              <select class="cli-input-white" formControlName="id_estado">
+          <option [value]="0" disabled>-Seleccione-</option>
+          <option [value]="est.id" *ngFor="let est of listEstados">{{est.nombre}}</option>
+        </select>
+        <small class="form-text text-alert" *ngIf="campoNoValido('id_estado')">* Seleccione el Estado es obligatorio</small>
+      </div>
+
+      <div class="col-sm-12 cli-form-element">
+        <div class="form-group">
+          <label>Fecha Periodo *</label>
+           <input
+            type="month"
+            class="form-control"
+            formControlName="fechaPeriodo"/>
+            <span class="validity"></span>
+        </div>
+        <small class="form-text text-alert" *ngIf="campoNoValido('fechaPeriodo')">* Ingrese el Periodo es obligatorio</small>
+      </div>
+    </div>
+
+    <!-- --------------------------------------------BOTONES ------------------------------------------>
+    <div class="cli-form-buttons" style="margin-top: 12%">
+      <button class="cli-btn btn-m btn-cancel"
+              type="submit" (click)="close()">
+        <mat-icon class="icon-18">cancel</mat-icon> Cancelar
+      </button>
+
+      <button class="cli-btn btn-m btn-blue"
+              (click)="actualizacionMasiva()"
+              [disabled]="facturaForm.invalid"
+              >
+              <mat-icon class="icon-18">save</mat-icon> Actualizar
+      </button>
+    </div>
+  </div>
+</form>

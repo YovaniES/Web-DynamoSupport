@@ -1,0 +1,179 @@
+<div class="modal-title-inic mt-3">DPF / ALO</div>
+
+<div class="cli-content">
+  <div class="cli-card-body">
+    <div>
+      <ul class="tabs-container">
+        <li (click)="onTabClick('Dpf_Alo')"[class.active]="activeTab == 'Dpf_Alo'" class="tab-link form-buttons"><mat-icon class="icon-13" style="margin-right: 4px;">flip_camera_android</mat-icon>DPF/ALO</li>
+        <li (click)="onTabClick('Dpf')"    [class.active]="activeTab == 'Dpf'"     class="tab-link form-buttons"><mat-icon class="icon-13" style="margin-right: 4px;">update_disabled</mat-icon>DPF</li>
+        <li (click)="onTabClick('Alo')"    [class.active]="activeTab == 'Alo'"     class="tab-link form-buttons"><mat-icon class="icon-13" style="margin-right: 4px;">wifi_protected_setup</mat-icon>ALO</li>
+      </ul>
+    </div>
+
+    <div style="padding: 2px 2px" *ngIf="activeTab == 'Dpf'">
+      <div class="card" style="padding: 10px">
+        <div
+          class="card-header border-transparent"
+          style="display: flex"
+          class="mt-2 mb-1"
+        >
+          <div class="flex-1"></div>
+          <!-- <button
+             class="icon-btn btn-trans c-green-export"
+             matTooltip="Exportar"
+             type="button"
+             (click)="exportToExcel()">
+             <mat-icon class="icon-18">file_download</mat-icon>
+          </button> -->
+        </div>
+
+        <div  style="overflow: auto; min-height: 298px; color: #6c757d;">
+          <div>
+            <table class="cli-table stripedtable underlinedtable">
+              <thead>
+                  <tr class="bgc-blue-light c-white">
+                    <th>Proyecto</th>
+                    <th style="min-width: 75px;text-align: end;">Total Corriente<br><small style="color: #ffffff;font-size: 11px;">Periodo Actual</small></th>
+                    <th style="min-width: 75px;text-align: end;">Vencido <br><small  style="color: #ffffff;font-size: 10px;">1-30   </small></th>
+                    <th style="min-width: 75px;text-align: end;">Vencido <br><small  style="color: #ffffff;font-size: 10px;">31-60  </small></th>
+                    <th style="min-width: 75px;text-align: end;">Vencido <br><small  style="color: #ffffff;font-size: 10px;">61-90  </small></th>
+                    <th style="min-width: 75px;text-align: end;">Vencido <br><small  style="color: #ffffff;font-size: 10px;">91-180 </small></th>
+                    <th style="min-width: 75px;text-align: end;">Vencido <br><small  style="color: #ffffff;font-size: 10px;">181-365</small></th>
+                    <th style="min-width: 75px;text-align: end;">Vencido <br><small  style="color: #ffffff;font-size: 10px;">> 365  </small></th>
+                    <th style="min-width: 75px;">Total<br><small     style="font-size: 12px;">Vencido</small></th>
+                    <th style="text-align: end;">TOTAL</th>
+                  </tr>
+              </thead>
+              <tbody>
+                <ng-container *ngFor="let x of listDPF">
+                  <tr *ngIf="dataDpfTOTAL(x.proyecto) > 0 ">
+                    <td style="color: #38ccbd;font-weight: 500;">{{ x.proyecto }}</td>
+                    <td class="tot-cor">{{((dataDPF(x.proyecto, -1)>5)? (dataDPF(x.proyecto, -1)):'')| number:'1.2-2'}}</td> <!-- 1[1-30]-->
+                    <td class="visor">  {{((dataDPF(x.proyecto, -2)>5)? (dataDPF(x.proyecto, -2)):'')| number:'1.2-2'}}</td> <!-- 2[31-60]-->
+                    <td class="visor">  {{((dataDPF(x.proyecto, -3)>5)? (dataDPF(x.proyecto, -3)):'')| number:'1.2-2'}}</td> <!-- 3[61-90]-->
+                    <td class="visor">  {{((dataDPF(x.proyecto, -4)>5)? (dataDPF(x.proyecto, -4)):'')| number:'1.2-2'}}</td> <!-- 3[61-90] Eliminar o cambiar por el 0-->
+                    <td class="visor">  {{((dpf91_180(x.proyecto) > 5)? dpf91_180(x.proyecto )  :'' )| number:'1.2-2'}}</td> <!--[91-180] --> <!-- 456[91-180](E,F,M)-->
+                    <td class="visor">  {{((dpf181_365(x.proyecto)> 5)? dpf181_365(x.proyecto)  :'' )| number:'1.2-2'}}</td>
+                    <td class="visor">  {{((dpfMayor365(x.proyecto)>5)? dpfMayor365(x.proyecto) : '')| number:'1.2-2'}}</td>
+                    <td style="font-weight: 700;color: #007bff;text-align: end;">{{dpfVencidos(x.proyecto) | number:'1.2-2' }}</td>
+                    <td style="color: #000; font-weight: 600; text-align: end;">{{ dataDpfTOTAL(x.proyecto)| number:'1.2-2' }}</td>
+                  </tr>
+                </ng-container>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="padding: 10px" *ngIf="activeTab == 'Alo'">
+      <div
+        class="card-header border-transparent"
+        style="display: flex"
+        class="mt-2 mb-1">
+      <div class="flex-1"></div>
+    </div>
+
+      <div  style="overflow: auto; color: #6c757d;">
+        <div>
+          <table class="cli-table stripedtable underlinedtable">
+            <thead>
+              <tr class="bgc-green c-white">
+                <th>Proyecto</th>
+                <th style="min-width: 75px;text-align: end;">Total Corriente<br><small style="color: #ffffff;font-size: 11px;">Periodo Actual</small></th>
+                <th style="min-width: 75px;text-align: end;">Vencido<br><small style="color: #ffffff;font-size: 10px;">1-30   </small></th>
+                <th style="min-width: 75px;text-align: end;">Vencido<br><small style="color: #ffffff;font-size: 10px;">31-60  </small></th>
+                <th style="min-width: 75px;text-align: end;">Vencido<br><small style="color: #ffffff;font-size: 10px;">61-90  </small></th>
+                <th style="min-width: 75px;text-align: end;">Vencido<br><small style="color: #ffffff;font-size: 10px;">91-180 </small></th>
+                <th style="min-width: 75px;text-align: end;">Vencido<br><small style="color: #ffffff;font-size: 10px;">181-365</small></th>
+                <th style="min-width: 75px;text-align: end;">Vencido<br><small style="color: #ffffff;font-size: 10px;">> 365  </small></th>
+                <th style="min-width: 75px;text-align: end;">Total  <br><small style="font-size: 12px;">Vencido</small></th>
+                <th style="min-width: 75px;text-align: end;">TOTAL</th>
+              </tr>
+            </thead>
+            <tbody>
+              <ng-container *ngFor="let x of listDPF">
+                <tr *ngIf="dataAloTOTAL(x.proyecto)">
+                    <td style="color: #38ccbd;font-weight: 500;" >{{ x.proyecto }}</td>
+                    <td class="tot-cor">{{((dataDPF(x.proyecto, -1)<0)? dataDPF(x.proyecto, -1):'') | number:'1.2-2'}}</td>
+                    <td class="visor">  {{((dataDPF(x.proyecto, -2)<0)? dataDPF(x.proyecto, -2):'') | number:'1.2-2'}}</td> <!-- 1[1-30] JUL-->
+                    <td class="visor">  {{((dataDPF(x.proyecto, -3)<0)? dataDPF(x.proyecto, -3):'') | number:'1.2-2'}}</td> <!-- 2[31-60] JUN-->
+                    <td class="visor">  {{((dataDPF(x.proyecto, -4)<0)? dataDPF(x.proyecto, -4):'') | number:'1.2-2'}}</td> <!-- 3[61-90] MAY-->
+                    <td class="visor">  {{((alo91_180(x.proyecto  )<0)? alo91_180(x.proyecto ): '') | number:'1.2-2'}}</td>
+                    <td class="visor">  {{((alo181_365(x.proyecto )<0)? alo181_365(x.proyecto): '') | number:'1.2-2'}}</td>
+                    <td class="visor">  {{((aloMayor365(x.proyecto)<0)? aloMayor365(x.proyecto): '')| number:'1.2-2'}}</td>
+                    <td style="font-weight: 700;color: #007bff;text-align: end;">{{(aloVencidos(x.proyecto)? aloVencidos(x.proyecto): '') | number:'1.2-2' }}</td>
+                    <td style="color: #000; font-weight: 600; text-align: end;">{{ dataAloTOTAL(x.proyecto) | number:'1.2-2' }}</td>
+                </tr>
+              </ng-container>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="padding: 10px" *ngIf="activeTab == 'Dpf_Alo'">
+      <div
+        class="card-header border-transparent"
+        style="display: flex"
+        class="mt-2 mb-1">
+        <div class="flex-1"></div>
+        <button
+             class="icon-btn btn-trans c-green-export"
+             matTooltip="Exportar"
+             type="button"
+             (click)="exportToExcel()">
+             <mat-icon class="icon-18">file_download</mat-icon>
+          </button>
+      </div>
+
+      <div  style="overflow: auto; color: #6c757d;">
+        <div>
+          <table id="tbRes" class="cli-table stripedtable underlinedtable">
+            <thead>
+              <tr class="bgc-turquey c-white">
+                <th>Proyecto</th>
+                <th style="min-width: 75px;text-align: end;">Total Corriente<br><small style="color: #ffffff;font-size: 11px;">Periodo Actual</small></th>
+                <th style="min-width: 75px;text-align: end;">Vencido<br><small style="color: #ffffff;font-size: 10px;">1-30   </small></th>
+                <th style="min-width: 75px;text-align: end;">Vencido<br><small style="color: #ffffff;font-size: 10px;">31-60  </small></th>
+                <th style="min-width: 75px;text-align: end;">Vencido<br><small style="color: #ffffff;font-size: 10px;">61-90  </small></th>
+                <th style="min-width: 75px;text-align: end;">Vencido<br><small style="color: #ffffff;font-size: 10px;">91-180 </small></th>
+                <th style="min-width: 75px;text-align: end;">Vencido<br><small style="color: #ffffff;font-size: 10px;">181-365</small></th>
+                <th style="min-width: 75px;text-align: end;">Vencido<br><small style="color: #ffffff;font-size: 10px;">> 365  </small></th>
+                <th style="min-width: 75px;text-align: end;">Total  <br><small style="font-size: 12px;">Vencido</small></th>
+                <th style="min-width: 75px;text-align: end;">TOTAL</th>
+              </tr>
+            </thead>
+            <tbody>
+              <ng-container *ngFor="let x of listDPF">
+                  <tr *ngIf="dataDpfAloTOTAL(x.proyecto) ">
+                    <td style="color: #38ccbd;font-weight: 500;" >{{ x.proyecto }}</td>
+                    <td class="tot-cor">{{(dataDPF(x.proyecto, -1)? dataDPF(x.proyecto, -1):'') | number:'1.2-2'}}</td>
+                    <td class="visor">  {{(dataDPF(x.proyecto, -2)? dataDPF(x.proyecto, -2):'') | number:'1.2-2'}}</td> <!-- -1[1-30] JUL-->
+                    <td class="visor">  {{(dataDPF(x.proyecto, -3)? dataDPF(x.proyecto, -3):'') | number:'1.2-2'}}</td> <!-- -2[31-60] JUN-->
+                    <td class="visor">  {{(dataDPF(x.proyecto, -4)? dataDPF(x.proyecto, -4):'') | number:'1.2-2'}}</td> <!-- -3[61-90] MAY-->
+                    <td class="visor">  {{(dpfAlo91_180(x.proyecto  )? dpfAlo91_180(x.proyecto ): '') | number:'1.2-2'}}</td> <!-- -4-5-6[91-180] MAY-->
+                    <td class="visor">  {{(dpfAlo181_365(x.proyecto )? dpfAlo181_365(x.proyecto): '') | number:'1.2-2'}}</td>
+                    <td class="visor">  {{(dpfAloMayor365(x.proyecto)? dpfAloMayor365(x.proyecto): '')| number:'1.2-2'}}</td>
+
+                    <td>
+                      <div class="cli-table-user">
+                        <span style="font-weight: 700;color: #007bff;text-align: end;">  {{(dpfAloVencidos(x.proyecto)? dpfAloVencidos(x.proyecto): '') | number:'1.2-2' }}</span>
+                        <button matTooltip="Ver Deuda por gestor" *ngIf="dpfAloVencidos(x.proyecto)"
+                          class="icon-btn btn-trans c-cyan"
+                          (click)="abrirDpfPendiente(x.proyecto)"
+                          ><mat-icon class="icon-10">person</mat-icon>
+                        </button>
+                      </div>
+                    </td>
+                    <td style="color: #000; font-weight: 600; text-align: end;">{{ dataDpfAloTOTAL(x.proyecto) | number:'1.2-2' }}</td>
+                </tr>
+              </ng-container>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

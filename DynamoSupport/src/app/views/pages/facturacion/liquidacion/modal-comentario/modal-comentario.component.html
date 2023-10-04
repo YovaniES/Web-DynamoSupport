@@ -1,0 +1,32 @@
+<div style="display: flex">
+  <div class="modal-title c-male" style="font-weight: 400; font-size: 20px">
+    Regularización de: [<strong>{{ gestorReg }} - {{proyectoReg}}</strong>]
+  </div>
+  <div class="flex-1"></div>
+</div>
+
+<div class="pr-module-container">
+  <div style="overflow: auto; min-height: 100px; max-height: 160px">
+    <table class="cli-table stripedtable underlinedtable">
+      <thead>
+        <tr class="bgc-turquey c-white">
+          <th>ID FACT.</th>
+          <th>PERIODO</th>
+          <th>COMENTARIO</th>
+          <th>VENTA DECL.</th>
+          <th>FACTURADOS</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let comentario of listcomentario; let i = index">
+          <td>{{ comentario.idFactura }}</td>
+          <td>{{ comentario.periodo }}</td>
+          <td style="text-align: center; color: #00d4ff;">{{ comentario.comentarioRegularizacion }}</td>
+          <td>{{ comentario.declarado | number : '1.0-2'}}</td>
+          <td>{{ comentario.facturado | number : '1.0-2'}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

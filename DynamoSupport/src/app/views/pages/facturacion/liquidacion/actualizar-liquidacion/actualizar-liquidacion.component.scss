@@ -1,0 +1,130 @@
+@import "variables.scss";
+
+.modal-title {
+  font-size: 1.7rem;
+  font-weight: 400;
+  margin: 4px 0;
+  text-align: center;
+}
+
+.text-alert {
+  font-size: 10px;
+  color: #f66d7a;
+  margin-top: 0;
+}
+
+.id-factura {
+  font-size: 18px;
+  text-align: center;
+  font-weight: 400;
+
+  color: #212529;
+  border: solid 0.5px $color-blue;
+  border-radius: 4px;
+  background: #f8f9fa;
+  padding: 4px;
+}
+
+.total {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.w100 {
+  width: 100px;
+}
+
+.cli-table {
+  width: 100%;
+  background-color: #fff;
+  & th {
+    padding: 4px;
+    font-weight: 300 !important;
+    text-align: center;
+    font-size: 11px;
+  }
+  & td {
+    vertical-align: middle;
+    text-align: center;
+    font-size: 11px;
+    // padding: 4px 8px;
+  }
+  &-actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  &-input {
+    border: 1px solid $color-grey-4;
+    border-radius: 2px;
+  }
+}
+
+.btn-asignar {
+  border-radius: 2px;
+  display: flex;
+  height: 18px;
+  align-items: center;
+  border: solid 0.5px #4a93ff;
+  color: #4a93ff;
+  justify-content: center;
+  & mat-icon {
+    margin: 0 5px;
+  }
+  &:disabled {
+    background-color: #bcd7ff;
+    color: #fff;
+  }
+}
+
+.label {
+  padding: 3px 10px;
+  line-height: 13px;
+  color: #fff;
+  font-weight: 400;
+  border-radius: 4px;
+  font-size: 75%;
+  background-color: #398bf7;
+  width: 190px;
+}
+
+.estado-danger {
+  background-color: #fe61af;
+}
+.estado-succes {
+  background-color: #20c997;
+}
+
+.estado-info {
+  background-color: #398bf7;
+}
+
+.fact-total {
+  font-weight: 700;
+  font-size: 16px;
+
+  display: flex;
+  justify-content: end;
+}
+
+.fact-saldo {
+  color: #d63384;
+  font-weight: 600;
+  margin: 0;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+}
+
+@media (max-width: 768px) {
+  .modal-title {
+    font-size: 1.2rem;
+    font-weight: 400;
+    margin: 5px 0;
+    text-align: center;
+  }
+  .btn-m {
+    height: 20px;
+    padding: 15px;
+  }
+}

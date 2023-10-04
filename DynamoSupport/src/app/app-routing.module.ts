@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { NoAuthGuard } from './core/guards/no-auth.guard';
-import { BaseComponent } from './layout/base/base.component';
 import { ValidarTokenGuard } from './core/guards/validar-token.guard';
+import { BaseComponent } from './layout/base/base.component';
 
 const routes: Routes = [
   { path: 'auth',
@@ -30,17 +30,16 @@ const routes: Routes = [
         canActivate: [ValidarTokenGuard],
         // data: {rol_menu: [PERMISSION.MENU_MANTENIMIENTO]}
       },
-      // {
-      //   path:'dashboard',
-      //   // loadChildren: () => import ('./views/pages/seguridad/seguridad.module').then((m)=>m.SeguridadModule),
-      //   loadChildren: () => import ('./views/pages/Dashboard/seguridad.module').then((m)=> m.SeguridadModule),
-      // },
-      // {
-      //   path:'factura',
-      //   loadChildren: () => import ('./views/pages/facturacion/facturacion.module').then((m)=>m.FacturacionModule),
-      //   canActivate: [ValidarTokenGuard],
-      //   // data: {rol_menu: [PERMISSION.MENU_FACTURACION]}
-      // },
+      {
+        path:'dashboard',
+        loadChildren: () => import ('./views/pages/Dashboard/seguridad.module').then((m)=> m.SeguridadModule),
+      },
+      {
+        path:'factura',
+        loadChildren: () => import ('./views/pages/facturacion/facturacion.module').then((m)=>m.FacturacionModule),
+        canActivate: [ValidarTokenGuard],
+        // data: {rol_menu: [PERMISSION.MENU_FACTURACION]}
+      },
 
       {path: '', redirectTo: 'home', pathMatch: 'full'},
       { path:'**', redirectTo:'/error/404' }
