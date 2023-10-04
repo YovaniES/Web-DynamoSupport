@@ -1,0 +1,240 @@
+<div class="cli-card fit-card">
+  <div class="cli-card-body">
+    <div class="modal-title c-male">Mantenimiento del personal</div>
+    <div>
+      <!-- BUSCADOR POR FILTRO ---------------------------------------------------------------->
+      <div class="card" style="border-radius: 2px; font-weight: 600; padding: 7px">
+          <form class="row g-3" [formGroup]="filtroForm">
+            <div class="col-sm-3 cli-form-element">
+              <label class="form-label">Nombres</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="nombres"/>
+            </div>
+            <div class="col-sm-3 cli-form-element">
+              <label class="form-label">Apellidos</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="apellidos"/>
+            </div>
+
+            <div class="col-sm-3 cli-form-element">
+              <label class="form-label">Cód.Proyecto</label>
+              <select class="form-select" formControlName="codProy">
+                <option [value]="0" disabled>- Seleccione -</option>
+                <option [value]="cod.id_correlativo" *ngFor="let cod of listCodProy">{{cod.valor_texto_1}}</option>
+              </select>
+            </div>
+
+            <div class="col-sm-3 cli-form-element">
+              <label class="form-label">DNI</label>
+              <input
+                class="form-control"
+                maxlength="8"
+                formControlName="dni"/>
+            </div>
+
+            <div class="col-sm-3 cli-form-element">
+              <label class="form-label">Fecha de Ingreso</label>
+
+              <mat-form-field color="accent" appearance="outline">
+                <mat-date-range-input [rangePicker]="picker">
+                  <input matStartDate formControlName="fechaIngresoInicio"  placeholder="Desde"   >
+                  <input matEndDate   formControlName="fechaIngresoFin"  placeholder="Hasta" >
+                </mat-date-range-input>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-date-range-picker #picker></mat-date-range-picker>
+              </mat-form-field>
+            </div>
+
+            <div class="col-sm-3 cli-form-element">
+              <label class="form-label">Estado</label>
+              <select class="form-select" formControlName="estado">
+                <option [value]="" disabled>-Seleccione-</option>
+                <option [value]="1" >Activo</option>
+                <option [value]="0" >Inactivo</option>
+              </select>
+            </div>
+
+            <div class="col-sm-3 cli-form-element">
+              <label class="form-label">Categoría</label>
+              <select class="form-select" formControlName="categoria">
+                <option [value]="0" disabled>- Seleccione -</option>
+                <option [value]="cat.id_correlativo" *ngFor="let cat of listCategorias">{{cat.valor_texto_1}}</option>
+              </select>
+            </div>
+
+            <div class="cli-form-buttons" style="margin-top: 8px">
+              <button
+                type="submit"
+                class="cli-btn btn-cancel"
+                style="border-radius: 2px; padding: 0.225rem 0.75rem"
+                (click)="limpiarFiltro()"
+              ><mat-icon class="icon-18">rotate_left</mat-icon>
+                Limpiar
+              </button>
+
+              <button
+                type="button"
+                class="cli-btn btn-blue-light"
+                style="border-radius: 2px; padding: 0.225rem 0.75rem"
+                (click)="cargarOBuscarPersonal()"
+                ><mat-icon class="icon-18">person_search</mat-icon>
+                Buscar
+              </button>
+            </div>
+          </form>
+      </div>
+
+
+      <!-- BOTON MODAL PARA CREAR PERSONAS ----------------------------------------------------->
+      <div style="display: flex" class="mt-4 mb-1">
+          <button
+            class="cli-btn btn-blue"
+            style="margin: 0"
+            type="button"
+            (click)="crearPersonal()"
+            ><mat-icon class="icon-18">person_add</mat-icon>Agregar Personal
+          </button>
+
+          <button
+            matTooltip="Exportar filtro"
+            class="icon-btn btn-trans c-green-export"
+            (click)="exportarRegistro()"
+            ><mat-icon class="icon-18">file_download</mat-icon>Exportar Filtro
+          </button>
+
+          <button
+          matTooltip="Exportar Recursos-Hardware"
+          class="icon-btn btn-trans c-cyan-export"
+          (click)="exportarRecursoHardware()"
+          ><mat-icon class="icon-18">archive</mat-icon>Exportar Recurso
+        </button>
+
+        <div class="flex-1"></div>
+        <div class="mt-2" style="color: #345df3; font-weight: 600;">
+          Total : <span class="total">{{ listaPersonal.length }} Personas</span>
+        </div>
+      </div>
+
+      <!-- TABLA DEL PERSONAL ------------------------------------------------------------------>
+      <div style="overflow: auto; min-height: 300px">
+        <table class="cli-table stripedtable underlinedtable">
+          <thead>
+            <tr class="bgc-blue-light c-white">
+              <th>Acción</th>
+              <th style="min-width:75px;">ID Personal</th>
+              <th style="text-align:left; min-width: 175px;">Nombres y Apellidos</th>
+              <th>Correo</th>
+              <th>Perfil</th>
+              <th>Cód. Corporativo</th>
+              <th>Proyecto</th>
+              <th>Total Recurso</th>
+              <th>DNI</th>
+              <th>Estado</th>
+              <th>Categoría</th>
+              <th>Fecha de Ingreso</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr *ngFor="let personal of listaPersonal | paginate:
+                      { itemsPerPage: pageSize,
+                        id:'persona',
+                        currentPage : page,
+                        totalItems  : totalPersonal
+                      } ">
+              <td class="w100">
+                <div class="cli-table-actions">
+                  <button matTooltip="Actualizar"
+                    class="icon-btn btn-trans c-blue"
+                    (click)="actualizarPersonal(personal)"
+                    ><mat-icon class="icon-13">manage_accounts</mat-icon>
+                  </button>
+
+                  <button matTooltip="Eliminar"
+                    class="icon-btn btn-trans c-fucsia"
+                    (click)="abrirEliminarLogico(personal.id, personal.codigo_corporativo, '', personal.nombres)"
+                    ><mat-icon class="icon-13">person_remove</mat-icon>
+                  </button>
+
+                  <button matTooltip ="{{ tooltipActivoInactivo }}"
+                    class="icon-btn btn-trans c-grey" style="border: solid 0.5px #999c9f;"
+                    (click)="abrirEliminar(personal.id, personal.codigo_corporativo, personal.estado, personal.nombres)"
+                    ><mat-icon class="icon-13">person_off</mat-icon>
+                  </button>
+                </div>
+              </td>
+              <td style="font-weight: 600;">{{ personal.id_per }}</td>
+              <td style="text-align:left"> {{ personal.apellidos |firstCapital}}, {{personal.nombres | firstCapital}}</td>
+              <td style="text-align:left">{{ personal.correo }}</td>
+              <td>{{ personal.perfil | firstCapital }}</td>
+              <td>{{ personal.codigo_corporativo| uppercase }}</td>
+              <td>{{ personal.codigo_proyecto | uppercase}}</td>
+              <td class="w100">
+                <div class="cli-table-actions">
+                  <!-- <ng-container *ngIf="personal.total_rh >=1 &&  personal.total_rc == 0"> -->
+                  <ng-container *ngIf="personal.total_rh >= 1" >
+                    <small class="c-indigo" style="display:flex; flex-direction:inherit">{{personal.total_rh}}</small>
+                    <button
+                      class="icon-btn c-indigo"
+                      style="background: none; cursor: none;"
+                      ><mat-icon class="icon-13">devices</mat-icon>
+                    </button>
+                  </ng-container>
+
+                  <div *ngIf="personal.total_rh != 0 && personal.total_rc != 0" class="h-divider"></div>
+
+                  <ng-container *ngIf="personal.total_rc >= 1">
+                    <small   class="c-cyan">{{personal.total_rc}}</small>
+                    <button
+                      class="icon-btn  c-cyan"
+                      style="background: none; cursor: none;"
+                      ><mat-icon class="icon-13">vpn_lock</mat-icon>
+                    </button>
+                  </ng-container>
+                </div>
+              </td>
+
+              <td>{{ personal.dni }}</td>
+              <td>
+                <span *ngIf="personal.estado == 'Activo'"   class="w135 label est-act">  {{ personal.estado | uppercase }}</span>
+                <span *ngIf="personal.estado == 'Inactivo'" class="w135 label est-inact">{{ personal.estado | uppercase }}</span>
+              </td>
+              <td style="text-align:left; color: #888888; min-width: 80px;">
+                <span style="align-items: center; display: flex" *ngIf="personal.categoria == 'AM'"       ><mat-icon class="icon-13 icon-btn am">webhook</mat-icon>{{ personal.categoria}}</span>
+                <span style="align-items: center; display: flex" *ngIf="personal.categoria == 'NO AM'"    ><mat-icon class="icon-13 icon-btn no-am">radio_button_checked</mat-icon>{{ personal.categoria}}</span>
+                <span style="align-items: center; display: flex" *ngIf="personal.categoria == 'OTROS'"    ><mat-icon class="icon-13 icon-btn otros">workspaces_outline</mat-icon>{{ personal.categoria}}</span>
+                <span style="align-items: center; display: flex" *ngIf="personal.categoria == 'Carlos A.'"><mat-icon class="icon-13 icon-btn carlos">device_hub</mat-icon>{{ personal.categoria}}</span>
+              </td>
+              <td style="min-width: 105px">{{ personal.fecha_ingreso }}</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="cli-loader" *ngIf="loadingItem">
+          <mat-spinner style="margin-right: 20px" diameter="20"></mat-spinner>cargando...
+        </div>
+
+        <div
+          *ngIf="!loadingItem && listaPersonal.length == 0"
+          class="cli-loader mt-5"
+          style="color: #f83434"
+          >No hay personal para mostrar
+        </div>
+      </div>
+    </div>
+
+    <div class="card-footer pb-0 pt-3">
+      <pagination-controls
+        previousLabel="Anterior"
+        nextLabel="Siguiente"
+        id="persona"
+        [responsive]="false"
+        (pageChange)="cambiarPagina($event)">
+      </pagination-controls>
+    </div>
+  </div>
+</div>

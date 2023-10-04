@@ -1,0 +1,250 @@
+<div class="cli-card fit-card">
+  <div class="cli-card-body">
+    <div class="modal-title c-male">Vacaciones por regularizar</div>
+    <div>
+      <!-- BUSCADOR POR FILTRO ---------------------------------------------------------------->
+      <div class="card" style="border-radius: 2px; font-weight: 600; padding: 7px">
+          <form class="row g-3" [formGroup]="vacacionesForm">
+
+            <div class="col-sm-3 cli-form-element">
+              <label class="form-label">Código corp.</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="cod_corp"/>
+            </div>
+
+            <div class="col-sm-3 cli-form-element">
+              <label class="form-label">Nombres</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="nombres"/>
+            </div>
+
+            <div class="col-sm-3 cli-form-element">
+              <label class="form-label">Apellidos</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="apellidos"/>
+            </div>
+
+            <div class="col-sm-3 cli-form-element">
+              <label class="form-label">Proyecto</label>
+              <select class="form-select" formControlName="id_cod_proy">
+                <option [value]="0" disabled>- Seleccione -</option>
+                <option [value]="cod.id_correlativo" *ngFor="let cod of listCodProy">{{cod.valor_texto_1}}</option>
+              </select>
+            </div>
+
+             <div class="col-sm-3 cli-form-element">
+              <label class="form-label">Fecha de registro vacaciones </label>
+
+              <mat-form-field color="accent" appearance="outline">
+                <mat-date-range-input [rangePicker]="picker">
+                  <input matStartDate formControlName="fechaCreaVacIni"  placeholder="Desde"   >
+                  <input matEndDate   formControlName="fechaCreaVacFin"  placeholder="Hasta" >
+                </mat-date-range-input>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-date-range-picker #picker></mat-date-range-picker>
+                <!-- <mat-error *ngIf="vacacionesForm.controls['fechaCreaVacIni'].hasError('matStartDateInvalid')">Invalid start date</mat-error> -->
+                <!-- <mat-error *ngIf="vacacionesForm.controls['fechaCreaVacFin' ].hasError('matEndDateInvalid')">Invalid end date</mat-error> -->
+              </mat-form-field>
+            </div>
+
+            <div class="col-sm-3 cli-form-element">
+              <label class="form-label">Estado</label>
+              <select class="form-select" formControlName="id_estado_vac">
+                <option [value]="0" disabled>-Seleccione-</option>
+                <option [value]="estado.id_correlativo" *ngFor="let estado of listEstadoVacaciones" >{{estado.valor_texto_1}}</option>
+              </select>
+            </div>
+
+            <div class="col-sm-3 cli-form-element">
+              <label class="form-label">Responsables</label>
+              <select class="form-select" formControlName="id_responsable">
+                <option [value]="0" disabled>- Seleccione -</option>
+                <option [value]="admin.id" *ngFor="let admin of listAdminVacaciones">{{admin.username}}</option>
+              </select>
+            </div>
+
+            <div class="cli-form-buttons" style="margin-top: 8px">
+              <button
+                type="submit"
+                class="cli-btn btn-cancel"
+                style="border-radius: 2px; padding: 0.225rem 0.75rem"
+                (click)="limpiarFiltro()"
+                ><mat-icon class="icon-18">rotate_left</mat-icon>
+                Limpiar
+              </button>
+
+              <button
+                type="button"
+                class="cli-btn btn-blue-light"
+                style="border-radius: 2px; padding: 0.225rem 0.75rem"
+                (click)="cargarOBuscarVacaciones()"
+                ><mat-icon class="icon-18">search</mat-icon>
+                Buscar
+              </button>
+            </div>
+          </form>
+      </div>
+
+      <!-- EXPORTAR REGISTRO DE VACACIONES ----------------------------------------------------->
+      <div style="display: flex" class="mt-4 mb-1">
+            <button
+            class="cli-btn btn-blue"
+            style="margin: 0"
+            type="button"
+            (click)="crearVacaciones()"
+            ><mat-icon class="icon-18">person_add</mat-icon>Agregar vacaciones
+          </button>
+          <button
+            matTooltip="Descargar registro"
+            class="icon-btn btn-trans c-green-export"
+            (click)="exportarRegistro()"
+            ><mat-icon class="icon-18">file_download</mat-icon>Exportar
+          </button>
+          <!-- <button
+            matTooltip="Enviar correo"
+            class="icon-btn btn-trans btn-correo"
+            (click)="enviarCorreo()"
+            ><mat-icon class="icon-18">mail</mat-icon>Enviar Notificación
+          </button> -->
+
+        <div class="flex-1"></div>
+        <div class="mt-2" style="color: #345df3; font-weight: 600;">
+          Total : <span class="total">{{ listaRegVacaciones.length }} Registros</span>
+        </div>
+      </div>
+
+      <!-- TABLA DE VACACIONES DEL PERSONAL ------------------------------------------------------------------>
+      <div style="overflow: auto; min-height: 406px; color:#337ab7;">
+        <table class="cli-table stripedtable underlinedtable">
+          <thead>
+            <tr class="bgc-blue-light c-white">
+              <th>Acción</th>
+              <th style="min-width: 70px;">ID VAC.</th>
+              <th style="min-width: 82px;">Código Corp.</th>
+              <th style="text-align: left; min-width: 202px;">Nombres y Apellidos</th>
+              <th style="min-width: 90px;">Proyecto</th>
+              <th style="min-width: 82px;">Sistema</th>
+              <th style="min-width: 82px;">Tipo Vac.</th>
+              <th style="width: 200px">Fecha de vacaciones</th>
+              <th style="text-align: center; min-width: 68px;">Cant. días</th>
+              <th style="text-align:center">Responsable</th>
+              <th style="min-width: 80px;">Estado</th>
+              <th>Planificados</th>
+              <th>Pendientes</th>
+              <th style="text-align: left">Completados</th>
+              <th style="min-width: 95px;">Fecha Registro</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr *ngFor="let vacaciones of listaRegVacaciones | paginate:
+                      { itemsPerPage: pageSize,
+                        currentPage : page,
+                        totalItems  : totalVacaciones
+                      } ">
+              <td>
+                <div class="cli-table-actions">
+                  <button
+                    matTooltip='Planificar'
+                    class="icon-btn btn-trans c-darkcyan"
+                    (click)="actualizarVacaciones(vacaciones)"
+                    ><mat-icon class="icon-13">hail</mat-icon>
+                  </button>
+
+                  <button matTooltip="Eliminar"
+                    (click)="abrirEliminarLogico(vacaciones.idVac, vacaciones.nombres, vacaciones.apellido_paterno)"
+                    class="icon-btn btn-trans c-fucsia"
+                    ><mat-icon class="icon-13">delete_forever</mat-icon>
+                  </button>
+                </div>
+              </td>
+              <td style="font-weight: 600;">{{ vacaciones.cod_vac }}</td>
+              <td>{{ vacaciones.codigo_corporativo }}</td>
+              <td style="text-align: left">{{vacaciones.nombres | firstCapital}}, {{vacaciones.apellidos |firstCapital }}</td>
+              <td>{{ vacaciones.codigo_proyecto | uppercase}}</td>
+              <td>{{vacaciones.sist_vac}}</td>
+              <td>{{vacaciones.tipo_vac}}</td>
+              <td>
+                <div class="cli-table fecha-ini">
+                  {{ vacaciones.f_ini_vac}}<mat-icon class="icon-13">trending_flat</mat-icon>{{ vacaciones.f_fin_vac }}
+                </div>
+              </td>
+
+              <td style="font-weight: 600;">
+                <div class="cli-table-dias">
+                  {{vacaciones.cant_dias_vac}}
+                </div>
+              </td>
+
+              <td style="text-align:left ">
+                <div class="cli-table-user">
+                  <button
+                    matTooltip={{vacaciones.responsable}}
+                    class="icon-btn btn-trans"
+                    style="color: #6c757d;"
+                    ><mat-icon class="icon-13" style="color: #0dcaf0;">person_outline</mat-icon>
+                  </button>{{vacaciones.usuario}}
+                </div>
+              </td>
+
+              <td style="height: 36px;">
+                <span *ngIf="vacaciones.estado_vac == 'Completado'"  class="label estado-compl" >{{ vacaciones.estado_vac | uppercase }}</span>
+                <span *ngIf="vacaciones.estado_vac == 'Planificado'" class="label estado-planif">{{ vacaciones.estado_vac | uppercase }}</span>
+                <span *ngIf="vacaciones.estado_vac == 'Registrado'"  class="label estado-reg "  >{{ vacaciones.estado_vac | uppercase }}</span>
+                <span *ngIf="vacaciones.estado_vac == 'En gestión'"  class="label estado-pend " >{{ vacaciones.estado_vac | uppercase }}</span>
+              </td>
+
+              <td>
+                <div *ngIf="(vacaciones.cant_dias_vac == vacaciones.dias_completados)"><mat-icon class="icon-13 icon-btn" style="color: #0daef4">done</mat-icon></div>
+                <div style="color: #20c997; font-weight:600;" *ngIf="vacaciones.dias_planificado">{{vacaciones.dias_planificado}} d</div>
+              </td>
+
+              <td>
+                <div *ngIf="vacaciones.cant_dias_vac == vacaciones.dias_completados"><mat-icon class="icon-13 icon-btn" style="color: #0daef4">done</mat-icon></div>
+                <div class="cli-table-diaspend" *ngIf="(vacaciones.cant_dias_vac - vacaciones.dias_completados - vacaciones.dias_planificado)">
+                  {{(vacaciones.cant_dias_vac - vacaciones.dias_completados - vacaciones.dias_planificado)}}
+                </div>
+              </td>
+
+              <td>
+                <!-- <div [ngClass]="(vacaciones.dias_completados == vacaciones.cant_dias_vac) ? 'cli-table-dias' : 'cli-table-diascompl'"> {{vacaciones.dias_completados? vacaciones.dias_completados: '*'}}</div> -->
+                <div *ngIf="vacaciones.dias_completados == vacaciones.cant_dias_vac"><mat-icon class="icon-13 icon-btn" style="color: #0daef4">done</mat-icon></div>
+                <!-- <div *ngIf="vacaciones.dias_completados == vacaciones.cant_dias_vac" class="cli-table-dias">{{vacaciones.dias_completados}}</div> -->
+                <div *ngIf="vacaciones.dias_completados && vacaciones.dias_completados != vacaciones.cant_dias_vac" class="cli-table-diascompl">{{vacaciones.dias_completados}}</div>
+              </td>
+
+              <td>{{ vacaciones.fecha_crea_vac }}</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="cli-loader" *ngIf="loadingItem">
+          <mat-spinner style="margin-right: 20px" diameter="20"></mat-spinner>cargando...
+        </div>
+
+        <div
+          *ngIf="!loadingItem && listaRegVacaciones.length == 0"
+          class="cli-loader mt-5"
+          style="color: #f83434"
+          >No hay Registro de Vacaciones para mostrar
+        </div>
+      </div>
+    </div>
+
+    <div class="card-footer pb-0 pt-3">
+      <pagination-controls
+        previousLabel="Anterior"
+        nextLabel="Siguiente"
+        [responsive]="false"
+        #pageVacaciones
+        (pageChange)="cambiarPagina($event)">
+      </pagination-controls>
+    </div>
+  </div>
+</div>

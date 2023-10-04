@@ -1,0 +1,165 @@
+<div style="display: flex">
+  <div class="flex-1"></div>
+  <div class="modal-title c-male"> {{DATA_HARDWARE ? 'Actualizar' : 'Agregar'}} hardware </div>
+    <div class="flex-1"></div>
+
+    <button (click)="close()" class="icon-btn btn-trans c-orange moda-close-btn">
+      <mat-icon>close</mat-icon>
+    </button>
+</div>
+
+<form class="row g-3" [formGroup]="hardwareForm">
+  <div class="cli-form newvac-wrapper">
+    <div class="chart-draw">
+
+      <!-- DATOS DEL HARDWARE ------------------------------------------------------------------------->
+      <div class="pr-subtitle mt-2">Datos del hardware</div>
+      <div class="pr-section mb-3">
+        <div class="pr-module-container">
+          <div class="row g-3">
+            <div class="col-sm-4 cli-form-element">
+              <label>Tipo *</label>
+              <select class="cli-input-white" formControlName="tipo">
+                <option [value]="0" disabled>- Seleccione -</option>
+                <option [value]="tipo.id" *ngFor="let tipo of listTipos">{{ tipo.nombre }}</option>
+              </select>
+              <small class="text-alert" *ngIf="campoNoValido('tipo')">* Ingrese el Tipo es obligatorio</small>
+            </div>
+
+            <div class="col-sm-4 cli-form-element">
+              <label>Marca *</label>
+              <select class="cli-input-white" formControlName="marca">
+                <option [value]="0" disabled>- Seleccione -</option>
+                <option [value]="marca.id" *ngFor="let marca of listMarca">{{ marca.nombre }}</option>
+              </select>
+              <small class="text-alert" *ngIf="campoNoValido('marca')">* Ingrese la Marca es obligatorio</small>
+            </div>
+
+            <div class="col-sm-4 cli-form-element">
+              <div class="form-group">
+                <label>Modelo</label>
+                <input
+                  type="text"
+                  class="form-control cli-input-white"
+                  formControlName="modelo"/>
+                <!-- <small class="text-alert" *ngIf="campoNoValido('modelo')">* Ingrese el Modelo es obligatorio</small> -->
+              </div>
+            </div>
+
+            <div class="col-sm-4 cli-form-element" *ngIf="selectMovil() || selectLaptop()">
+              <label>Serie</label>
+              <input
+                type="text"
+                class="form-control cli-input-white"
+                formControlName="serie"/>
+                <!-- <small class="text-alert" *ngIf="campoNoValido('serie')">* Ingrese la Serie es obligatorio</small> -->
+            </div>
+
+            <div class="col-sm-4 cli-form-element" *ngIf="selectMovil() || selectModem()">
+              <label>IMEI</label>
+              <input
+                type="text"
+                class="form-control cli-input-white"
+                formControlName="imei"/>
+            </div>
+
+            <div class="col-sm-4 cli-form-element" *ngIf="selectLaptop()">
+              <label>HostName</label>
+              <input
+                type="text"
+                class="form-control cli-input-white"
+                formControlName="hostname">
+            </div>
+          </div>
+        </div>
+
+        <div class="pr-module-container">
+          <div class="row g-3">
+            <div class="col-sm-6 cli-form-element mb-2">
+              <label>Descripción</label>
+              <textarea
+                class="form-control"
+                style="background-image: none; border-color: #a5a4a4; font-size: 12px;"
+                rows="2"
+                placeholder="Describa el tipo, marca o modelo ..."
+                formControlName="equipo">
+              </textarea>
+            </div>
+
+            <div class="col-sm-6 cli-form-element mb-2">
+              <label>Observación</label>
+              <textarea
+                class="form-control"
+                style="background-image: none; border-color: #a5a4a4; font-size: 12px;"
+                rows="2"
+                placeholder="Describa alguna observación del equipo hardware"
+                formControlName="observacion">
+              </textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- HISTORICO DE HARDWARE ------------------------------------------------------------------------->
+      <div *ngIf="DATA_HARDWARE">
+        <div class="pr-subtitle mt-2">Histórico de Hardware</div>
+        <div class="pr-section mb-3">
+          <div class="pr-module-container">
+            <div style="overflow: auto; min-height: 100px; max-height: 160px;">
+              <table class="cli-table stripedtable underlinedtable">
+                <thead>
+                  <tr class="bgc-turquey c-white">
+                    <th>N°</th>
+                    <!-- <th>ID Personal</th> -->
+                    <th>Personal</th>
+                    <th>Proyecto</th>
+                    <th>Fecha asignación</th>
+                    <th>Asignado por:</th>
+                    <th>Fecha Liberación</th>
+                    <!-- <th>Liberado por:</th> -->
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <tr *ngFor="let cambios of histHardareByPersonal; let i = index">
+                    <td>{{ i + 1 }}</td>
+                    <!-- <td>{{ cambios.id_persona }}</td> -->
+                    <td class="w300">{{ cambios.persona }}</td>
+                    <td>{{ cambios.proyecto }}</td>
+                    <td style="min-width: 118px">{{ cambios.fecha_asignacion }}</td>
+                    <td>{{ cambios.usuario_asignacion }}</td>
+                    <td style="min-width: 118px">{{ cambios.fecha_liberacion? cambios.fecha_liberacion : 'En Uso'}}</td>
+                    <!-- <td>{{ cambios.usuario_asignacion }}</td> -->
+                  </tr>
+                </tbody>
+              </table>
+              <div class="cli-loader" *ngIf="loadingItem">
+                <mat-spinner style="margin-right: 20px" diameter="20"></mat-spinner>cargando...
+              </div>
+
+              <div
+                *ngIf="!loadingItem && histHardareByPersonal.length == 0"
+                class="cli-loader mt-2"
+                style="color: #c9c9c9"
+                >Aquí se mostrará el histórico del Hardware...
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- --------------------------------------------BOTONES ------------------------------------------>
+    <div class="cli-form-buttons" style="margin-top: 8%">
+      <button class="cli-btn btn-m btn-cancel" type="submit" (click)="close()">
+        <mat-icon class="icon-18">cancel</mat-icon> Cancelar
+      </button>
+      <button class="cli-btn btn-m btn-blue"
+              (click)="crearOactualizarHardware()"
+              [disabled]="hardwareForm.invalid"
+              ><mat-icon class="icon-18">save</mat-icon> {{actionBtn}}
+      </button>
+    </div>
+  </div>
+</form>

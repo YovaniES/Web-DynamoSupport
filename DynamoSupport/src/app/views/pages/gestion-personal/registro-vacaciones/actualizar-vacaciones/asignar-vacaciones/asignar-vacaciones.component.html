@@ -1,0 +1,157 @@
+<div style="display: flex">
+  <div class="flex-1"></div>
+  <div class="modal-title c-male"> {{DATA_VACAC && DATA_VACAC.isCreation ? 'Planificar': 'Actualizar'}} periodo</div>
+  <div class="flex-1"></div>
+
+  <button (click)="close()" class="icon-btn btn-trans c-orange moda-close-btn">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+
+<form class="row g-3" [formGroup]="asigVacacionesForm">
+  <div class="cli-form newvac-wrapper">
+    <div class="chart-draw">
+      <!-- REGISTRAR PERIODO DE LAS VACACIONES---------------------------------------------------------- -->
+        <div class="pr-module-container">
+          <div class="row g-3">
+
+            <div class="col-sm-6 cli-form-element">
+              <label class="form-label">Fecha de planificación <small style="color: #f45572; margin:1px 0 0;">*</small></label>
+              <mat-form-field color="accent" appearance="outline">
+                <mat-date-range-input [disabled]="esEstadoCompletado() || isEstadoCancelado()" [rangePicker]="picker">
+                  <input matStartDate formControlName="fechaInicio" placeholder="Inicio periodo"  #fechaIniPlanif (dateChange)="totalDiasPlanificado()">
+                  <input matEndDate   formControlName="fechaFin"    placeholder="Final periodo"   #fechaFinPlanif (dateChange)="totalDiasPlanificado()">
+                </mat-date-range-input>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-date-range-picker #picker></mat-date-range-picker>
+
+                <mat-error *ngIf="asigVacacionesForm.controls['fechaInicio'].hasError('matStartDateInvalid')">Fecha de inicio no válida</mat-error>
+                <mat-error *ngIf="asigVacacionesForm.controls['fechaFin'   ].hasError('matEndDateInvalid')">Fecha de fin no válida</mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="col-sm-6 cli-form-element">
+              <label class="form-label">Días planificado</label>
+              <input
+                style="font-weight: 600; text-align:center"
+                type="number"
+                readonly="true"
+                class="form-control"
+                formControlName="dias_periodo"/>
+            </div>
+
+            <ng-container *ngIf="DATA_VACAC.isCreation">
+              <div class="col-sm-6 cli-form-element">
+                <label>Estado *</label>
+                  <input
+                  type="text"
+                  readonly="true"
+                  class="form-control"
+                  formControlName="estado_periodo"/>
+              </div>
+            </ng-container>
+
+            <ng-container *ngIf="!DATA_VACAC.isCreation">
+              <div class="col-sm-6 cli-form-element">
+                <label>Estado <small style="color: #f45572; margin:1px 0 0;">*</small></label>
+                <!-- (ngModelChange)="cambiarEstado()" ingresar en el Select-->
+                <select class="cli-input-white" formControlName="id_estado">
+                  <option [value]="0" disabled>- Seleccione -</option>
+                  <option [value]="estado.id_correlativo" *ngFor="let estado of listVacacionesEstado">{{estado.valor_texto_1}}</option>
+                </select>
+                  <small class="form-text text-alert" *ngIf="campoNoValido('id_estado')">* Ingrese el Estado es obligatorio</small>
+              </div>
+            </ng-container>
+
+            <div class="col-sm-6 cli-form-element">
+              <label>Motivo <small style="color: #f45572; margin:1px 0 0;">*</small></label>
+              <select class="cli-input-white" formControlName="id_motivo">
+                <option [value]="0" disabled>- Seleccione -</option>
+                <option [value]="motivo.id_correlativo" [disabled]="selectEstadoCancelado()" *ngFor="let motivo of listVacacionesMotivo">{{motivo.valor_texto_1}}</option>
+              </select>
+                <small class="form-text text-alert" *ngIf="campoNoValido('id_motivo')">* Ingrese el Motivo es obligatorio</small>
+            </div>
+
+            <div class="row my-2 pr-module-containerXY">
+              <div class="col-sm-6 cli-form-element">
+                <div class="form-check form-check-inline mx-2">
+                  <input class="form-check-input"
+                         type="checkbox"
+                         id="jir"
+                         formControlName="jira">
+                <label class="form-check-label" for="jir">Jira</label>
+                </div>
+              </div>
+
+              <div class="col-sm-6 cli-form-element">
+                <div class="form-check form-check-inline mx-2">
+                  <input class="form-check-input"
+                         type="checkbox"
+                         id="ded"
+                         formControlName="dedicaciones">
+                <label class="form-check-label" for="ded">Dedicaciones</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="cli-form-element mb-2">
+              <label>Obervaciones</label>
+              <textarea
+                class="form-control"
+                style="background-image: none; border-color: #bdbdbd; font-size: 12px;"
+                rows="3"
+                placeholder="Escriba algún Comentario de sobre la Planificación de vacaciones..."
+                formControlName="observaciones">
+              </textarea>
+            </div>
+          </div>
+        </div>
+    </div>
+
+
+    <!-- Envio de CORREO -->
+    <!-- <div class="chart-draw" *ngIf="DATA_VACAC.isCreation || esEstadoCompletado() || isEstadoCancelado()">
+      <div class="pr-subtitle">Notificación por Correo</div>
+      <div class="pr-module-container">
+        <div class="row g-3">
+
+          <div class="col-sm-12 cli-form-element">
+            <label class="form-label">Para:</label>
+            <input
+              style="font-weight: 500; text-align:center"
+              type="text"
+              readonly="true"
+              placeholder="example@indracompany.com"
+              class="form-control"
+              formControlName="destinatario"/>
+          </div>
+
+          <div class="cli-form-element mb-2">
+            <label>Mensaje :<small style="color: #f45572; margin:1px 0 0;"> *</small></label>
+            <textarea
+              class="form-control"
+              style="background-image: none; border-color: #bdbdbd; font-size: 12px;"
+              rows="3"
+              placeholder="Escriba un mensaje al remitente..."
+              formControlName="mensaje">
+            </textarea>
+          </div>
+          <h5 *ngIf="!DATA_VACAC.isCreation" style="color: #f45572; margin:1px 0 0;">NOTA: <small>El campo Mensaje es obligatorio, Cuando el Estado cambia.</small></h5>
+          </div>
+        </div>
+    </div> -->
+
+    <div class="cli-form-buttons" style="margin-top: 8%">
+      <button class="cli-btn btn-m btn-cancel" type="submit" (click)="close()">
+        <mat-icon class="icon-18">cancel</mat-icon> Cancelar
+      </button>
+      <button
+        class="cli-btn btn-m btn-blue"
+        [disabled]="asigVacacionesForm.invalid"
+        (click)="agregarOactualizarPeriodo()">
+        <mat-icon class="icon-18">save</mat-icon> {{titleBtn}}
+      </button>
+    </div>
+  </div>
+</form>
+

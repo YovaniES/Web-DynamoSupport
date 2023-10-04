@@ -1,0 +1,157 @@
+<div class="cli-card fit-card">
+  <div class="cli-card-body">
+    <div class="modal-title c-male">Mantenimiento recurso cuenta</div>
+    <div>
+      <!-- BUSCADOR POR FILTRO ------------------------------------------  ------------------->
+      <div class="card" style="border-radius: 2px; font-weight: 600">
+        <div class="card-body" style="padding: 10px">
+          <form class="row g-3" [formGroup]="filtroForm">
+            <div class="col-sm-3 cli-form-element">
+              <label class="form-label">Username</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="usuario"/>
+            </div>
+
+            <div class="col-sm-3 cli-form-element">
+              <label class="form-label">Estado</label>
+              <select class="form-select" formControlName="idEstado">
+                <option [value]="" disabled>-Seleccione-</option>
+                <option [value]="0" >Reservado</option>
+                <option [value]="1" >Disponible</option>
+              </select>
+            </div>
+
+            <div class="col-sm-3 cli-form-element">
+              <label>Tipo</label>
+              <select class="cli-input-white" formControlName="id_tipo">
+                <option [value]="0" disabled>- Seleccione -</option>
+                <option [value]="tipo.id" *ngFor="let tipo of tipos">{{ tipo.nombre }}</option>
+              </select>
+            </div>
+
+            <div class="cli-form-buttons" style="margin-top: 8px">
+              <button
+                type="submit"
+                class="cli-btn btn-cancel"
+                style="border-radius: 2px; padding: 0.225rem 0.75rem"
+                (click)="limpiarFiltro()"
+                ><mat-icon class="icon-18">rotate_left</mat-icon>Limpiar
+              </button>
+
+              <button
+                type="button"
+                class="cli-btn btn-blue-light"
+                style="border-radius: 2px; padding: 0.225rem 0.75rem"
+                (click)="cargarOBuscarcuentas()"
+
+                ><mat-icon class="icon-18">search</mat-icon>
+                Buscar
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- BOTON MODAL PARA CREAR CUENTA ----------------------------------------------------->
+      <div style="display: flex" class="mt-4 mb-1">
+        <button
+          class="cli-btn btn-blue"
+          style="margin: 0"
+          type="button"
+          (click)="crearCuenta()"
+        ><mat-icon class="icon-18">add</mat-icon>Agregar cuenta
+        </button>
+
+        <button
+        matTooltip="Descargar registro"
+        class="icon-btn btn-trans c-green-export mx-1"
+        (click)="exportarRegistro()"
+      ><mat-icon class="icon-18">file_download</mat-icon>Exportar
+      </button>
+
+        <div class="flex-1"></div>
+        <div class="mt-2" style="color: #345df3; font-weight: 600;">
+          Total : <span class="total">{{ listaCuenta.length }} Cuentas</span>
+        </div>
+      </div>
+
+      <!-- TABLA DE CUENTAS ------------------------------------------------------------------>
+      <div style="overflow: auto; min-height: 300px">
+        <table class="cli-table stripedtable underlinedtable">
+          <thead>
+            <tr class="bgc-blue-light c-white">
+              <th>Acción</th>
+              <th>ID</th>
+              <th>Username</th>
+              <th>Password</th>
+              <th>Tipo</th>
+              <th>Persona Asignada</th>
+              <th>Estado</th>
+              <th>Última Renovación</th>
+              <th>Próxima Renovación</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr *ngFor="let cuenta of listaCuenta | paginate:
+                      { itemsPerPage: pageSize,
+                        currentPage: page,
+                        totalItems: totalIniciativa
+                      } ">
+              <td>
+                  <div class="cli-table-actions">
+                    <button
+                      matTooltip="Actualizar"
+                      class="icon-btn btn-trans c-blue"
+                      (click)="actualizarCuenta(cuenta)"
+                      ><mat-icon class="icon-13">edit</mat-icon>
+                    </button>
+                    <button
+                      matTooltip="Eliminar"
+                      class="icon-btn btn-trans c-fucsia"
+                      (click)="abrirEliminarCuenta(cuenta.id, cuenta.estado, cuenta.usuario)"
+                      ><mat-icon class="icon-13">delete_forever</mat-icon>
+                    </button>
+                  </div>
+              </td>
+              <td>{{ cuenta.id }}</td>
+              <td>{{ cuenta.usuario }}</td>
+              <td>{{ cuenta.password}}</td>
+              <td>{{ cuenta.tipo }}</td>
+              <td style="text-align: left">{{ cuenta.nombres | firstCapital }}</td>
+              <!-- <td>{{ cuenta.estado }}</td> -->
+              <td style="height: 36px;">
+                <span *ngIf="cuenta.estado == 'Reservado'"  class="label est-res"> {{ cuenta.estado | uppercase }}</span>
+                <span *ngIf="cuenta.estado == 'Disponible'" class="label est-disp">{{ cuenta.estado | uppercase }}</span>
+              </td>
+              <td>{{ cuenta.fechaUltimaRenovacion }}</td>
+              <td>{{ cuenta.fechaProximaRenovacion }}</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="cli-loader" *ngIf="loadingItem">
+          <mat-spinner style="margin-right: 20px" diameter="20"></mat-spinner>cargando...
+        </div>
+
+        <div
+          *ngIf="!loadingItem && listaCuenta.length == 0"
+          class="cli-loader mt-5"
+          style="color: #f83434"
+          >No hay cuentas para mostrar
+        </div>
+      </div>
+    </div>
+
+    <div class="card-footer pb-0 pt-3">
+      <pagination-controls
+        previousLabel="Anterior"
+        nextLabel="Siguiente"
+        [responsive]="false"
+        (pageChange)="cambiarPagina($event)">
+      </pagination-controls>
+    </div>
+  </div>
+</div>

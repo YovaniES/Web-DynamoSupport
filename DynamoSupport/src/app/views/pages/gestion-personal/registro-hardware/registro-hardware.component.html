@@ -1,0 +1,199 @@
+<div class="cli-card fit-card">
+  <div class="cli-card-body">
+    <div class="modal-title c-male">Mantenimiento recurso Hardware</div>
+    <div>
+      <!-- BUSCADOR POR FILTRO ---------------------------------------------------------------->
+      <div class="card" style="border-radius: 2px; font-weight: 600">
+        <div class="card-body" style="padding: 10px">
+          <form class="row g-3" [formGroup]="filtroForm">
+            <div class="col-sm-3 cli-form-element">
+              <label class="form-label">ID Hardware</label>
+              <input
+                type="number"
+                class="form-control"
+                formControlName="id_hardware"/>
+            </div>
+
+            <div class="col-sm-3 cli-form-element">
+              <label class="form-label">Tipo</label>
+              <select class="form-select" formControlName="tipo">
+                <option [value]="0" disabled>- Seleccione -</option>
+                <option [value]="tipo.id" *ngFor="let tipo of listTipos">{{tipo.nombre}}</option>
+              </select>
+            </div>
+
+            <div class="col-sm-3 cli-form-element">
+              <label class="form-label">Marca</label>
+              <select class="form-select" formControlName="marca">
+                <option [value]="0" disabled>- Seleccione -</option>
+                <option [value]="marca.id" *ngFor="let marca of listMarca">{{marca.nombre}}</option>
+              </select>
+            </div>
+
+            <div class="col-sm-3 cli-form-element">
+              <label class="form-label">Serie</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="serie"/>
+            </div>
+
+            <div class="col-sm-3 cli-form-element">
+              <label class="form-label">IMEI</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="imei"/>
+            </div>
+
+            <div class="col-sm-3 cli-form-element">
+              <label class="form-label">Estado</label>
+              <select class="form-select" formControlName="estado">
+                <option [value]="" disabled>-Seleccione-</option>
+                <option [value]="0" >Reservado</option>
+                <option [value]="1" >Disponible</option>
+              </select>
+            </div>
+
+
+            <div class="flex-1"></div>
+
+            <div class="cli-form-buttons" style="margin-top: 8px">
+              <button
+                type="submit"
+                class="cli-btn btn-cancel"
+                style="border-radius: 2px; padding: 0.225rem 0.75rem"
+                (click)="limpiarFiltro()"
+              ><mat-icon class="icon-18">rotate_left</mat-icon>
+                Limpiar
+              </button>
+
+              <button
+                type="button"
+                class="cli-btn btn-blue-light"
+                style="border-radius: 2px; padding: 0.225rem 0.75rem"
+                (click)="cargarOBuscarHardware()"
+                ><mat-icon class="icon-18">search</mat-icon>
+                Buscar
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- BOTON MODAL PARA CREAR HARDWARE ----------------------------------------------------->
+      <div style="display: flex" class="mt-4 mb-1">
+        <button
+          class="cli-btn btn-blue"
+          style="margin: 0"
+          type="button"
+          (click)="crearHardware()"
+        ><mat-icon class="icon-18">add</mat-icon>Agregar Hardware
+        </button>
+
+        <button
+          matTooltip="Descargar registro"
+          class="icon-btn btn-trans c-green-export mx-1"
+          (click)="exportarRegistro()"
+        ><mat-icon class="icon-18">file_download</mat-icon>Exportar
+        </button>
+
+        <div class="flex-1"></div>
+        <div class="mt-2" style="color: #345df3; font-weight: 600;">
+          Total : <span class="total">{{ listaHardware.length }} Hardware</span>
+        </div>
+      </div>
+
+      <!-- TABLA DE HARDWARE ------------------------------------------------------------------>
+      <div style="overflow: auto; min-height: 300px">
+        <table class="cli-table stripedtable underlinedtable">
+          <thead>
+            <tr class="bgc-blue-light c-white">
+              <th>Acción</th>
+              <th style="min-width: 82px;">ID Hardware</th>
+              <th>Tipo</th>
+              <th>Marca</th>
+              <!-- <th>Modelo</th> -->
+              <th>Serie</th>
+              <th>Imei</th>
+              <th>HostName</th>
+              <th>Descripción</th>
+              <th style="min-width: 110px;">Estado Hardware</th>
+              <th>Persona Asignada</th>
+              <th style="min-width: 108px;">Cód. Copporativo</th>
+              <th>Proyecto</th>
+              <th>Observación</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr *ngFor="let hardware of listaHardware | paginate:
+                      { itemsPerPage: pageSize,
+                        currentPage: page,
+                        totalItems: totalHardware
+                      } ">
+              <td class="w55">
+                <div class="cli-table-actions">
+                  <button
+                    matTooltip="Actualizar"
+                    class="icon-btn btn-trans c-blue"
+                    (click)="actualizarHardware(hardware)"
+                  ><mat-icon class="icon-13">edit</mat-icon>
+                  </button>
+                  <button
+                    matTooltip="Eliminar"
+                    class="icon-btn btn-trans c-fucsia"
+                    (click)="abrirEliminarHardware(hardware.id_recurso, hardware.estado_recurso, hardware.modelo)"
+                  ><mat-icon class="icon-13">delete_forever</mat-icon>
+                  </button>
+                </div>
+              </td>
+              <td>{{ hardware.id_recurso }}</td>
+              <td>{{ hardware.tipo   | firstCapital}}</td>
+              <td>{{ hardware.marca  | uppercase }}</td>
+              <!-- <td class="w200">{{ hardware.modelo | uppercase }}</td> -->
+              <td>{{ hardware.serie? hardware.serie : '-' }}</td>
+              <td>{{ hardware.imei? hardware.imei: '-' }}</td>
+              <td>{{ hardware.hostname? hardware.hostname : '-'  }}</td>
+              <td>{{ hardware.equipo | firstCapital}}</td>
+              <td style="width: 100px; height: 40px;">
+                <span *ngIf="hardware.estado_recurso == 'Reservado'"  class="label est-res"> {{ hardware.estado_recurso | uppercase }}</span>
+                <span *ngIf="hardware.estado_recurso == 'Disponible'" class="label est-disp">{{ hardware.estado_recurso | uppercase }}</span>
+              </td>
+
+              <td style="text-align: left">{{ hardware.nombres | firstCapital}}</td>
+              <td>{{ hardware.cod_corp }}</td>
+              <td>{{ hardware.proyecto }}</td>
+              <td style="text-align: left">{{ hardware.observacion | firstCapital}}</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="cli-loader" *ngIf="loadingItem">
+          <mat-spinner style="margin-right: 20px" diameter="20"></mat-spinner>
+          cargando...
+        </div>
+
+        <div
+          *ngIf="!loadingItem && listaHardware.length == 0"
+          class="cli-loader mt-5"
+          style="color: #f83434"
+          >No hay Hardware para mostrar
+        </div>
+      </div>
+    </div>
+
+    <div class="card-footer pb-0 pt-3">
+      <pagination-controls
+        previousLabel="Anterior"
+        nextLabel="Siguiente"
+        [responsive]="false"
+        (pageChange)="cambiarPagina($event)"
+      >
+      </pagination-controls>
+    </div>
+  </div>
+</div>
+
+
+

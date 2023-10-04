@@ -19,17 +19,17 @@ const routes: Routes = [
         loadChildren: () => import ('./views/pages/home/home.module').then((m) => m.HomeModule),
         canActivate: [ValidarTokenGuard],
       },
-      // { path:'gestion',
-      //   loadChildren: () => import ('./views/pages/gestion-personal/gestion-personal.module').then((m)=>m.GestionPersonalModule),
-      //   canActivate: [ValidarTokenGuard],
-      //   // data: {rol_menu: [PERMISSION.MENU_PERSONAS, PERMISSION.SUBMENU_PERSONAS]}
-      // },
-      // {
-      //   path:'mantenimiento',
-      //   loadChildren: () => import ('./views/pages/mantenimiento/mantenimiento.module').then((m)=>m.MantenimientoModule),
-      //   canActivate: [ValidarTokenGuard],
-      //   // data: {rol_menu: [PERMISSION.MENU_MANTENIMIENTO]}
-      // },
+      { path:'gestion',
+        loadChildren: () => import ('./views/pages/gestion-personal/gestion-personal.module').then((m)=>m.GestionPersonalModule),
+        canActivate: [ValidarTokenGuard],
+        // data: {rol_menu: [PERMISSION.MENU_PERSONAS, PERMISSION.SUBMENU_PERSONAS]}
+      },
+      {
+        path:'mantenimiento',
+        loadChildren: () => import ('./views/pages/mantenimiento/mantenimiento.module').then((m)=>m.MantenimientoModule),
+        canActivate: [ValidarTokenGuard],
+        // data: {rol_menu: [PERMISSION.MENU_MANTENIMIENTO]}
+      },
       // {
       //   path:'dashboard',
       //   // loadChildren: () => import ('./views/pages/seguridad/seguridad.module').then((m)=>m.SeguridadModule),

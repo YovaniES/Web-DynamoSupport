@@ -1,0 +1,258 @@
+<div style="display: flex;">
+  <div class="flex-1"></div>
+  <div class="modal-title c-male">Actualizar vacaciones</div>
+  <div class="flex-1"></div>
+
+  <button (click)="close()" class="icon-btn btn-trans c-orange moda-close-btn">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+
+<form class="row g-3" [formGroup]="vacacionesForm">
+  <div class="cli-form newvac-wrapper">
+    <div class="chart-draw">
+      <!-- REGISTROS DEL PERSONAL---------------------------------------------------------------------->
+        <div class="mx-4 mt-2">
+          <div class="row" style="justify-content: space-between;">
+            <div class="input-group col-sm-4">
+              <div matTooltip="Código corporativo" class="input-group-text"><mat-icon>workspaces</mat-icon></div>
+              <div class="info">{{vacacionesForm.controls['codCorp'].value}}</div>
+            </div>
+
+            <div class="input-group col-sm-4">
+              <div class="input-group-text"><mat-icon>person</mat-icon></div>
+              <div class="info">{{vacacionesForm.controls['nombre'].value | uppercase}} {{vacacionesForm.controls['apellidos'].value | uppercase}}</div>
+            </div>
+
+            <div class="input-group col-sm-4">
+              <div class="input-group-text"><mat-icon>category</mat-icon></div>
+              <div class="info">{{vacacionesForm.controls['proyecto'].value}}</div>
+            </div>
+
+            <div class="input-group col-sm-4">
+              <div matTooltip="Fecha de Ingreso" class="input-group-text"><mat-icon>calendar_month</mat-icon></div>
+              <div class="info">{{vacacionesForm.controls['fecha_ingreso'].value}}</div>
+            </div>
+          </div>
+        </div>
+
+      <!-- DATOS DE LA EMPRESA ------------------------------------------------------------------------->
+      <!-- <div class="pr-subtitle mt-2">Registro vacaciones <small style="color: #47deb1;border: 1px solid #47deb1;border-radius: 2px;padding: 2px;"> {{idVac}} </small></div> -->
+      <div style="display: flex;" >
+        <div class="pr-subtitle">Registro Vacaciones</div>
+        <div class="flex-1"></div>
+        <!-- <small style="color: #47deb1;border: 1px solid #47deb1;border-radius: 2px;padding: 2px; padding-inline: 6px;"> {{idVac}} </small> -->
+      </div>
+
+      <div class="pr-section mb-3">
+        <div class="pr-module-container">
+          <div class="row g-3">
+            <div class="col-sm-3 cli-form-element">
+              <label>Sistema</label>
+              <select class="cli-input-white" formControlName="idSistema">
+                <option [value]="0" disabled>- Seleccione -</option>
+                <option [value]="sistema.id_correlativo" *ngFor="let sistema of listSistemaVacaciones">{{sistema.valor_texto_1}}</option>
+              </select>
+            </div>
+
+            <div class="col-sm-3 cli-form-element">
+              <label>Tipo vac.</label>
+              <select class="cli-input-white" formControlName="idTipoVac">
+                <option [value]="0" disabled>- Seleccione -</option>
+                <option [value]="tipo.id_correlativo" *ngFor="let tipo of listTipoVacaciones">{{tipo.valor_texto_1}}</option>
+              </select>
+            </div>
+
+            <div class="col-sm-2 cli-form-element">
+              <label class="form-label">Estado</label>
+              <input
+                style="font-weight: 500; text-align:center"
+                type="text"
+                readonly="true"
+                class="form-control"
+                formControlName="estado_vac"/>
+            </div>
+
+            <div class="col-sm-3 cli-form-element">
+              <label class="form-label">Fecha de vacaciones </label>
+              <mat-form-field color="accent" appearance="outline">
+                <mat-date-range-input  [rangePicker]="picker">
+                <!-- [dateFilter]="filtroFecha" -->
+                <input matStartDate formControlName="fechaInicVac" [min]="minDate"  placeholder="Inicio vacaciones"   #diasIniVac (dateChange)="totalDiasVac()">
+                <input matEndDate   formControlName="fechaFinVac"  [max]="maxDate"  placeholder="Final de vacaciones" #diasFinVac (dateChange)="totalDiasVac()">
+                </mat-date-range-input>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-date-range-picker #picker></mat-date-range-picker>
+
+                <mat-error *ngIf="vacacionesForm.controls['fechaInicVac'].hasError('matStartDateInvalid')">Fecha de inicio no válida</mat-error>
+                <mat-error *ngIf="vacacionesForm.controls['fechaFinVac' ].hasError('matEndDateInvalid'  )">Fecha de fin no válida</mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="col-sm-1 cli-form-elementx">
+              <label class="form-label">Días</label>
+              <input
+                style="font-weight: 600; text-align:center"
+                type="number"
+                readonly="true"
+                class="form-control"
+                formControlName="total_dias_vac"/>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- AGREGAR PERIODO VACACIONES-------------------------------------------------------------------->
+      <div *ngIf="DATA_VACACIONES">
+        <div style="display: flex; background-color: #f6f3f3;" >
+          <div class="pr-subtitle">Periodo Vacaciones</div>
+          <div class="flex-1"></div>
+            <button class="btn-asignar btn-grey"  matTooltip="Planificar vacaciones" type="submit" style="color: #4a93ff; margin-right: 6px;" (click)="asignarVacaciones()">
+              <mat-icon class="icon-13">add</mat-icon><mat-icon class="icon-13">flight</mat-icon>
+            </button>
+        </div>
+        <div class="pr-section mb-2">
+          <div class="pr-module-container">
+            <div style="overflow: auto; min-height: 50px; color:#6c757d;">
+                <table class="cli-table stripedtable underlinedtable">
+                  <thead>
+                    <tr class="bgc-blue-light c-white">
+                      <th>Accíón</th>
+                      <th>Periodo</th>
+                      <th>Fecha inicio</th>
+                      <th>Fecha fin</th>
+                      <th>Días</th>
+                      <th>Estado</th>
+                      <th>Motivo</th>
+                      <th>Responsable</th>
+                      <th>Jira</th>
+                      <th>Dedic.</th>
+                      <th style="min-width: 95px">Fecha reg.</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <tr *ngFor="let periodo of listVacacionesPeriodo; let i = index">
+                      <td class="w55">
+                        <div class="cli-table-actions">
+                          <button
+                              matTooltip="Actualizar"
+                              class="icon-btn btn-trans c-blue"
+                              (click)="actualizarPeriodoVacaciones(periodo)"
+                              ><mat-icon class="icon-13">edit</mat-icon>
+                            </button>
+                          <button
+                            matTooltip="Eliminar"
+                            class="icon-btn c-fucsia"
+                            (click)="eliminarPeriodoVacaciones(periodo.id_periodo)"
+                            ><mat-icon class="icon-13">delete_forever</mat-icon>
+                          </button>
+                        </div>
+                      </td>
+                      <td style="min-width: 65px">PER-0{{i+1}}</td>
+                      <td>{{periodo.fecha_inicio}}</td>
+                      <td>{{periodo.fecha_fin}}</td>
+                      <td style="min-width: 68px;">{{periodo.cant_dias_periodo}} días</td>
+                      <td style="width: 100px">
+                        <span *ngIf="periodo.vac_estado.toUpperCase() == 'COMPLETADO'"  class="w135 label estado-compl"> {{ periodo.vac_estado | uppercase }}</span>
+                        <span *ngIf="periodo.vac_estado.toUpperCase() == 'PLANIFICADO'" class="w135 label estado-planif">{{ periodo.vac_estado | uppercase }}</span>
+                        <span *ngIf="periodo.vac_estado.toUpperCase() == 'CANCELADO'"   class="w135 label estado-reg "  >{{ periodo.vac_estado | uppercase }}</span>
+                      </td>
+                      <td style="min-width: 175px">{{periodo.vac_motivo}}</td>
+                      <td>{{periodo.usuario_asignacion}}</td>
+                      <td>
+                        <div class="form-check">
+                          <input class="form-check-input"
+                                 type="checkbox"
+                                 id="inlineCheckbox1"
+                                 disabled
+                                 [checked]="periodo.jira">
+                        </div>
+                      </td>
+                      <td>
+                        <div class="form-check">
+                          <input class="form-check-input"
+                                 type="checkbox"
+                                 id="inlineCheckbox2"
+                                 disabled
+                                 [checked]="periodo.dedicaciones">
+                        </div>
+                      </td>
+                      <td>{{periodo.fecha_creacion}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div class="cli-loader" *ngIf="loadingItem">
+                  <mat-spinner style="margin-right: 20px" diameter="20"></mat-spinner>cargando...
+                </div>
+
+                <div
+                *ngIf="!loadingItem && listVacacionesPeriodo.length == 0"
+                class="cli-loader mt-2"
+                style="color: #c9c9c9; font-size: 12px;"
+                >Aquí se mostrará las Vacaciones planificadas de {{vacacionesForm.controls['nombre'].value}} ...
+              </div>
+            </div>
+            <h5 style="color: #0daef4; margin: 15px 0 0;" *ngIf="DATA_VACACIONES.estado_vac.toUpperCase()== 'PLANIFICADO'">NOTA: <small>Cuando el Estado de los Periodos son todos COMPLETADO y la sumatoria de sus días es igual a {{DATA_VACACIONES.cant_dias_vac}} Días, habrá finalizado con éxito</small></h5>
+            <h5 style="color: #47deb1; margin: 15px 0 0;" *ngIf="DATA_VACACIONES.estado_vac.toUpperCase()== 'COMPLETADO'"> NOTA: <small>Excelente! Completó con éxito los {{DATA_VACACIONES.cant_dias_vac}} días solicitados </small></h5>
+            <h5 style="color: #d63384; margin: 15px 0 0;" *ngIf="DATA_VACACIONES.estado_vac.toUpperCase()== 'EN GESTIÓN'"> NOTA: <small>Aún tienes Periodos por Planificar, ten en cuenta que tienes que completar los {{DATA_VACACIONES.cant_dias_vac}} días solicitados </small></h5>
+          </div>
+        </div>
+      </div>
+
+      <!-- HISTORICO DE PERIODOS DE VACACIONES---------------------------------------------------------- -->
+        <div class="pr-subtitle mt-2">Histórico de Estados Vacaciones</div>
+        <div class="pr-section">
+          <div class="pr-module-container">
+            <div style="overflow: auto; min-height: 100px; max-height: 160px; color:#6c757d;">
+              <table class="cli-table stripedtable underlinedtable">
+                <thead>
+                  <tr class="bgc-turquey c-white">
+                    <th>N°</th>
+                    <th>Estado</th>
+                    <th>Fecha de Cambio</th>
+                    <th>Actualizado por:</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <tr *ngFor="let cambios of histCambiosEstado; let i = index">
+                    <td>{{ i + 1 }}</td>
+                    <td>{{ cambios.estado_vacaciones }}</td>
+                    <td>{{ cambios.fecha_cambio      }}</td>
+                    <td>{{ cambios.usuario_responsable }}</td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="cli-loader" *ngIf="loadingItem">
+                <mat-spinner style="margin-right: 20px" diameter="20"></mat-spinner>cargando...
+              </div>
+
+              <div
+                *ngIf="histCambiosEstado.length == 0"
+                class="cli-loader mt-2"
+                style="color: #c9c9c9; font-size: 12px;"
+                >Aquí se mostrará el histórico de estados...
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+
+    <!-- --------------------------------------------BOTONES ------------------------------------------->
+    <div class="cli-form-buttons">
+      <button class="cli-btn btn-m btn-cancel" type="submit" (click)="close()">
+        <mat-icon class="icon-18">cancel</mat-icon> Cancelar
+      </button>
+      <button class="cli-btn btn-m btn-blue" (click)="actualizarVacaciones()">
+        <mat-icon class="icon-18">save</mat-icon> Actualizar
+      </button>
+    </div>
+  </div>
+</form>
+
+
+
+
+
+

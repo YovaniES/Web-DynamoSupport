@@ -1,0 +1,49 @@
+@import "variables.scss";
+
+.modal-title {
+  font-size: 1.9rem;
+  font-weight: 500;
+  margin: 10px 0;
+  text-align: left;
+}
+
+.label {
+  // padding: 3px 10px;
+  padding: 1px 6px;
+  line-height: 13px;
+  color: #fff;
+  font-weight: 400;
+  border-radius: 4px;
+  font-size: 75%;
+  background-color: #398bf7;
+  width: 190px;
+}
+
+.est-disp {
+  background-color: #47deb1;
+}
+
+.est-res {
+  background-color: #ff727f;
+}
+
+.total {
+  color: #97999b;
+  font-size: 18px;
+  font-weight: 550;
+}
+
+
+
+.w200 {
+  min-width: 200px;
+  height: 38px;
+}
+
+.c-green-export {
+  color: #029d55;
+  border: solid 0.5px #00db75;
+}
+
+@media (max-width: 850px) {
+}

@@ -1,0 +1,120 @@
+<div style="display: flex;">
+  <div class="flex-1"></div>
+  <div class="modal-title c-male">Agregar vacaciones</div>
+  <div class="flex-1"></div>
+
+  <button (click)="close()" class="icon-btn btn-trans c-orange moda-close-btn">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+
+<form class="row g-3" [formGroup]="vacacionesForm">
+  <div class="cli-form newvac-wrapper">
+    <div class="chart-draw">
+      <!-- REGISTROS DEL PERSONAL-------------------------------------------------------------------- -->
+      <div style="display: flex; background-color: #f6f3f3;">
+        <div class="pr-subtitle">Datos del personal</div>
+        <div class="flex-1"></div>
+          <button class="btn-asignar btn-grey"  matTooltip="Agregar personal" type="submit" style="color: #4a93ff; margin-right: 6px;" (click)="asignarPersonal()">
+            <mat-icon class="icon-13">add</mat-icon><mat-icon class="icon-13">person</mat-icon>
+          </button>
+      </div>
+
+      <div class="pr-section mt-2" *ngIf="fullName">
+        <div class="pr-module-container">
+          <div class="row" style="justify-content: space-between;">
+            <div class="input-group col-sm-4">
+              <div class="input-group-text" matTooltip="Código corporativo"><mat-icon>workspaces</mat-icon></div>
+              <div class="info">{{vacacionesForm.controls['codCorp'].value}}</div>
+            </div>
+
+            <div class="input-group col-sm-4">
+              <div class="input-group-text"><mat-icon>person</mat-icon></div>
+              <div class="info">{{vacacionesForm.controls['nombre'].value | uppercase}} {{vacacionesForm.controls['apPaterno'].value | uppercase}} {{vacacionesForm.controls['apMaterno'].value | uppercase}}</div>
+            </div>
+
+            <div class="input-group col-sm-4">
+              <div class="input-group-text"><mat-icon>category</mat-icon></div>
+              <div class="info">{{vacacionesForm.controls['proyecto'].value}}</div>
+            </div>
+
+            <div class="input-group col-sm-4">
+              <div class="input-group-text" matTooltip="Fecha de Ingreso"><mat-icon>calendar_month</mat-icon></div>
+              <div class="info">{{vacacionesForm.controls['fecha_ingreso'].value}}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="!fullName"
+              class="cli-loader pr-section mt-2"
+              style="color: #c9c9c9; min-height: 55px;"
+              >Aún no hay personal asignado
+     </div>
+
+      <!-- REGISTRO DE VACACIONES ------------------------------------------------------------------------->
+      <div class="pr-subtitle mt-2">Registro de vacaciones</div>
+      <div class="pr-section mb-3">
+        <div class="pr-module-container">
+          <div class="row g-3">
+            <div class="col-sm-3 cli-form-element">
+                <label>Sistema <small style="color: #f45572; margin:1px 0 0;">*</small></label>
+              <select class="cli-input-white" formControlName="idSistema">
+                <option [value]="0" disabled>- Seleccione -</option>
+                <option [value]="sistema.id_correlativo" *ngFor="let sistema of listSistemaVacaciones">{{sistema.valor_texto_1}}</option>
+              </select>
+              <small class="text-alert" *ngIf="campoNoValido('idSistema')">* El Sistema es obligatorio</small>
+            </div>
+
+            <div class="col-sm-3 cli-form-element">
+              <label>Tipo vacaciones <small style="color: #f45572; margin:1px 0 0;">*</small></label>
+              <select class="cli-input-white" formControlName="idTipoVac">
+                <option [value]="0" disabled>- Seleccione -</option>
+                <option [value]="tipo.id_correlativo" *ngFor="let tipo of listTipoVacaciones">{{tipo.valor_texto_1}}</option>
+              </select>
+              <small class="text-alert" *ngIf="campoNoValido('idTipoVac')">* El Tipo de vacaciones es obligatorio</small>
+            </div>
+
+          <div class="col-sm-4 cli-form-element">
+            <label class="form-label">Fecha de vacaciones <small style="color: #f45572; margin:1px 0 0;">*</small> </label>
+            <mat-form-field color="accent" appearance="outline">
+              <mat-date-range-input [formGroup]="vacacionesForm" [rangePicker]="picker">
+                <input matStartDate formControlName="fechaInicVac" placeholder="Inicio de vacaciones"   #fechaIni (dateChange)="totalDiasVacaciones()" >
+                <input matEndDate   formControlName="fechaFinVac"  placeholder="Final de vacaciones" #fechaFin (dateChange)="totalDiasVacaciones()" >
+              </mat-date-range-input>
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-date-range-picker #picker></mat-date-range-picker>
+
+              <mat-error *ngIf="vacacionesForm.controls['fechaInicVac'].hasError('matStartDateInvalid')">Fecha de inicio no válida</mat-error>
+              <mat-error *ngIf="vacacionesForm.controls['fechaFinVac' ].hasError('matEndDateInvalid')">Fecha de fin no válida</mat-error>
+            </mat-form-field>
+          </div>
+
+            <div class="col-sm-2 cli-form-element">
+              <label class="form-label">Total días</label>
+              <input
+                style="font-weight: 600; text-align:center"
+                type="number"
+                readonly="true"
+                class="form-control"
+                formControlName="total_dias_vac"/>
+            </div>
+            <!-- <p>Selected range: {{vacacionesForm.value | json}}</p> -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- --------------------------------------------BOTONES ------------------------------------------->
+    <div class="cli-form-buttons">
+      <button class="cli-btn btn-m btn-cancel" type="submit" (click)="close()">
+        <mat-icon class="icon-18">cancel</mat-icon> Cancelar
+      </button>
+      <button class="cli-btn btn-m btn-blue"
+        [disabled]="vacacionesForm.invalid"
+        (click)="crearVacaciones()">
+        <mat-icon class="icon-18">save</mat-icon> Registrar
+      </button>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,173 @@
+<div style="display: flex">
+  <div class="flex-1"></div>
+  <div class="modal-title c-male">Agregar personal</div>
+  <div class="flex-1"></div>
+
+  <button (click)="close()" class="icon-btn btn-trans c-orange moda-close-btn">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+
+<form class="row g-3" [formGroup]="personalForm">
+  <div class="cli-form newvac-wrapper">
+    <div class="chart-draw">
+      <!-- REGISTROS DEL PERSONAL---------------------------------------------------------- -->
+      <div class="col-2 pr-subtitle mt-2">Datos Personales</div>
+      <div class="pr-section">
+        <div class="pr-module-container">
+          <div class="row g-3">
+            <div class="col-sm-4 cli-form-element">
+              <div class="form-group">
+                <label>Nombre(s) *</label>
+                <input
+                  type="text"
+                  class="form-control cli-input-white"
+                  formControlName="nombre"/>
+                <small class="text-alert" *ngIf="campoNoValido('nombre')">* El Nombre es obligatorio</small>
+              </div>
+            </div>
+
+            <div class="col-sm-4 cli-form-element">
+              <label>Apellido paterno *</label>
+              <input
+                type="text"
+                class="form-control cli-input-white"
+                formControlName="apPaterno"/>
+              <small class="text-alert" *ngIf="campoNoValido('apPaterno')">* El Apellido Paterno es obligatorio</small>
+            </div>
+
+            <div class="col-sm-4 cli-form-element">
+              <label>Apellido materno *</label>
+              <input
+                type="text"
+                class="form-control cli-input-white"
+                formControlName="apMaterno"/>
+              <small class="text-alert" *ngIf="campoNoValido('apMaterno')">* El Apellido Materno es obligatorio</small>
+            </div>
+
+            <div class="col-sm-4 cli-form-element">
+              <label>DNI</label>
+              <input
+                maxlength="8"
+                class="form-control cli-input-white"
+                formControlName="dni"/>
+            </div>
+
+            <div class="col-sm-4 cli-form-element">
+              <label>Correo *</label>
+              <input
+                type="correo"
+                class="form-control cli-input-white"
+                formControlName="correo"/>
+              <small
+                class="text-alert"
+                *ngIf="campoNoValido('correo')">* El Correo es obligatorio</small>
+            </div>
+
+            <div class="col-sm-4 cli-form-element">
+              <div class="form-group">
+                <label>Fecha Nacimiento</label>
+                <input
+                  type="date"
+                  class="form-control"
+                  formControlName="fechaNacimiento"/>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DATOS DE LA EMPRESA------------------------------------------- ------------------- -->
+      <div class="pr-subtitle mt-2">Datos de la empresa</div>
+      <div class="pr-section">
+        <div class="pr-module-container">
+          <div class="row g-3">
+            <div class="col-sm-4 cli-form-element">
+              <label>Cód. Corporativo *</label>
+              <input
+                maxlength="6"
+                class="form-control cli-input-white"
+                placeholder="Ej. 123456"
+                formControlName="codCorp"/>
+              <small
+                class="text-alert"
+                *ngIf="campoNoValido('codCorp')">* Ingrese el cód. Corporativo es obligatorio</small>
+            </div>
+
+            <div class="col-sm-4 cli-form-element">
+              <label>Cód. Perfil *</label>
+              <select
+                class="cli-input-white"
+                formControlName="codPerfil"
+                #selectList2
+                (change)="getDescPerfil(selectList2.value)">
+                <option [value]="0" disabled>- Seleccione -</option>
+                <option [value]="perfil.id" *ngFor="let perfil of listPerfiles">{{ perfil.nombre }}</option>
+              </select>
+              <small class="text-alert" *ngIf="campoNoValido('codPerfil')">* El Código del Perfil es obligatorio</small>
+            </div>
+
+
+            <!-- <div class="col-sm-4 cli-form-element">
+              <label>Líder</label>
+              <select
+                class="cli-input-white"
+                formControlName="codPerfil">
+                <option [value]="0" disabled>- Seleccione -</option>
+                <option [value]="lider.id_correlativo" *ngFor="let lider of listLideres">{{ lider.lider }}</option>
+              </select>
+              <small class="text-alert" *ngIf="campoNoValido('codPerfil')">* El Líder es obligatorio</small>
+            </div> -->
+
+            <div class="col-sm-4 cli-form-element mb-2">
+              <label>Descripción del Perfil</label>
+              <label style="color:#20c997">{{ descPerfil }}</label>
+            </div>
+
+            <div class="col-sm-4 cli-form-element">
+              <div class="form-group">
+                <label>Fecha de Ingreso *</label>
+                <input
+                  type="date"
+                  class="form-control"
+                  formControlName="fechaIngreso"/>
+                <small class="text-alert" *ngIf="campoNoValido('fechaIngreso')">* La Fecha de Ingreso es obligatorio</small>
+              </div>
+            </div>
+
+            <div class="col-sm-4 cli-form-element">
+              <label>Cód. Proyecto *</label>
+              <select
+                class="cli-input-white"
+                formControlName="codProy"
+                #selectList
+                (change)="getDescProy(selectList.value)">
+                <option [value]="0" disabled>- Seleccione -</option>
+                <option [value]="proyecto.id_correlativo" *ngFor="let proyecto of listProyectos">{{ proyecto.valor_texto_1 }}</option>
+              </select>
+              <small class="text-alert" *ngIf="campoNoValido('codProy')">* El Código del Proyecto es obligatorio</small>
+            </div>
+
+            <div class="col-sm-4 cli-form-element mb-2">
+              <label>Descripción del Proyecto</label>
+              <label style="color:#20c997">{{ descProyecto }}</label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- --------------------------------------------BOTONES ------------------------------------------>
+    <div class="cli-form-buttons" style="margin-top: 8%">
+      <button class="cli-btn btn-m btn-cancel" type="submit" (click)="close()">
+        <mat-icon class="icon-18">cancel</mat-icon> Cancelar
+      </button>
+      <button
+        class="cli-btn btn-m btn-blue"
+        (click)="crearPersonal()"
+        [disabled]="personalForm.invalid">
+        <mat-icon class="icon-18">save</mat-icon> Registrar
+      </button>
+    </div>
+  </div>
+</form>

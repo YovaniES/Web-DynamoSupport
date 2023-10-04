@@ -1,0 +1,121 @@
+<div style="display: flex">
+  <div class="flex-1"></div>
+  <div class="modal-title c-male">Cuentas disponibles</div>
+  <div class="flex-1"></div>
+
+  <button (click)="close()" class="icon-btn btn-trans c-orange moda-close-btn">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+
+
+<div class="cli-card">
+  <div style="padding: 5px 5px">
+    <div>
+      <!-- BUSCAR CUENTA POR FILTRO ---------------------------------------------------------------->
+      <div class="buscar">
+          <form class="row g-3" [formGroup]="filtroForm">
+            <div class="col-sm-4 cli-form-element">
+              <label class="form-label">Username</label>
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Ingrese Username"
+                formControlName="username"/>
+            </div>
+
+            <div class="col-sm-2">
+              <div style="margin-top: 18px; display: flex;">
+                <button
+                  type="button"
+                  matTooltip="Buscar"
+                  class="btn-hardware btn-blue-light"
+                  style="border-radius: 2px; "
+                  (click)="cargarOBuscarCuentaDisponibleX()"
+                  ><mat-icon class="icon-18">search</mat-icon>
+                </button>
+                 <button
+                  type="submit"
+                  matTooltip="Limpiar"
+                  class="btn-hardware btn-cancel"
+                  style="border-radius: 2px;"
+                  (click)="limpiarFiltro()"
+                ><mat-icon class="icon-18">rotate_left</mat-icon>
+                </button>
+              </div>
+            </div>
+          </form>
+      </div>
+
+      <!-- TOTAL DE CUENTAS DISPONIBLES----------------------------------------------------->
+      <div style="display: flex" class="mt-4 mb-1">
+        <div class="flex-1"></div>
+        <div style="color: #345df3;">
+          Total : <span class="total">{{ listaCuentaDisp.length }} Disponibles</span>
+        </div>
+      </div>
+
+      <!-- TABLA DE CUENTAS DISPONIBLE ------------------------------------------------------------------>
+      <div style="overflow: auto; min-height: 100px">
+        <table class="cli-table stripedtable underlinedtable">
+          <thead>
+            <tr class="bgc-turquey c-white">
+              <th>Acción</th>
+              <th style="min-width: 70px;">ID Cuenta</th>
+              <th>Username</th>
+              <th>Password</th>
+              <th>Tipo</th>
+              <th style="min-width: 155px;">Fecha Últ. Renovación</th>
+              <th style="min-width: 160px;">Fecha Próx. Renovación</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr *ngFor="let cuenta of listaCuentaDisp | paginate:
+                      { itemsPerPage: pageSize,
+                        currentPage : page,
+                        totalItems  : totalCuenta
+                      } ">
+              <td>
+                <div class="cli-table-actions">
+                  <button
+                    matTooltip="Asignar"
+                    class="icon-btn btn-trans c-blue"
+                    (click)="asignarCuenta(cuenta.id, cuenta.usuario)"
+                  ><mat-icon class="icon-18">add</mat-icon>
+                  </button>
+                </div>
+              </td>
+              <td>{{ cuenta.id }}</td>
+              <td>{{ cuenta.usuario }}</td>
+              <td>{{ cuenta.password }}</td>
+              <td>{{ cuenta.tipo | firstCapital }}</td>
+              <td>{{ cuenta.fechaUltimaRenovacion  }}</td>
+              <td>{{ cuenta.fechaProximaRenovacion }}</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="cli-loader" *ngIf="loadingItem">
+          <mat-spinner style="margin-right: 20px" diameter="20"></mat-spinner>cargando...
+        </div>
+
+        <div
+          *ngIf="!loadingItem && listaCuentaDisp.length == 0"
+          class="cli-loader mt-2"
+          style="color: #f83434; font-size: 9px;"
+          >No hay cuentas disponibles para mostrar
+        </div>
+      </div>
+    </div>
+
+    <div class="card-footer pb-0 pt-3">
+      <pagination-controls
+        previousLabel="Anterior"
+        nextLabel="Siguiente"
+        [responsive]="false"
+        (pageChange)="cambiarPagina($event)">
+      </pagination-controls>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,78 @@
+.btn-asignar {
+  border: none;
+  border-radius: 2px;
+  display: flex;
+  height: 18px;
+  align-items: center;
+  border: solid 0.5px #4a93ff;
+  color: #4a93ff;
+  margin-right: 6px;
+  & mat-icon {
+    margin: 0 1px;
+  }
+  &:disabled {
+    background-color: #bcd7ff;
+    color: #fff;
+  }
+}
+
+.input-group-text {
+  background-color: #ffffff;
+  border: none;
+  padding: 0.5px 5px;
+}
+
+.input-group {
+  width: auto;
+  justify-content: center;
+}
+
+.text-alert {
+  font-size: 10px;
+  color: #f66d7a;
+  margin-top: 0;
+}
+
+::ng-deep .mat-dialog-container {
+  margin-left: 40%;
+  margin-right: -40%;
+  margin-top: -57%;
+}
+
+
+::ng-deep .mat-form-field-type-mat-date-range-input .mat-form-field-infix {
+  height: 50px;
+  margin-top: -10px;
+}
+
+::ng-deep .mat-date-range-input-start-wrapper{
+  font-size: 12px;
+}
+
+::ng-deep .mat-date-range-input-end-wrapper{
+  font-size: 12px;
+}
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-wrapper {
+   margin: 0 0;
+}
+
+.mat-hint {
+  font-size: 8px;
+}
+
+::ng-deep .mat-date-range-input-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+::ng-deep .mat-form-field-subscript-wrapper {
+  margin-top: 1px;
+}
+
+::ng-deep .mat-calendar-body-selected {
+  background-color: #0daef4;
+  color: #fff;
+}

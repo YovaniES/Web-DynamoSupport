@@ -1,0 +1,80 @@
+@import "variables.scss";
+
+.modal-title {
+  font-size: 1.3rem;
+  font-weight: 400;
+  margin: 4px 0;
+  text-align: center;
+}
+
+.cli-table {
+  width: 100%;
+  background-color: #fff;
+  & th {
+    padding: 4px;
+    font-weight: 300;
+    text-align: center;
+  }
+  & td {
+    vertical-align: middle;
+    text-align: center;
+    font-size: 11px;
+  }
+  &-actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  &-input {
+    border: 1px solid $color-grey-4;
+    border-radius: 2px;
+  }
+}
+
+.total {
+  color: #97999b;
+}
+
+.btn-hardware {
+  border: none;
+  border-radius: 2px;
+  margin: 0 1px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  border: solid 1px #007bff;
+}
+
+.buscar {
+  border-radius: 2px;
+  font-weight: 500;
+  padding: 5px;
+  border: 0.5px solid #e1e1e2;
+}
+
+.form-select {
+  font-size: 10px;
+}
+
+.form-control {
+  font-size: 10px;
+  background: #f3f3f3;
+}
+
+.card-footer:last-child {
+  font-size: 10px;
+}
+
+@media (max-width: 768px) {
+  .modal-title {
+    font-size: 1.2rem;
+    font-weight: 400;
+    margin: 5px 0;
+    text-align: center;
+  }
+
+  .btn-m {
+    height: 20px;
+    padding: 15px;
+  }
+}

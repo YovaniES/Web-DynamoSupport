@@ -1,0 +1,307 @@
+<div style="display: flex;">
+  <div class="flex-1"></div>
+  <div class="modal-title c-male">Actualizar y asignar recursos</div>
+  <div class="flex-1"></div>
+
+  <button (click)="close()" class="icon-btn btn-trans c-orange moda-close-btn">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+
+<form class="row g-3" [formGroup]="personalForm">
+  <div class="cli-form newvac-wrapper">
+    <div class="chart-draw">
+      <!-- REGISTROS DEL PERSONAL-------------------------------------------------------------------- -->
+      <div style="display: flex;" >
+        <div class="col-2 pr-subtitle">Datos Personales</div>
+        <div class="flex-1"></div>
+        <ng-container *ngIf="personalForm.controls['estado'].value">
+          <span class="form-control cli-input-white"
+                [ngClass]="personalForm.controls['estado'].value == 'Activo' ? 'estado-act' : 'estado-danger'">
+                {{personalForm.controls['estado'].value}}
+          </span>
+        </ng-container>
+      </div>
+
+      <div class="pr-section">
+        <div class="pr-module-container">
+          <div class="row g-3">
+            <div class="col-sm-4 cli-form-element">
+              <div class="form-group">
+                <label>Nombre(s)</label>
+                <input type="text"
+                  class="form-control cli-input-white"
+                  formControlName="nombre"/>
+                <small class="text-alert" *ngIf="campoNoValido('nombre')">* Este campo es obligatorio</small>
+              </div>
+            </div>
+
+            <div class="col-sm-4 cli-form-element">
+              <label>Apellido paterno</label>
+              <input type="text"
+                class="form-control cli-input-white"
+                formControlName="apPaterno"/>
+            </div>
+
+            <div class="col-sm-4 cli-form-element">
+              <label>Apellido materno</label>
+              <input type="text"
+                class="form-control cli-input-white"
+                formControlName="apMaterno"/>
+            </div>
+
+            <div class="col-sm-4 cli-form-element">
+              <label>DNI</label>
+              <input maxlength="8"
+                class="form-control cli-input-white"
+                formControlName="dni"/>
+            </div>
+
+            <div class="col-sm-4 cli-form-element">
+              <label>Correo</label>
+              <input type="text"
+                class="form-control cli-input-white"
+                formControlName="correo"/>
+            </div>
+
+            <div class="col-sm-4 cli-form-element">
+              <label>Fecha Nacimiento</label>
+              <input type="date"
+                  class="form-control"
+                  formControlName="fechaNacimiento"/>
+              </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DATOS DE LA EMPRESA ------------------------------------------------------------------------->
+      <div class="pr-subtitle mt-2">Datos de la empresa</div>
+      <div class="pr-section mb-3">
+        <div class="pr-module-container">
+          <div class="row g-3">
+            <div class="col-sm-2 cli-form-element">
+              <label>Cód. Corporativo</label>
+              <input
+                type="number"
+                maxlength="6"
+                class="form-control cli-input-white"
+                formControlName="codCorp"/>
+            </div>
+
+            <div class="col-sm-2 cli-form-element">
+              <label>Categoría</label>
+              <select class="cli-input-white" formControlName="categoria">
+                <option [value]="0">- Seleccione -</option>
+                <option [value]="cat.id_correlativo" *ngFor="let cat of listCategorias">{{ cat.valor_texto_1 }}</option>
+              </select>
+            </div>
+
+            <div class="col-sm-2 cli-form-element">
+              <label>Cód. Perfil</label>
+              <select class="cli-input-white" formControlName="codPerfil">
+                <option [value]="0">- Seleccione -</option>
+                <option [value]="perfil.id" *ngFor="let perfil of listPerfiles">{{ perfil.nombre }}</option>
+              </select>
+            </div>
+
+            <div class="col-sm-2 cli-form-element">
+              <label>Cód. Proyecto</label>
+              <select class="cli-input-white" formControlName="id_proyecto">
+                <option [value]="0">- Seleccione -</option>
+                <option [value]="cod.id_correlativo" *ngFor="let cod of listProyectos">{{ cod.valor_texto_1 }}</option>
+              </select>
+            </div>
+
+            <div class="col-sm-4 cli-form-element">
+              <div class="form-group">
+                <label>Fecha de Ingreso</label>
+                <input
+                  type="date"
+                  class="form-control cli-input-white"
+                  formControlName="fechaIngreso"/>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- AGREGAR RECURSO HARDWARE------------------------------------------------------------------ -->
+      <div style="display: flex; background-color: #f6f3f3;" >
+        <div class="pr-subtitle">Recurso Hardware</div>
+        <div class="flex-1"></div>
+          <button class="btn-asignar btn-grey"  matTooltip="Asignar hardware" type="submit" style="color: #4a93ff; margin-right: 6px;" (click)="asignarHardware()">
+            <mat-icon class="icon-13">add</mat-icon><mat-icon class="icon-13">devices</mat-icon>
+          </button>
+      </div>
+      <div class="pr-section mb-2">
+        <div class="pr-module-container">
+          <div style="overflow: auto; min-height: 50px">
+            <div *ngIf="listHardwareAsignado.length > 0">
+              <table class="cli-table stripedtable underlinedtable">
+                <thead>
+                  <tr class="bgc-blue-light c-white">
+                    <th>Accíón</th>
+                    <th>ID Hardware</th>
+                    <th>Tipo</th>
+                    <th>Marca</th>
+                    <th>Serie</th>
+                    <th>Descripción</th>
+                    <th>Modelo</th>
+                    <th>Imei</th>
+                    <th>Observación</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <tr *ngFor="let hardware of listHardwareAsignado; let i = index">
+                    <td class="w55">
+                      <div class="cli-table-actions">
+                        <button
+                          matTooltip="Desasignar hardware"
+                          class="icon-btn c-fucsia"
+                          (click)="desasignarRecurso(hardware.id)"
+                          ><mat-icon class="icon-13">delete_forever</mat-icon>
+                        </button>
+                      </div>
+                    </td>
+                    <td style="min-width: 85px">{{ hardware.id }}</td>
+                    <td style="min-width: 100px;">{{ hardware.tipo }}</td>
+                    <td>{{ hardware.marca }}</td>
+                    <td>{{ hardware.serie }}</td>
+                    <td style="min-width: 200px;">{{ hardware.descripcion }}</td>
+                    <td style="min-width: 115px;">{{ hardware.modelo }}</td>
+                    <td>{{ hardware.imei }}</td>
+                    <td style="min-width: 115px;">{{ hardware.observacion }}</td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="cli-loader" *ngIf="loadingItem">
+                <mat-spinner style="margin-right: 20px" diameter="20"></mat-spinner>
+                cargando...
+              </div>
+            </div>
+            <div
+              *ngIf="listHardwareAsignado.length == 0"
+              class="cli-loader mt-2"
+              style="color: #c9c9c9"
+              >{{DATA_PERSONAL.nombres}} {{DATA_PERSONAL.apellido_paterno}}, Aún no tiene recurso hardware
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- AGREGAR RECURSO CUENTA-------------------------------------------------------------------- -->
+      <div style="display: flex; background-color: #f6f3f3;" >
+        <div class="pr-subtitle">Recurso Cuenta</div>
+        <div class="flex-1"></div>
+          <button class="btn-asignar btn-grey" matTooltip="Asignar cuenta" type="submit" (click)="agregarCuenta()">
+            <mat-icon class="icon-13">add</mat-icon><mat-icon class="icon-13">vpn_lock</mat-icon>
+          </button>
+      </div>
+      <div class="pr-section">
+        <div class="pr-module-container">
+          <div style="overflow: auto; min-height: 50px">
+            <div *ngIf="listCuentaAsignado.length > 0">
+              <table class="cli-table stripedtable underlinedtable">
+                <thead>
+                  <tr class="bgc-blue-light c-white">
+                    <th>Acción</th>
+                    <th>ID Cuenta</th>
+                    <th>Username</th>
+                    <th>Password</th>
+                    <th>Tipo</th>
+                    <th style="min-width:100px">Fecha última renovación</th>
+                    <th style="min-width:100px">Fecha próxima renovación</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <tr *ngFor="let cuenta of listCuentaAsignado; let i = index">
+                    <td class="w55">
+                      <div class="cli-table-actions">
+                        <button
+                          matTooltip="Desasignar cuenta"
+                          class="icon-btn btn-trans c-fucsia"
+                          (click)="desasignarRecurso(cuenta.id)"
+                          ><mat-icon class="icon-13">delete_forever</mat-icon>
+                        </button>
+                      </div>
+                    </td>
+                    <td>{{ cuenta.id }}</td>
+                    <td>{{ cuenta.usuario }}</td>
+                    <td>{{ cuenta.password }}</td>
+                    <td>{{ cuenta.tipo }}</td>
+                    <td>{{ cuenta.fecha_ultima_renovacion }}</td>
+                    <td>{{ cuenta.fecha_proxima_renovacion }}</td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="cli-loader" *ngIf="loadingItem">
+                <mat-spinner style="margin-right: 20px" diameter="20"></mat-spinner>
+                cargando...
+              </div>
+            </div>
+            <div
+              *ngIf="!loadingItem && listCuentaAsignado.length == 0"
+              class="cli-loader mt-2"
+              style="color: #c9c9c9"
+              >{{DATA_PERSONAL.nombres}} {{DATA_PERSONAL.apellido_paterno}}, Aún no tiene recurso cuenta
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- HISTORICO DE CAMBIOS DE PROYECTO---------------------------------------------------------- -->
+      <div class="pr-subtitle mt-2">Histórico cambios de Proyecto</div>
+      <div class="pr-section">
+        <div class="pr-module-container">
+          <div style="overflow: auto; min-height: 100px">
+            <table class="cli-table stripedtable underlinedtable">
+              <thead>
+                <tr class="bgc-turquey c-white">
+                  <th>N°</th>
+                  <th>Cód. Proyecto</th>
+                  <th>Descripción</th>
+                  <th>Fecha de Cambio</th>
+                  <th>Asignado por</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr *ngFor="let cambios of histCambiosProyecto; let i = index">
+                  <td>{{ i + 1 }}</td>
+                  <td>{{ cambios.proyecto_codigo }}</td>
+                  <td>{{ cambios.proyecto_descripcion }}</td>
+                  <td>{{ cambios.fecha_asignacion }}</td>
+                  <td>{{ cambios.nombre_usuario_asignacion }}</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="cli-loader" *ngIf="loadingItem">
+              <mat-spinner style="margin-right: 20px" diameter="20"></mat-spinner>
+              cargando...
+            </div>
+
+            <div
+              *ngIf="!loadingItem && histCambiosProyecto.length == 0"
+              class="cli-loader mt-2"
+              style="color: #c9c9c9"
+              >Aquí se mostrará el histórico de cambios de proyecto ...
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- --------------------------------------------BOTONES ------------------------------------------->
+    <div class="cli-form-buttons">
+      <button class="cli-btn btn-m btn-cancel" type="submit" (click)="close()">
+        <mat-icon class="icon-18">cancel</mat-icon> Cancelar
+      </button>
+      <button class="cli-btn btn-m btn-blue" (click)="actualizarPersonal()">
+        <mat-icon class="icon-18">save</mat-icon> Actualizar
+      </button>
+    </div>
+  </div>
+</form>

@@ -13,7 +13,7 @@ import { first } from 'rxjs';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent {
-  @BlockUI() blockUI!: NgBlockUI;
+  // @BlockUI() blockUI!: NgBlockUI;
   loadingItem: boolean = false;
 
   loginForm: FormGroup = this.fb.group({
@@ -30,15 +30,14 @@ export class LoginComponent {
   ) {}
 
   login() {
-    this.blockUI.start('Iniciando Sesión...');
-    this.authService
-      .login(this.loginForm.value)
-      .pipe(first())
+    // this.blockUI.start('Iniciando Sesión...');
+    this.authService.login(this.loginForm.value)
+      // .pipe(first())
       .subscribe(
         (resp) => {
           if (resp.user.acceso == 1 && resp.user.aplicacion == 1) {
             // this.spinner.hide();
-            this.blockUI.stop();
+            // this.blockUI.stop();
 
             Swal.fire(
               'Inicio de Sesión',

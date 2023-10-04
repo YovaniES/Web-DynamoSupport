@@ -1,0 +1,140 @@
+<div style="display: flex">
+  <div class="flex-1"></div>
+  <div class="modal-title c-male">Hardware disponible</div>
+  <div class="flex-1"></div>
+
+  <button (click)="close()" class="icon-btn btn-trans c-orange moda-close-btn">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+
+<div class="cli-card">
+  <div style="padding: 5px 5px">
+    <div>
+      <!-- BUSCADOR POR FILTRO ---------------------------------------------------------------->
+      <div class="buscar">
+          <form class="row g-3" [formGroup]="filtroForm">
+            <div class="col-sm-4 cli-form-element">
+              <label class="form-label">Serie</label>
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Ingrese serie"
+                formControlName="serie"/>
+            </div>
+
+            <div class="col-sm-3 cli-form-element">
+              <label class="form-label">Tipo</label>
+              <select class="form-select" formControlName="tipo">
+                <option [value]="0" disabled>- Seleccione -</option>
+                <option [value]="tipo.id" *ngFor="let tipo of listTipos">{{tipo.nombre}}</option>
+              </select>
+            </div>
+
+            <div class="col-sm-3 cli-form-element">
+              <label class="form-label">Marca</label>
+              <select class="form-select" formControlName="marca">
+                <option [value]="0" disabled>- Seleccione -</option>
+                <option [value]="marca.id" *ngFor="let marca of listMarca">{{marca.nombre}}</option>
+              </select>
+            </div>
+
+            <div class="col-sm-2">
+              <div style="margin-top: 18px; display: flex;">
+                <button
+                  type="button"
+                  matTooltip="Buscar"
+                  class="btn-hardware btn-blue-light"
+                  style="border-radius: 2px; "
+                  (click)="cargarOBuscarHardwareDisponible()"
+                  ><mat-icon class="icon-18">search</mat-icon>
+                 </button>
+                 <button
+                  type="submit"
+                  matTooltip="Limpiar"
+                  class="btn-hardware btn-cancel"
+                  style="border-radius: 2px;"
+                  (click)="limpiarFiltro()"
+                ><mat-icon class="icon-18">rotate_left</mat-icon>
+                </button>
+              </div>
+            </div>
+          </form>
+      </div>
+
+      <!-- BOTON MODAL PARA CREAR HARDWARE ----------------------------------------------------->
+      <div style="display: flex" class="mt-4 mb-1">
+        <div class="flex-1"></div>
+        <div style="color: #345df3;">
+          Total : <span class="total">{{ listaHardwareDisp.length }} Disponibles</span>
+        </div>
+      </div>
+
+      <!-- TABLA DE HARDWARE ------------------------------------------------------------------>
+      <div style="overflow: auto; min-height: 180px">
+        <table class="cli-table stripedtable underlinedtable">
+          <thead>
+            <tr class="bgc-turquey c-white">
+              <th>Acción</th>
+              <th style="min-width: 85px">ID Hardware</th>
+              <th>Tipo</th>
+              <th>Marca</th>
+              <th>Descripción</th>
+              <!-- <th>Modelo</th> -->
+              <th>Serie</th>
+              <th>Imei</th>
+              <th>Observación</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr *ngFor="let hardware of listaHardwareDisp | paginate:
+                      { itemsPerPage: pageSize,
+                        currentPage: page,
+                        totalItems: totalHardware
+                      } ">
+              <td>
+                <div class="cli-table-actions">
+                  <button
+                    matTooltip="Asignar"
+                    class="icon-btn btn-trans c-blue"
+                    (click)="asignarHardware(hardware.id_recurso, hardware.modelo)"
+                    ><mat-icon class="icon-13">add</mat-icon>
+                  </button>
+                </div>
+              </td>
+              <td>{{ hardware.id_recurso }}</td>
+              <td style="min-width: 80px">{{ hardware.tipo   | firstCapital}}</td>
+              <td>{{ hardware.marca  | uppercase   }}</td>
+              <td class="w150">{{ hardware.equipo | firstCapital}}</td>
+              <!-- <td class="w150">{{ hardware.modelo | uppercase   }}</td> -->
+              <td>{{ hardware.serie }}</td>
+              <td>{{ hardware.imei }}</td>
+              <td class="w150">{{ hardware.observacion | firstCapital}}</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="cli-loader" *ngIf="loadingItem">
+          <mat-spinner style="margin-right: 20px" diameter="20"></mat-spinner>cargando...
+        </div>
+
+        <div
+          *ngIf="!loadingItem && listaHardwareDisp.length == 0"
+          class="cli-loader mt-5"
+          style="color: #f83434"
+          >No hay Hardware disponible para mostrar
+        </div>
+      </div>
+    </div>
+
+    <div class="card-footer pb-0 pt-3">
+      <pagination-controls
+        previousLabel="Anterior"
+        nextLabel="Siguiente"
+        [responsive]="false"
+        (pageChange)="cambiarPagina($event)">
+      </pagination-controls>
+    </div>
+  </div>
+</div>

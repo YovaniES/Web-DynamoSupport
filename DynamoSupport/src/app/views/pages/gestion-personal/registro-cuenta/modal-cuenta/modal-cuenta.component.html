@@ -1,0 +1,58 @@
+<div style="display: flex">
+  <div class="flex-1"></div>
+  <div class="modal-title c-male">{{DATA_CUENTA ? 'Actualizar' : 'Agregar'}} cuenta </div>
+    <div class="flex-1"></div>
+
+    <button (click)="close()" class="icon-btn btn-trans c-orange moda-close-btn">
+      <mat-icon>close</mat-icon>
+    </button>
+</div>
+
+<form class="row g-3" [formGroup]="cuentaForm">
+  <div class="cli-form newvac-wrapper">
+    <div class="row g-3">
+
+      <div class="col-sm-4 cli-form-element">
+        <div class="form-group">
+          <label>Username *</label>
+          <input
+            type="text"
+            class="form-control cli-input-white"
+            formControlName="usuario"/>
+          <small class="form-text text-alert" *ngIf="campoNoValido('usuario')">* Ingrese el Username es obligatorio</small>
+        </div>
+      </div>
+
+      <div class="col-sm-4 cli-form-element">
+        <label>Password</label>
+        <input
+          type="text"
+          class="form-control cli-input-white"
+          formControlName="password"/>
+          <!-- <small class="form-text text-alert" *ngIf="campoNoValido('password')">* Ingrese el Password es obligatorio</small> -->
+      </div>
+
+      <div class="col-sm-4 cli-form-element">
+        <label>Tipo *</label>
+        <select class="cli-input-white" formControlName="idTipo">
+          <option [value]="0" disabled>- Seleccione -</option>
+          <option [value]="tipo.id" *ngFor="let tipo of tipos">{{ tipo.nombre }}</option>
+        </select>
+        <small class="form-text text-alert" *ngIf="campoNoValido('idTipo')">* Seleccione el Tipo es obligatorio</small>
+      </div>
+    </div>
+
+    <!-- --------------------------------------------BOTONES ------------------------------------------>
+    <div class="cli-form-buttons" style="margin-top: 8%">
+      <button class="cli-btn btn-m btn-cancel" type="submit" (click)="close()">
+        <mat-icon class="icon-18">cancel</mat-icon> Cancelar
+      </button>
+      <button class="cli-btn btn-m btn-blue"
+              (click)="crearOactualizarCuenta()"
+              [disabled]="cuentaForm.invalid"
+              >
+              <mat-icon class="icon-18">save</mat-icon> {{actionBtn}}
+      </button>
+    </div>
+  </div>
+</form>

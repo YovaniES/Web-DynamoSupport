@@ -5,6 +5,7 @@ import { CoreModule } from 'src/app/core/core.module';
 import { MatIconModule } from '@angular/material/icon';
 import { MaterialModule } from 'src/app/material/material.module';
 import { LoginComponent } from './login/login.component';
+import { BlockUIModule } from 'ng-block-ui';
 
 
 @NgModule({
@@ -15,7 +16,9 @@ import { LoginComponent } from './login/login.component';
     AuthRoutingModule,
     CoreModule,
     MatIconModule,
-    MaterialModule
+    MaterialModule,
+
+    BlockUIModule.forRoot()
   ]
 })
 export class AuthModule { }

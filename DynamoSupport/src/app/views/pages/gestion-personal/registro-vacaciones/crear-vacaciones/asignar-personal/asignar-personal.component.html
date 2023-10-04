@@ -1,0 +1,136 @@
+<div style="display: flex">
+  <div class="flex-1"></div>
+  <div class="modal-title c-male">Personal activo</div>
+  <div class="flex-1"></div>
+
+  <button (click)="close()" class="icon-btn btn-trans c-orange moda-close-btn">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+
+<div class="cli-card">
+  <div style="padding: 2px 2px">
+    <div>
+      <!-- BUSCADOR POR FILTRO ---------------------------------------------------------------->
+      <div class="buscar">
+          <form class="row g-3" [formGroup]="filtroForm">
+            <div class="col-sm-3 cli-form-element">
+              <label class="form-label">Código Corp.</label>
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Ingrese Código"
+                formControlName="codigo_corp"/>
+            </div>
+
+            <div class="col-sm-3 cli-form-element">
+              <label class="form-label">Nombres</label>
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Ingrese nombre(s)"
+                formControlName="nombres"/>
+            </div>
+
+            <div class="col-sm-4 cli-form-element">
+              <label class="form-label">Apellidos</label>
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Ingrese Apellidos"
+                formControlName="apellidos"/>
+            </div>
+
+            <div class="col-sm-2">
+              <div style="margin-top: 18px; display: flex;">
+                <button
+                  type="button"
+                  matTooltip="Buscar"
+                  class="btn-hardware btn-blue-light"
+                  style="border-radius: 2px; "
+                  (click)="cargarOBuscarPersonalActivo()"
+                  ><mat-icon class="icon-18">search</mat-icon>
+                 </button>
+                 <button
+                  type="submit"
+                  matTooltip="Limpiar"
+                  class="btn-hardware btn-cancel"
+                  style="border-radius: 2px;"
+                  (click)="limpiarFiltro()"
+                ><mat-icon class="icon-18">rotate_left</mat-icon>
+                </button>
+              </div>
+            </div>
+          </form>
+      </div>
+
+      <!-- BOTON MODAL PARA AGREGAR PEERSONAL ----------------------------------------------------->
+      <div style="display: flex">
+        <div class="flex-1"></div>
+        <div style="color: #345df3;">
+          Total : <span class="total">{{ listaPersonalActivo.length }} Activos</span>
+        </div>
+      </div>
+
+      <!-- TABLA DE LISTADO PERSONAL ------------------------------------------------------------------>
+      <div style="overflow: auto; min-height: 150px">
+        <table class="cli-table stripedtable underlinedtable">
+          <thead>
+            <tr class="bgc-turquey c-white">
+              <th style="width: 40px">Acción</th>
+              <th style="width: 50px">Código</th>
+              <th style="min-width: 185px; text-align: left;">Nombres y Apellidos</th>
+              <th>Proyecto</th>
+              <th>Fecha Ingreso</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr *ngFor="let personal of listaPersonalActivo | paginate:
+                      { itemsPerPage: pageSize,
+                        id:'persona',
+                        currentPage : page,
+                        totalItems  : totalPersonal
+                      } ">
+              <td>
+                <div class="cli-table-actions">
+                  <button
+                    matTooltip="Agregar"
+                    class="icon-btn btn-trans c-blue"
+                    (click)="asignarPersonal(personal)"
+                    ><mat-icon class="icon-13">add</mat-icon>
+                  </button>
+                </div>
+              </td>
+              <td>{{ personal.codigo_corporativo }}</td>
+              <td style="text-align: left;"> {{ personal.apellidos |firstCapital}}, {{personal.nombres | firstCapital}}</td>
+              <td>{{ personal.codigo_proyecto  | uppercase   }}</td>
+              <td>{{ personal.fecha_ingreso }}</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="cli-loader" *ngIf="loadingItem">
+          <mat-spinner style="margin-right: 20px" diameter="20"></mat-spinner>cargando...
+        </div>
+
+        <div
+          *ngIf="!loadingItem && listaPersonalActivo.length == 0"
+          class="cli-loader mt-5"
+          style="color: #f83434"
+          >No hay Personal disponible para mostrar
+        </div>
+      </div>
+    </div>
+
+    <div class="card-footer pb-0 pt-3">
+      <pagination-controls
+        previousLabel="Anterior"
+        nextLabel="Siguiente"
+        [responsive]="false"
+        id="persona"
+        (pageChange)="cambiarPagina($event)">
+      </pagination-controls>
+    </div>
+  </div>
+</div>
