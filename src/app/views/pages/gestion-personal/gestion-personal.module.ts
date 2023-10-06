@@ -5,7 +5,7 @@ import { RegistroCuentaComponent } from './registro-cuenta/registro-cuenta.compo
 import { NgxPaginationModule } from 'ngx-pagination';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { MaterialModule } from 'src/app/material/material.module';
-import { CoreModule } from 'src/app/core/core.module';
+
 import { RegistroHardwareComponent } from './registro-hardware/registro-hardware.component';
 import { RegistroPersonalComponent } from './registro-personas/registro-personal.component';
 import { ActualizarPersonalComponent } from './registro-personas/actualizar-personal/actualizar-personal.component';
@@ -23,26 +23,25 @@ import { EnviarCorreoComponent } from './registro-vacaciones/enviar-correo/envia
 
 @NgModule({
     imports: [
-        GestionPersonalRoutingModule,
-        CoreModule,
-        NgxPaginationModule,
-        NgxSpinnerModule,
-        MaterialModule,
-        RegistroCuentaComponent,
-        RegistroHardwareComponent,
-        RegistroPersonalComponent,
-        CrearPersonalComponent,
-        ActualizarPersonalComponent,
-        AsignarHardwareComponent,
-        AsignarCuentaComponent,
-        ModalHardwareComponent,
-        ModalCuentaComponent,
-        RegistroVacacionesComponent,
-        ActualizarVacacionesComponent,
-        AsignarVacacionesComponent,
-        AsignarPersonalComponent,
-        CrearVacacionesComponent,
-        EnviarCorreoComponent,
-    ]
+    GestionPersonalRoutingModule,
+    NgxPaginationModule,
+    NgxSpinnerModule,
+    MaterialModule,
+    RegistroCuentaComponent,
+    RegistroHardwareComponent,
+    RegistroPersonalComponent,
+    CrearPersonalComponent,
+    ActualizarPersonalComponent,
+    AsignarHardwareComponent,
+    AsignarCuentaComponent,
+    ModalHardwareComponent,
+    ModalCuentaComponent,
+    RegistroVacacionesComponent,
+    ActualizarVacacionesComponent,
+    AsignarVacacionesComponent,
+    AsignarPersonalComponent,
+    CrearVacacionesComponent,
+    EnviarCorreoComponent,
+]
 })
 export class GestionPersonalModule { }

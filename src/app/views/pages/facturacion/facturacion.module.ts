@@ -5,7 +5,7 @@ import { FacturacionRoutingModule } from './facturacion-routing.module';
 import { ActualizarLiquidacionComponent } from './liquidacion/actualizar-liquidacion/actualizar-liquidacion.component';
 import { CrearLiquidacionComponent } from './liquidacion/crear-liquidacion/crear-liquidacion.component';
 import { MaterialModule } from 'src/app/material/material.module';
-import { CoreModule } from 'src/app/core/core.module';
+
 import { NgxPaginationModule } from 'ngx-pagination';
 // import { ChartsModule } from 'ng2-charts';
 import { NgxSpinnerModule } from 'ngx-spinner';
@@ -21,22 +21,21 @@ import { ModalDpfPendienteComponent } from './dpf-facturacion/visor-dpf-alo/moda
 @NgModule({
     declarations: [LiquidacionComponent],
     imports: [
-        CommonModule,
-        FacturacionRoutingModule,
-        CoreModule,
-        MaterialModule,
-        NgxPaginationModule,
-        NgxSpinnerModule,
-        CrearLiquidacionComponent,
-        ActualizarLiquidacionComponent,
-        AgregarVentadeclaradaComponent,
-        AgregarCertificacionComponent,
-        ActualizacionMasivaComponent,
-        VisorDeclaradaComponent,
-        VisorDpfComponent,
-        ModalComentarioComponent,
-        ModalDpfPendienteComponent,
-    ],
+    CommonModule,
+    FacturacionRoutingModule,
+    MaterialModule,
+    NgxPaginationModule,
+    NgxSpinnerModule,
+    CrearLiquidacionComponent,
+    ActualizarLiquidacionComponent,
+    AgregarVentadeclaradaComponent,
+    AgregarCertificacionComponent,
+    ActualizacionMasivaComponent,
+    VisorDeclaradaComponent,
+    VisorDpfComponent,
+    ModalComentarioComponent,
+    ModalDpfPendienteComponent,
+],
     providers: [DatePipe,],
     bootstrap: [LiquidacionComponent]
 })

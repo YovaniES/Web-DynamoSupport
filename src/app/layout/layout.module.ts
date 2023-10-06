@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { MaterialModule } from '../material/material.module';
-import { CoreModule } from '../core/core.module';
+
 import { AsideComponent } from './aside/aside.component';
 import { BaseComponent } from './base/base.component';
 import { FooterComponent } from './footer/footer.component';
@@ -24,16 +24,15 @@ import { BlockUIModule } from 'ng-block-ui';
         // LogoutComponent
     ],
     imports: [
-        CoreModule,
-        MaterialModule,
-        BlockUIModule.forRoot(),
-        UserPanelComponent,
-        HeaderComponent,
-        AsideComponent,
-        FooterComponent,
-        UserSectionComponent,
-        BaseComponent,
-        MenuMobileComponent
-    ]
+    MaterialModule,
+    BlockUIModule.forRoot(),
+    UserPanelComponent,
+    HeaderComponent,
+    AsideComponent,
+    FooterComponent,
+    UserSectionComponent,
+    BaseComponent,
+    MenuMobileComponent
+]
 })
 export class LayoutModule {}
