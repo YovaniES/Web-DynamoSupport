@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
@@ -20,16 +20,14 @@ export class CrearLiquidacionComponent implements OnInit {
   userID: number = 0;
   facturaForm!: FormGroup;
 
-  constructor(
-    private facturacionService: FacturacionService,
-    private authService: AuthService,
-    private fb: FormBuilder,
-    private spinner: NgxSpinnerService,
-    private utilService: UtilService,
-    public datePipe: DatePipe,
-    private dialogRef: MatDialogRef<CrearLiquidacionComponent>,
-    @Inject(MAT_DIALOG_DATA) public DATA_DUPLICIDAD: any
-  ) { }
+  private facturacionService = inject(FacturacionService);
+  private authService        = inject(AuthService);
+  private fb                 = inject(FormBuilder);
+  private spinner            = inject(NgxSpinnerService);
+  private utilService        = inject(UtilService);
+  public datePipe            = inject(DatePipe);
+  private dialogRef          = inject(MatDialogRef<CrearLiquidacionComponent>)
+  @Inject(MAT_DIALOG_DATA) public DATA_DUPLICIDAD: any
 
   ngOnInit(): void {
     this.newForm();
@@ -165,7 +163,7 @@ export class CrearLiquidacionComponent implements OnInit {
 
   getUserID(){
     this.authService.getCurrentUser().subscribe( resp => {
-      this.userID   = resp.user.userId;
+      this.userID   = resp.result.user.userId;
       // console.log('ID-USER', this.userID);
     })
    }
