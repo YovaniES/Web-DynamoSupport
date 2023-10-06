@@ -2,11 +2,14 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { VisorService } from 'src/app/core/services/visor.service';
+import { NgFor, DecimalPipe } from '@angular/common';
 
 @Component({
-  selector: 'app-modal-dpf-pendiente',
-  templateUrl: './modal-dpf-pendiente.component.html',
-  styleUrls: ['./modal-dpf-pendiente.component.scss']
+    selector: 'app-modal-dpf-pendiente',
+    templateUrl: './modal-dpf-pendiente.component.html',
+    styleUrls: ['./modal-dpf-pendiente.component.scss'],
+    standalone: true,
+    imports: [NgFor, DecimalPipe]
 })
 export class ModalDpfPendienteComponent implements OnInit {
   @BlockUI() blockUI!: NgBlockUI;

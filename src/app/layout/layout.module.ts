@@ -13,16 +13,6 @@ import { BlockUIModule } from 'ng-block-ui';
 
 
 @NgModule({
-    declarations: [
-        HeaderComponent,
-        AsideComponent,
-        FooterComponent,
-        UserSectionComponent,
-        BaseComponent,
-        MenuMobileComponent,
-        // UserPanelComponent,
-        // LogoutComponent
-    ],
     exports: [
         HeaderComponent,
         AsideComponent,
@@ -37,7 +27,13 @@ import { BlockUIModule } from 'ng-block-ui';
         CoreModule,
         MaterialModule,
         BlockUIModule.forRoot(),
-        UserPanelComponent
+        UserPanelComponent,
+        HeaderComponent,
+        AsideComponent,
+        FooterComponent,
+        UserSectionComponent,
+        BaseComponent,
+        MenuMobileComponent
     ]
 })
 export class LayoutModule {}

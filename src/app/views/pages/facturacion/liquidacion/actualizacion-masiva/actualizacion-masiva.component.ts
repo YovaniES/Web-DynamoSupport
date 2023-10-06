@@ -1,18 +1,21 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AuthService } from 'src/app/core/services/auth.service';
 import Swal from 'sweetalert2';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { UtilService } from 'src/app/core/services/util.service';
-import { DatePipe } from '@angular/common';
+import { DatePipe, NgFor, NgIf } from '@angular/common';
 import { FacturacionService } from 'src/app/core/services/facturacion.service';
+import { MatIconModule } from '@angular/material/icon';
 
 
 @Component({
-  selector: 'app-actualizacion-masiva',
-  templateUrl: './actualizacion-masiva.component.html',
-  styleUrls: ['./actualizacion-masiva.component.scss']
+    selector: 'app-actualizacion-masiva',
+    templateUrl: './actualizacion-masiva.component.html',
+    styleUrls: ['./actualizacion-masiva.component.scss'],
+    standalone: true,
+    imports: [MatIconModule, FormsModule, ReactiveFormsModule, NgFor, NgIf]
 })
 export class ActualizacionMasivaComponent implements OnInit {
   userID: number = 0;

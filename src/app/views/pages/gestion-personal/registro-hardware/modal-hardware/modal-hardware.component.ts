@@ -1,15 +1,20 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { PersonalService } from 'src/app/core/services/personal.service';
 import Swal from 'sweetalert2';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { NgFor, NgIf } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
-  selector: 'app-modal-hardware',
-  templateUrl: './modal-hardware.component.html',
-  styleUrls: ['./modal-hardware.component.scss']
+    selector: 'app-modal-hardware',
+    templateUrl: './modal-hardware.component.html',
+    styleUrls: ['./modal-hardware.component.scss'],
+    standalone: true,
+    imports: [MatIconModule, FormsModule, ReactiveFormsModule, NgFor, NgIf, MatProgressSpinnerModule]
 })
 export class ModalHardwareComponent implements OnInit {
   loadingItem: boolean = false;

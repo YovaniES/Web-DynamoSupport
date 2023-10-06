@@ -22,29 +22,27 @@ import { AsignarVacacionesComponent } from './registro-vacaciones/actualizar-vac
 import { EnviarCorreoComponent } from './registro-vacaciones/enviar-correo/enviar-correo.component';
 
 @NgModule({
-  declarations: [
-    RegistroCuentaComponent,
-    RegistroHardwareComponent,
-    RegistroPersonalComponent,
-    CrearPersonalComponent,
-    ActualizarPersonalComponent,
-    AsignarHardwareComponent,
-    AsignarCuentaComponent,
-    ModalHardwareComponent,
-    ModalCuentaComponent,
-    RegistroVacacionesComponent,
-    ActualizarVacacionesComponent,
-    AsignarVacacionesComponent,
-    AsignarPersonalComponent,
-    CrearVacacionesComponent,
-    EnviarCorreoComponent
-  ],
-  imports: [
-    GestionPersonalRoutingModule,
-    CoreModule,
-    NgxPaginationModule,
-    NgxSpinnerModule,
-    MaterialModule,
-  ]
+    imports: [
+        GestionPersonalRoutingModule,
+        CoreModule,
+        NgxPaginationModule,
+        NgxSpinnerModule,
+        MaterialModule,
+        RegistroCuentaComponent,
+        RegistroHardwareComponent,
+        RegistroPersonalComponent,
+        CrearPersonalComponent,
+        ActualizarPersonalComponent,
+        AsignarHardwareComponent,
+        AsignarCuentaComponent,
+        ModalHardwareComponent,
+        ModalCuentaComponent,
+        RegistroVacacionesComponent,
+        ActualizarVacacionesComponent,
+        AsignarVacacionesComponent,
+        AsignarPersonalComponent,
+        CrearVacacionesComponent,
+        EnviarCorreoComponent,
+    ]
 })
 export class GestionPersonalModule { }

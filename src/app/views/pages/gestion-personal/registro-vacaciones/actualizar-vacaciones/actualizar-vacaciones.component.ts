@@ -1,6 +1,6 @@
-import { DatePipe } from '@angular/common';
+import { DatePipe, NgFor, NgIf, UpperCasePipe } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import * as moment from 'moment';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
@@ -10,11 +10,18 @@ import { UtilService } from 'src/app/core/services/util.service';
 import { VacacionesPersonalService } from 'src/app/core/services/vacaciones-personal.service';
 import Swal from 'sweetalert2';
 import { AsignarVacacionesComponent } from './asignar-vacaciones/asignar-vacaciones.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
-  selector: 'app-actualizar-vacaciones',
-  templateUrl: './actualizar-vacaciones.component.html',
-  styleUrls: ['./actualizar-vacaciones.component.scss']
+    selector: 'app-actualizar-vacaciones',
+    templateUrl: './actualizar-vacaciones.component.html',
+    styleUrls: ['./actualizar-vacaciones.component.scss'],
+    standalone: true,
+    imports: [MatIconModule, FormsModule, ReactiveFormsModule, MatTooltipModule, NgFor, MatFormFieldModule, MatDatepickerModule, NgIf, MatProgressSpinnerModule, UpperCasePipe]
 })
 
 export class ActualizarVacacionesComponent implements OnInit {

@@ -19,29 +19,25 @@ import { VisorDpfComponent } from './dpf-facturacion/visor-dpf-alo/visor-dpf.com
 import { ModalDpfPendienteComponent } from './dpf-facturacion/visor-dpf-alo/modal-dpf-pendiente/modal-dpf-pendiente.component';
 
 @NgModule({
-  declarations: [
-    CrearLiquidacionComponent,
-    ActualizarLiquidacionComponent,
-    AgregarVentadeclaradaComponent,
-    LiquidacionComponent,
-    AgregarCertificacionComponent,
-    ActualizacionMasivaComponent,
-    VisorDeclaradaComponent,
-    VisorDpfComponent,
-    ModalComentarioComponent,
-    ModalDpfPendienteComponent,
+    declarations: [LiquidacionComponent],
+    imports: [
+        CommonModule,
+        FacturacionRoutingModule,
+        CoreModule,
+        MaterialModule,
+        NgxPaginationModule,
+        NgxSpinnerModule,
+        CrearLiquidacionComponent,
+        ActualizarLiquidacionComponent,
+        AgregarVentadeclaradaComponent,
+        AgregarCertificacionComponent,
+        ActualizacionMasivaComponent,
+        VisorDeclaradaComponent,
+        VisorDpfComponent,
+        ModalComentarioComponent,
+        ModalDpfPendienteComponent,
     ],
-  imports: [
-    CommonModule,
-    FacturacionRoutingModule,
-    CoreModule,
-    MaterialModule,
-    NgxPaginationModule,
-    NgxSpinnerModule,
-    // ChartsModule,
-  ],
-  providers: [DatePipe,],
-  bootstrap: [LiquidacionComponent]
-
+    providers: [DatePipe,],
+    bootstrap: [LiquidacionComponent]
 })
 export class FacturacionModule { }

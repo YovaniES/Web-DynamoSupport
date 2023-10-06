@@ -1,16 +1,19 @@
-import { DatePipe } from '@angular/common';
+import { DatePipe, NgIf, NgFor } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { FacturacionService } from 'src/app/core/services/facturacion.service';
 import Swal from 'sweetalert2';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
-  selector: 'app-agregar-certificacion',
-  templateUrl: './agregar-certificacion.component.html',
-  styleUrls: ['./agregar-certificacion.component.scss']
+    selector: 'app-agregar-certificacion',
+    templateUrl: './agregar-certificacion.component.html',
+    styleUrls: ['./agregar-certificacion.component.scss'],
+    standalone: true,
+    imports: [MatIconModule, FormsModule, ReactiveFormsModule, NgIf, NgFor]
 })
 export class AgregarCertificacionComponent implements OnInit {
   facturaForm!: FormGroup;

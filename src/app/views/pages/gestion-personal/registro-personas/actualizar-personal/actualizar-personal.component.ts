@@ -1,6 +1,6 @@
-import { DatePipe } from '@angular/common';
+import { DatePipe, NgIf, NgClass, NgFor } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -9,11 +9,16 @@ import { PersonalService } from 'src/app/core/services/personal.service';
 import Swal from 'sweetalert2';
 import { AsignarHardwareComponent } from './asignar-hardware/asignar-hardware.component';
 import { AsignarCuentaComponent } from './asignar-cuenta/asignar-cuenta.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
-  selector: 'app-actualizar-personas',
-  templateUrl: './actualizar-personal.component.html',
-  styleUrls: ['./actualizar-personal.component.scss']
+    selector: 'app-actualizar-personas',
+    templateUrl: './actualizar-personal.component.html',
+    styleUrls: ['./actualizar-personal.component.scss'],
+    standalone: true,
+    imports: [MatIconModule, FormsModule, ReactiveFormsModule, NgIf, NgClass, NgFor, MatTooltipModule, MatProgressSpinnerModule]
 })
 export class ActualizarPersonalComponent implements OnInit {
   @BlockUI() blockUI!: NgBlockUI;

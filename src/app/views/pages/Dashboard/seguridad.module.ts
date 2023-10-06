@@ -7,11 +7,10 @@ import { MaterialModule } from 'src/app/material/material.module';
 import { HarosComponent } from './Haros/haros.component';
 
 @NgModule({
-  declarations: [
-    HarosComponent,
-  ],
-  imports: [
-    CommonModule,
-    SeguridadRoutingModule],
+    imports: [
+        CommonModule,
+        SeguridadRoutingModule,
+        HarosComponent
+    ],
 })
 export class SeguridadModule {}

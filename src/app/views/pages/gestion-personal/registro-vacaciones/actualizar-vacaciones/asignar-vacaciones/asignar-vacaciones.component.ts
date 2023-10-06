@@ -1,6 +1,6 @@
-import { DatePipe } from '@angular/common';
+import { DatePipe, NgIf, NgFor } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import * as moment from 'moment';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -8,11 +8,16 @@ import { AuthService } from 'src/app/core/services/auth.service';
 import { UtilService } from 'src/app/core/services/util.service';
 import { VacacionesPersonalService } from 'src/app/core/services/vacaciones-personal.service';
 import Swal from 'sweetalert2';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
-  selector: 'app-asignar-vacaciones',
-  templateUrl: './asignar-vacaciones.component.html',
-  styleUrls: ['./asignar-vacaciones.component.scss']
+    selector: 'app-asignar-vacaciones',
+    templateUrl: './asignar-vacaciones.component.html',
+    styleUrls: ['./asignar-vacaciones.component.scss'],
+    standalone: true,
+    imports: [MatIconModule, FormsModule, ReactiveFormsModule, MatFormFieldModule, MatDatepickerModule, NgIf, NgFor]
 })
 export class AsignarVacacionesComponent implements OnInit {
 

@@ -1,17 +1,20 @@
-import { DatePipe } from '@angular/common';
+import { DatePipe, NgIf } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { FacturacionService } from 'src/app/core/services/facturacion.service';
 import { UtilService } from 'src/app/core/services/util.service';
 import Swal from 'sweetalert2';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
-  selector: 'app-agregar-ventadeclarada',
-  templateUrl: './agregar-ventadeclarada.component.html',
-  styleUrls: ['./agregar-ventadeclarada.component.scss']
+    selector: 'app-agregar-ventadeclarada',
+    templateUrl: './agregar-ventadeclarada.component.html',
+    styleUrls: ['./agregar-ventadeclarada.component.scss'],
+    standalone: true,
+    imports: [MatIconModule, FormsModule, ReactiveFormsModule, NgIf]
 })
 export class AgregarVentadeclaradaComponent implements OnInit {
   ventaDeclaradaForm!: FormGroup;

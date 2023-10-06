@@ -5,9 +5,10 @@ import { Component, OnInit } from '@angular/core';
 // import { VisorService } from 'src/app/core/services/visor.service';
 
 @Component({
-  selector: 'app-visor-declarada',
-  templateUrl: './visor-declarada.component.html',
-  styleUrls: ['./visor-declarada.component.scss'],
+    selector: 'app-visor-declarada',
+    templateUrl: './visor-declarada.component.html',
+    styleUrls: ['./visor-declarada.component.scss'],
+    standalone: true,
 })
 
 export class VisorDeclaradaComponent {

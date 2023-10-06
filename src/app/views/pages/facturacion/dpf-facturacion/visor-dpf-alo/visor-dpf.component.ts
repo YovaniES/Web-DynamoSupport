@@ -2,16 +2,20 @@ import { Component, OnInit } from '@angular/core';
 import * as XLSX from 'xlsx';
 import { VisorService } from 'src/app/core/services/visor.service';
 import { removeDuplicateObjects } from 'src/app/core/util/util';
-import { DatePipe } from '@angular/common';
+import { DatePipe, NgIf, NgFor, DecimalPipe } from '@angular/common';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ModalDpfPendienteComponent } from './modal-dpf-pendiente/modal-dpf-pendiente.component';
 import { MatDialog } from '@angular/material/dialog';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
-  selector: 'app-visor-fact',
-  templateUrl: './visor-dpf.component.html',
-  styleUrls: ['./visor-dpf.component.scss']
+    selector: 'app-visor-fact',
+    templateUrl: './visor-dpf.component.html',
+    styleUrls: ['./visor-dpf.component.scss'],
+    standalone: true,
+    imports: [MatIconModule, NgIf, NgFor, MatTooltipModule, DecimalPipe]
 })
 export class VisorDpfComponent implements OnInit {
   @BlockUI() blockUI!: NgBlockUI;

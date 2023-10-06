@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 
@@ -9,11 +9,19 @@ import Swal from 'sweetalert2';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { ExportExcellService } from 'src/app/core/services/export-excell.service';
 import { ModalHardwareComponent } from './modal-hardware/modal-hardware.component';
+import { FirstCapitalPipe } from '../../../../core/pipes/first-capital.pipe';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatIconModule } from '@angular/material/icon';
+import { NgFor, NgIf, UpperCasePipe } from '@angular/common';
 
 @Component({
-  selector: 'app-registro-hardware',
-  templateUrl: './registro-hardware.component.html',
-  styleUrls: ['./registro-hardware.component.scss']
+    selector: 'app-registro-hardware',
+    templateUrl: './registro-hardware.component.html',
+    styleUrls: ['./registro-hardware.component.scss'],
+    standalone: true,
+    imports: [FormsModule, ReactiveFormsModule, NgFor, MatIconModule, MatTooltipModule, NgIf, MatProgressSpinnerModule, NgxPaginationModule, UpperCasePipe, FirstCapitalPipe]
 })
 export class RegistroHardwareComponent implements OnInit {
   @BlockUI() blockUI!: NgBlockUI;

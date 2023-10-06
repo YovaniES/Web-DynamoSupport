@@ -8,14 +8,13 @@ import { BlockUIModule } from 'ng-block-ui';
 
 
 @NgModule({
-  declarations: [LoginComponent],
-  imports: [
-    AuthRoutingModule,
-    CoreModule,
-    MatIconModule,
-    MaterialModule,
-
-    BlockUIModule.forRoot()
-  ]
+    imports: [
+        AuthRoutingModule,
+        CoreModule,
+        MatIconModule,
+        MaterialModule,
+        BlockUIModule.forRoot(),
+        LoginComponent
+    ]
 })
 export class AuthModule { }

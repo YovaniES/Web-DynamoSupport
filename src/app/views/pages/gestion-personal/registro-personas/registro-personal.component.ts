@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { PersonalService } from 'src/app/core/services/personal.service';
@@ -7,13 +7,35 @@ import { MatDialog } from '@angular/material/dialog';
 import Swal from 'sweetalert2';
 import { ActualizarPersonalComponent } from './actualizar-personal/actualizar-personal.component';
 import { CrearPersonalComponent } from './crear-personal/crear-personal.component';
-import { DatePipe } from '@angular/common';
+import { DatePipe, NgFor, NgIf, UpperCasePipe } from '@angular/common';
 import { ExportExcellService } from 'src/app/core/services/export-excell.service';
+import { FirstCapitalPipe } from '../../../../core/pipes/first-capital.pipe';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 @Component({
-  selector: 'app-registro-personas',
-  templateUrl: './registro-personal.component.html',
-  styleUrls: ['./registro-personal.component.scss'],
+    selector: 'app-registro-personas',
+    templateUrl: './registro-personal.component.html',
+    styleUrls: ['./registro-personal.component.scss'],
+    standalone: true,
+    imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        NgFor,
+        MatFormFieldModule,
+        MatDatepickerModule,
+        MatIconModule,
+        MatTooltipModule,
+        NgIf,
+        MatProgressSpinnerModule,
+        NgxPaginationModule,
+        UpperCasePipe,
+        FirstCapitalPipe,
+    ],
 })
 export class RegistroPersonalComponent implements OnInit {
   @BlockUI() blockUI!: NgBlockUI;

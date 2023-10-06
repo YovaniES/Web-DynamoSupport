@@ -1,10 +1,22 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { MenuService } from 'src/app/core/services/menu.service';
+import { MenuMobileComponent } from './menu-mobile/menu-mobile.component';
+import { UserSectionComponent } from './user-section/user-section.component';
+import { NgIf, UpperCasePipe } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
-  selector: 'app-header',
-  templateUrl: './header.component.html',
+    selector: 'app-header',
+    templateUrl: './header.component.html',
+    standalone: true,
+    imports: [
+        MatIconModule,
+        NgIf,
+        UserSectionComponent,
+        MenuMobileComponent,
+        UpperCasePipe,
+    ],
 })
 export class HeaderComponent implements OnInit {
   fullName: string = '';

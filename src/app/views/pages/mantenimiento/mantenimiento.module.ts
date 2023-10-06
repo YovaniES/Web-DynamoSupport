@@ -12,19 +12,16 @@ import { ModalEntidadtablaComponent } from './entidad/modal-entidadtabla/modal-e
 
 
 @NgModule({
-  declarations: [
-    EntidadComponent,
-    ModalEntidadlistaComponent,
-    ModalEntidadtablaComponent
-  ],
-  imports: [
-    CommonModule,
-    MantenimientoRoutingModule,
-    CoreModule,
-    MaterialModule,
-
-    NgxPaginationModule,
-    NgxSpinnerModule,
-  ]
+    imports: [
+        CommonModule,
+        MantenimientoRoutingModule,
+        CoreModule,
+        MaterialModule,
+        NgxPaginationModule,
+        NgxSpinnerModule,
+        EntidadComponent,
+        ModalEntidadlistaComponent,
+        ModalEntidadtablaComponent,
+    ]
 })
 export class MantenimientoModule { }

@@ -6,22 +6,21 @@ import { RouterModule } from '@angular/router';
 import { FirstCapitalPipe } from './pipes/first-capital.pipe';
 
 @NgModule({
-  declarations: [FirstCapitalPipe],
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-    RouterModule,
-  ],
-  exports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-    RouterModule,
-
-    FirstCapitalPipe
-  ],
+    imports: [
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        HttpClientModule,
+        RouterModule,
+        FirstCapitalPipe,
+    ],
+    exports: [
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        HttpClientModule,
+        RouterModule,
+        FirstCapitalPipe
+    ],
 })
 export class CoreModule {}

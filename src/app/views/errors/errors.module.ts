@@ -8,14 +8,12 @@ import { MaterialModule } from 'src/app/material/material.module';
 
 
 @NgModule({
-  declarations: [
-    NotFoundComponent
-  ],
-  imports: [
-    CommonModule,
-    ErrorsRoutingModule,
-    MaterialModule,
-    LayoutModule
-  ]
+    imports: [
+        CommonModule,
+        ErrorsRoutingModule,
+        MaterialModule,
+        LayoutModule,
+        NotFoundComponent
+    ]
 })
 export class ErrorsModule { }
