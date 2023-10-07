@@ -2,9 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { API_DYNAMO } from '../constants/url.constants';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({providedIn: 'root',})
 export class EntidadService {
   constructor(private http: HttpClient) {}
 

@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/core/services/auth.service';
-import { LayoutModule } from '../layout.module';
 import { UserPanelComponent } from '../user-panel/user-panel.component';
 import { FooterComponent } from '../footer/footer.component';
 import { RouterOutlet } from '@angular/router';
@@ -8,15 +7,26 @@ import { BlockUIModule } from 'ng-block-ui';
 import { AsideComponent } from '../aside/aside.component';
 import { HeaderComponent } from '../header/header.component';
 import { NgIf, NgClass } from '@angular/common';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @Component({
     selector: 'app-base',
-    // standalone: true,
-    // imports:[LayoutModule],
     templateUrl: './base.component.html',
     styleUrls: ['./base.component.scss'],
     standalone: true,
-    imports: [NgIf, HeaderComponent, AsideComponent, NgClass, BlockUIModule, RouterOutlet, FooterComponent, UserPanelComponent]
+    imports: [
+      NgIf,
+      HeaderComponent,
+      AsideComponent,
+      NgClass,
+      BlockUIModule,
+      RouterOutlet,
+      FooterComponent,
+      UserPanelComponent,
+      MatDialogModule,
+      MatNativeDateModule
+    ]
 })
 export class BaseComponent implements OnInit {
   fixedAside: Boolean = true; //OJO Verificar

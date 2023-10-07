@@ -16,6 +16,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @Component({
     selector: 'app-registro-personas',
@@ -35,6 +36,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
         NgxPaginationModule,
         UpperCasePipe,
         FirstCapitalPipe,
+        MatNativeDateModule
     ],
 })
 export class RegistroPersonalComponent implements OnInit {

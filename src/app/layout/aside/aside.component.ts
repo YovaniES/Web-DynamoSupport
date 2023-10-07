@@ -263,16 +263,7 @@ export class AsideComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // this.getRolID()
   }
-
-  // rolID: number = 0;
-  // getRolID(){
-  //   this.authService.getCurrentUser().subscribe( resp => {
-  //     this.rolID   = resp.user.rolId;
-  //     console.log('ROL_ID_USER', this.rolID);
-  //   })
-  //  }
 
   hasPermission(r: ROLES_ENUM[]): boolean {
     if (r) {

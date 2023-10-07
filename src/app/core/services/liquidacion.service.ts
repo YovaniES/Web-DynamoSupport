@@ -3,9 +3,7 @@ import { EventEmitter, Injectable } from '@angular/core';
 import { PATH_IMPORT_LIQ } from '../constants/url.constants';
 import { LiquidacionModel } from '../models/liquidacion.models';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({providedIn: 'root',})
 export class LiquidacionService {
   toggleUserPanel = new EventEmitter<boolean>();
   currentUser: any;

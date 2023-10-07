@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { MatDialog } from '@angular/material/dialog';
 import Swal from 'sweetalert2';
-import { DatePipe } from '@angular/common';
+import { DatePipe, DecimalPipe, NgFor, NgIf, UpperCasePipe } from '@angular/common';
 import { ExportExcellService } from 'src/app/core/services/export-excell.service';
 import { CrearLiquidacionComponent } from '../liquidacion/crear-liquidacion/crear-liquidacion.component';
 import { ActualizarLiquidacionComponent } from '../liquidacion/actualizar-liquidacion/actualizar-liquidacion.component';
@@ -15,14 +15,34 @@ import * as XLSX from 'xlsx';
 import { LiquidacionModel } from 'src/app/core/models/liquidacion.models';
 import { mapearImportLiquidacion } from 'src/app/core/mapper/liquidacion-list.mapper';
 import { LiquidacionService } from 'src/app/core/services/liquidacion.service';
-import { concatMap, of } from 'rxjs';
+import { concatMap } from 'rxjs';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { FirstCapitalPipe } from 'src/app/core/pipes/first-capital.pipe';
 
 @Component({
   selector: 'app-liquidacion',
   templateUrl: './liquidacion.component.html',
-  styleUrls: ['./liquidacion.component.scss']
+  styleUrls: ['./liquidacion.component.scss'],
+  standalone: true,
+  imports: [
+    MatIconModule,
+    MatTooltipModule,
+    NgFor,
+    NgIf,
+    FormsModule,
+    ReactiveFormsModule,
+    MatProgressSpinnerModule,
+    MatProgressSpinnerModule,
+    NgxPaginationModule,
+    UpperCasePipe,
+    FirstCapitalPipe,
+    DatePipe,
+    DecimalPipe,
+  ],
 })
-
 export class LiquidacionComponent implements OnInit {
   @BlockUI() blockUI!: NgBlockUI;
   loadingItem: boolean = false;

@@ -14,6 +14,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatIconModule } from '@angular/material/icon';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @Component({
     selector: 'app-crear-vacaciones',
@@ -30,6 +31,7 @@ import { MatIconModule } from '@angular/material/icon';
         MatFormFieldModule,
         MatDatepickerModule,
         UpperCasePipe,
+        MatNativeDateModule
     ],
 })
 export class CrearVacacionesComponent implements OnInit {
@@ -174,9 +176,9 @@ export class CrearVacacionesComponent implements OnInit {
   userLogeado: string = '';
   getUsuario(){
    this.authService.getCurrentUser().subscribe( resp => {
-     this.userID   =  resp.user.userId;
-    //  this.userID   = resp,  resp.user.userId;
-     this.userLogeado = `${resp.user.nombres} ${resp.user.apellidoPaterno}`
+     this.userID   =  resp.result.user.userId;
+    //  this.userID   = resp,  resp.result.user.userId;
+     this.userLogeado = `${resp.result.user.nombres} ${resp.result.user.apellidoPaterno}`
      console.log('USER_lOGEADO', this.userID, this.userLogeado);
      console.log('USER_ID_LOG', this.userID);
    })

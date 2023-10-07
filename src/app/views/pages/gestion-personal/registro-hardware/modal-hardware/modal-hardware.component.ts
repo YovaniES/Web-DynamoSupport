@@ -37,7 +37,9 @@ export class ModalHardwareComponent implements OnInit {
     this.getListTiposHardware();
     this.getUsuario();
     this.cargarHardwareByID();
-    this.getHistoricoHarwareByPersonal(this.DATA_HARDWARE);
+    if (this.DATA_HARDWARE) {
+      this.getHistoricoHarwareByPersonal(this.DATA_HARDWARE);
+    }
     // console.log('DATA_HARDWARE', this.DATA_HARDWARE);
   }
 
@@ -214,7 +216,7 @@ export class ModalHardwareComponent implements OnInit {
 
   getUsuario(){
     this.authService.getCurrentUser().subscribe( resp => {
-      this.userID   = resp.user.userId;
+      this.userID   = resp.result.user.userId;
       // console.log('ID-USER', this.userID);
     })
    }

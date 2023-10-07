@@ -172,7 +172,7 @@ export class AgregarCertificacionComponent implements OnInit {
   userID: number = 0;
   getUserID(){
    this.authService.getCurrentUser().subscribe( resp => {
-     this.userID   = resp.user.userId;
+     this.userID   = resp.result.user.userId;
      console.log('ID-USER', this.userID);
    })
   }

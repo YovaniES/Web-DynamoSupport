@@ -15,13 +15,28 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatIconModule } from '@angular/material/icon';
+import { DateAdapter, MatNativeDateModule } from '@angular/material/core';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
 
 @Component({
     selector: 'app-actualizar-vacaciones',
     templateUrl: './actualizar-vacaciones.component.html',
     styleUrls: ['./actualizar-vacaciones.component.scss'],
     standalone: true,
-    imports: [MatIconModule, FormsModule, ReactiveFormsModule, MatTooltipModule, NgFor, MatFormFieldModule, MatDatepickerModule, NgIf, MatProgressSpinnerModule, UpperCasePipe]
+    imports: [
+      FormsModule,
+      ReactiveFormsModule,
+      NgFor,
+      NgIf,
+      MatTooltipModule,
+      MatIconModule,
+      MatFormFieldModule,
+      MatProgressSpinnerModule,
+      UpperCasePipe,
+      MatDatepickerModule,
+      MatNativeDateModule,
+      MatMomentDateModule,
+    ]
 })
 
 export class ActualizarVacacionesComponent implements OnInit {
@@ -66,8 +81,6 @@ export class ActualizarVacacionesComponent implements OnInit {
     newForm(){
       this.vacacionesForm = this.fb.group({
        nombre        : ['', [Validators.required]],
-      //  apPaterno     : [''],
-      //  apMaterno     : [''],
        apellidos     : [''],
        codCorp       : [''],
        fechaInicVac  : [''],
@@ -147,8 +160,6 @@ export class ActualizarVacacionesComponent implements OnInit {
     this.vacacionesService.cargarVacacionesById(arrayParametro[0]).subscribe((resp: any) => {
       console.log('DATA_BY_ID', resp.list);
       this.vacacionesForm.controls['nombre'        ].setValue(resp.list[0].nombres);
-      // this.vacacionesForm.controls['apPaterno'     ].setValue(resp.list[0].apellido_paterno);
-      // this.vacacionesForm.controls['apMaterno'     ].setValue(resp.list[0].apellido_materno);
       this.vacacionesForm.controls['apellidos'     ].setValue(resp.list[0].apellidos);
       this.vacacionesForm.controls['correo'        ].setValue(resp.list[0].correo);
       this.vacacionesForm.controls['codCorp'       ].setValue(resp.list[0].codigo_corporativo);
@@ -354,7 +365,7 @@ export class ActualizarVacacionesComponent implements OnInit {
   userID: number = 0;
   getUsuario(){
    this.authService.getCurrentUser().subscribe( resp => {
-     this.userID   = resp.user.userId;
+     this.userID   = resp.result.user.userId;
      // console.log('ID-USER', this.userID);
    })
   };

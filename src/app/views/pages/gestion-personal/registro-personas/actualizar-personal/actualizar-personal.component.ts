@@ -47,7 +47,6 @@ export class ActualizarPersonalComponent implements OnInit {
     this.ListaHardwareAsignado();
     this.ListaCuentaAsignado();
     console.log('DATA_PERSONA', this.DATA_PERSONAL);
-
   }
 
     newForm(){
@@ -75,7 +74,7 @@ export class ActualizarPersonalComponent implements OnInit {
    userID: number = 0;
    getUsuario(){
     this.authService.getCurrentUser().subscribe( resp => {
-      this.userID   = resp.user.userId;
+      this.userID   = resp.result.user.userId;
       // console.log('ID-USER', this.userID);
     })
    };

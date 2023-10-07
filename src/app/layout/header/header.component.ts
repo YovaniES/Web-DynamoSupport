@@ -11,11 +11,11 @@ import { MatIconModule } from '@angular/material/icon';
     templateUrl: './header.component.html',
     standalone: true,
     imports: [
-        MatIconModule,
-        NgIf,
-        UserSectionComponent,
-        MenuMobileComponent,
-        UpperCasePipe,
+      NgIf,
+      MatIconModule,
+      UserSectionComponent,
+      MenuMobileComponent,
+      UpperCasePipe,
     ],
 })
 export class HeaderComponent implements OnInit {
