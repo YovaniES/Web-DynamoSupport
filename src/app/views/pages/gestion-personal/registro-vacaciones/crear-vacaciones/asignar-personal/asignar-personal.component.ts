@@ -1,16 +1,23 @@
-import { DatePipe } from '@angular/common';
+import { DatePipe, NgFor, NgIf, UpperCasePipe } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { VacacionesPersonalService } from 'src/app/core/services/vacaciones-personal.service';
+import { FirstCapitalPipe } from '../../../../../../core/pipes/first-capital.pipe';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
-  selector: 'app-asignar-personal',
-  templateUrl: './asignar-personal.component.html',
-  styleUrls: ['./asignar-personal.component.scss']
+    selector: 'app-asignar-personal',
+    templateUrl: './asignar-personal.component.html',
+    styleUrls: ['./asignar-personal.component.scss'],
+    standalone: true,
+    imports: [MatIconModule, FormsModule, ReactiveFormsModule, MatTooltipModule, NgFor, NgIf, MatProgressSpinnerModule, NgxPaginationModule, UpperCasePipe, FirstCapitalPipe]
 })
 export class AsignarPersonalComponent implements OnInit {
   @BlockUI() blockUI!: NgBlockUI;
@@ -49,7 +56,7 @@ export class AsignarPersonalComponent implements OnInit {
   userID: number = 0;
   getUsuario(){
    this.authService.getCurrentUser().subscribe( resp => {
-     this.userID   = resp.user.userId;
+     this.userID   = resp.result.user.userId;
      // console.log('ID-USER', this.userID);
    })
   }

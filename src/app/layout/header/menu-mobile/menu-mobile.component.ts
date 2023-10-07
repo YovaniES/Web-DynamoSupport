@@ -1,13 +1,25 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, UrlTree } from '@angular/router';
+import { Router, UrlTree, RouterLinkActive, RouterLink } from '@angular/router';
 import { Menu } from 'src/app/core/models/menu.models';
 import { PERMISSION } from 'src/app/core/routes/internal.routes';
 import { MenuService } from 'src/app/core/services/menu.service';
+import { MatIconModule } from '@angular/material/icon';
+import { NgClass, NgFor, NgTemplateOutlet, NgIf } from '@angular/common';
 
 @Component({
-  selector: 'app-menu-mobile',
-  templateUrl: './menu-mobile.component.html',
-  styles: [],
+    selector: 'app-menu-mobile',
+    templateUrl: './menu-mobile.component.html',
+    styles: [],
+    standalone: true,
+    imports: [
+        NgClass,
+        MatIconModule,
+        RouterLinkActive,
+        RouterLink,
+        NgFor,
+        NgTemplateOutlet,
+        NgIf,
+    ],
 })
 export class MenuMobileComponent implements OnInit {
   subMenus: Menu[] = [];

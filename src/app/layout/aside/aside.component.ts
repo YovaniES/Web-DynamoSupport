@@ -2,10 +2,23 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { ROLES_ENUM } from 'src/app/core/constants/rol.constants';
 import { PERMISSION } from 'src/app/core/routes/internal.routes';
 import { AuthService } from 'src/app/core/services/auth.service';
+import { MatIconModule } from '@angular/material/icon';
+import { RouterLinkActive, RouterLink } from '@angular/router';
+import { NgClass, NgIf, NgFor, NgTemplateOutlet } from '@angular/common';
 
 @Component({
-  selector: 'app-aside',
-  templateUrl: './aside.component.html',
+    selector: 'app-aside',
+    templateUrl: './aside.component.html',
+    standalone: true,
+    imports: [
+        NgClass,
+        RouterLinkActive,
+        RouterLink,
+        MatIconModule,
+        NgIf,
+        NgFor,
+        NgTemplateOutlet,
+    ],
 })
 export class AsideComponent implements OnInit {
   @Output() generalfixedAside = new EventEmitter<Boolean>();
@@ -250,16 +263,7 @@ export class AsideComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // this.getRolID()
   }
-
-  // rolID: number = 0;
-  // getRolID(){
-  //   this.authService.getCurrentUser().subscribe( resp => {
-  //     this.rolID   = resp.user.rolId;
-  //     console.log('ROL_ID_USER', this.rolID);
-  //   })
-  //  }
 
   hasPermission(r: ROLES_ENUM[]): boolean {
     if (r) {

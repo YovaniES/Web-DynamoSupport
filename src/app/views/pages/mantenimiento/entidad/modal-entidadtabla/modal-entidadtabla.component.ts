@@ -1,15 +1,19 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { EntidadService } from 'src/app/core/services/entidad.service';
 import Swal from 'sweetalert2';
+import { NgIf, NgFor } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
-  selector: 'app-modal-entidadtabla',
-  templateUrl: './modal-entidadtabla.component.html',
-  styleUrls: ['./modal-entidadtabla.component.scss']
+    selector: 'app-modal-entidadtabla',
+    templateUrl: './modal-entidadtabla.component.html',
+    styleUrls: ['./modal-entidadtabla.component.scss'],
+    standalone: true,
+    imports: [MatIconModule, FormsModule, ReactiveFormsModule, NgIf, NgFor]
 })
 export class ModalEntidadtablaComponent implements OnInit {
 

@@ -1,16 +1,21 @@
-import { DatePipe } from '@angular/common';
+import { DatePipe, NgFor, NgIf } from '@angular/common';
 import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { VacacionesPersonalService } from 'src/app/core/services/vacaciones-personal.service';
 import Swal from 'sweetalert2';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
-  selector: 'app-enviar-correo',
-  templateUrl: './enviar-correo.component.html',
-  styleUrls: ['./enviar-correo.component.scss']
+    selector: 'app-enviar-correo',
+    templateUrl: './enviar-correo.component.html',
+    styleUrls: ['./enviar-correo.component.scss'],
+    standalone: true,
+    imports: [MatIconModule, FormsModule, ReactiveFormsModule, NgFor, MatTooltipModule, NgIf, MatProgressSpinnerModule]
 })
 export class EnviarCorreoComponent implements OnInit {
   @ViewChild('tabla') tabla!: ElementRef;

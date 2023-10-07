@@ -2,10 +2,13 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { LogoutComponent } from '../modal-logout/logout.component';
+import { NgIf } from '@angular/common';
 
 @Component({
-  selector: 'app-user-section',
-  templateUrl: './user-section.component.html',
+    selector: 'app-user-section',
+    templateUrl: './user-section.component.html',
+    standalone: true,
+    imports: [NgIf],
 })
 export class UserSectionComponent implements OnInit {
   @Input('nameini')  nameini: string='';

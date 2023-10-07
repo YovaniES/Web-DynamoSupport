@@ -1,6 +1,6 @@
-import { DatePipe } from '@angular/common';
+import { DatePipe, NgIf, NgFor, UpperCasePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import * as moment from 'moment';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
@@ -10,11 +10,29 @@ import { UtilService } from 'src/app/core/services/util.service';
 import { VacacionesPersonalService } from 'src/app/core/services/vacaciones-personal.service';
 import Swal from 'sweetalert2';
 import { AsignarPersonalComponent } from './asignar-personal/asignar-personal.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatIconModule } from '@angular/material/icon';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @Component({
-  selector: 'app-crear-vacaciones',
-  templateUrl: './crear-vacaciones.component.html',
-  styleUrls: ['./crear-vacaciones.component.scss'],
+    selector: 'app-crear-vacaciones',
+    templateUrl: './crear-vacaciones.component.html',
+    styleUrls: ['./crear-vacaciones.component.scss'],
+    standalone: true,
+    imports: [
+        MatIconModule,
+        FormsModule,
+        ReactiveFormsModule,
+        MatTooltipModule,
+        NgIf,
+        NgFor,
+        MatFormFieldModule,
+        MatDatepickerModule,
+        UpperCasePipe,
+        MatNativeDateModule
+    ],
 })
 export class CrearVacacionesComponent implements OnInit {
 
@@ -158,9 +176,9 @@ export class CrearVacacionesComponent implements OnInit {
   userLogeado: string = '';
   getUsuario(){
    this.authService.getCurrentUser().subscribe( resp => {
-     this.userID   =  resp.user.userId;
-    //  this.userID   = resp,  resp.user.userId;
-     this.userLogeado = `${resp.user.nombres} ${resp.user.apellidoPaterno}`
+     this.userID   =  resp.result.user.userId;
+    //  this.userID   = resp,  resp.result.user.userId;
+     this.userLogeado = `${resp.result.user.nombres} ${resp.result.user.apellidoPaterno}`
      console.log('USER_lOGEADO', this.userID, this.userLogeado);
      console.log('USER_ID_LOG', this.userID);
    })

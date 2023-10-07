@@ -1,6 +1,6 @@
-import { DatePipe } from '@angular/common';
-import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { DatePipe, NgIf, NgFor } from '@angular/common';
+import { Component, Inject, OnInit, inject } from '@angular/core';
+import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -8,11 +8,14 @@ import { AuthService } from 'src/app/core/services/auth.service';
 import { FacturacionService } from 'src/app/core/services/facturacion.service';
 import { UtilService } from 'src/app/core/services/util.service';
 import Swal from 'sweetalert2';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
-  selector: 'app-crear-liquidacion',
-  templateUrl: './crear-liquidacion.component.html',
-  styleUrls: ['./crear-liquidacion.component.scss']
+    selector: 'app-crear-liquidacion',
+    templateUrl: './crear-liquidacion.component.html',
+    styleUrls: ['./crear-liquidacion.component.scss'],
+    standalone: true,
+    imports: [NgIf, MatIconModule, FormsModule, ReactiveFormsModule, NgFor]
 })
 export class CrearLiquidacionComponent implements OnInit {
   @BlockUI() blockUI!: NgBlockUI;
@@ -20,16 +23,14 @@ export class CrearLiquidacionComponent implements OnInit {
   userID: number = 0;
   facturaForm!: FormGroup;
 
-  constructor(
-    private facturacionService: FacturacionService,
-    private authService: AuthService,
-    private fb: FormBuilder,
-    private spinner: NgxSpinnerService,
-    private utilService: UtilService,
-    public datePipe: DatePipe,
-    private dialogRef: MatDialogRef<CrearLiquidacionComponent>,
-    @Inject(MAT_DIALOG_DATA) public DATA_DUPLICIDAD: any
-  ) { }
+  private facturacionService = inject(FacturacionService);
+  private authService        = inject(AuthService);
+  private fb                 = inject(FormBuilder);
+  private spinner            = inject(NgxSpinnerService);
+  private utilService        = inject(UtilService);
+  public datePipe            = inject(DatePipe);
+  private dialogRef          = inject(MatDialogRef<CrearLiquidacionComponent>)
+  @Inject(MAT_DIALOG_DATA) public DATA_DUPLICIDAD: any
 
   ngOnInit(): void {
     this.newForm();

@@ -1,16 +1,24 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { PersonalService } from 'src/app/core/services/personal.service';
 import Swal from 'sweetalert2';
+import { FirstCapitalPipe } from '../../../../../../core/pipes/first-capital.pipe';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { NgFor, NgIf, UpperCasePipe } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
-  selector: 'app-agregar-hardware',
-  templateUrl: './asignar-hardware.component.html',
-  styleUrls: ['./asignar-hardware.component.scss']
+    selector: 'app-agregar-hardware',
+    templateUrl: './asignar-hardware.component.html',
+    styleUrls: ['./asignar-hardware.component.scss'],
+    standalone: true,
+    imports: [MatIconModule, FormsModule, ReactiveFormsModule, NgFor, MatTooltipModule, NgIf, MatProgressSpinnerModule, NgxPaginationModule, UpperCasePipe, FirstCapitalPipe]
 })
 export class AsignarHardwareComponent implements OnInit {
   @BlockUI() blockUI!: NgBlockUI;
@@ -50,7 +58,7 @@ export class AsignarHardwareComponent implements OnInit {
   userID: number = 0;
   getUsuario(){
    this.authService.getCurrentUser().subscribe( resp => {
-     this.userID   = resp.user.userId;
+     this.userID   = resp.result.user.userId;
      // console.log('ID-USER', this.userID);
    })
   }

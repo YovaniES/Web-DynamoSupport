@@ -1,10 +1,9 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { Routes } from '@angular/router';
 import { LiquidacionComponent } from './liquidacion/liquidacion.component';
 import { VisorDeclaradaComponent } from './dpf-facturacion/visor-venta-decl/visor-declarada.component';
 import { VisorDpfComponent } from './dpf-facturacion/visor-dpf-alo/visor-dpf.component';
 
-const routes: Routes = [
+export const routes: Routes = [
   {
     path: '',
     children: [
@@ -18,9 +17,3 @@ const routes: Routes = [
     ],
   },
 ];
-
-@NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
-})
-export class FacturacionRoutingModule {}

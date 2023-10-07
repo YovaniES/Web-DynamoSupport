@@ -60,9 +60,9 @@ export class LogoutComponent implements OnInit {
   userLogeado: string = '';
   getUsuario(){
    this.authService.getCurrentUser().subscribe( resp => {
-     this.userID   =  resp.user.userId;
-    //  this.userID   = resp,  resp.user.userId;
-     this.userLogeado = `${resp.user.nombres} ${resp.user.apellidoPaterno}`
+     this.userID   =  resp.result.user.userId;
+    //  this.userID   = resp.result,  resp.result.user.userId;
+     this.userLogeado = `${resp.result.user.nombres} ${resp.result.user.apellidoPaterno}`
      console.log('USER_lOGEADO', this.userID, this.userLogeado);
      console.log('USER_ID_LOG', this.userID);
    })

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -8,11 +8,19 @@ import { EntidadService } from 'src/app/core/services/entidad.service';
 import Swal from 'sweetalert2';
 import { ModalEntidadlistaComponent } from './modal-entidadlista/modal-entidadlista.component';
 import { ModalEntidadtablaComponent } from './modal-entidadtabla/modal-entidadtabla.component';
+import { FirstCapitalPipe } from '../../../../core/pipes/first-capital.pipe';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { NgFor, NgIf } from '@angular/common';
 
 @Component({
-  selector: 'app-entidad',
-  templateUrl: './entidad.component.html',
-  styleUrls: ['./entidad.component.scss']
+    selector: 'app-entidad',
+    templateUrl: './entidad.component.html',
+    styleUrls: ['./entidad.component.scss'],
+    standalone: true,
+    imports: [FormsModule, ReactiveFormsModule, NgFor, MatTooltipModule, MatIconModule, NgIf, MatProgressSpinnerModule, NgxPaginationModule, FirstCapitalPipe]
 })
 export class EntidadComponent implements OnInit {
   @BlockUI() blockUI!: NgBlockUI;

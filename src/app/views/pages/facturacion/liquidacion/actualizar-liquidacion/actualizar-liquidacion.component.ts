@@ -1,6 +1,6 @@
-import { DatePipe } from '@angular/common';
+import { DatePipe, NgFor, NgIf, DecimalPipe } from '@angular/common';
 import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -10,11 +10,16 @@ import { UtilService } from 'src/app/core/services/util.service';
 import Swal from 'sweetalert2';
 import { AgregarCertificacionComponent } from './agregar-certificacion/agregar-certificacion.component';
 import { AgregarVentadeclaradaComponent } from './agregar-ventadeclarada/agregar-ventadeclarada.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
-  selector: 'app-actualizar-liquidacion',
-  templateUrl: './actualizar-liquidacion.component.html',
-  styleUrls: ['./actualizar-liquidacion.component.scss']
+    selector: 'app-actualizar-liquidacion',
+    templateUrl: './actualizar-liquidacion.component.html',
+    styleUrls: ['./actualizar-liquidacion.component.scss'],
+    standalone: true,
+    imports: [MatIconModule, FormsModule, ReactiveFormsModule, NgFor, NgIf, MatTooltipModule, MatProgressSpinnerModule, DecimalPipe]
 })
 export class ActualizarLiquidacionComponent implements OnInit {
   @BlockUI() blockUI!: NgBlockUI;

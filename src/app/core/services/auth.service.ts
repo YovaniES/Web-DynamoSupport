@@ -10,31 +10,20 @@ import { ROLES_ENUM, ROL_ADMIN, ROL_COORD_LIDER, ROL_COOR_TDP, ROL_GESTOR, ROL_L
 @Injectable({
   providedIn: 'root',
 })
+
+// @Injectable() // Solo proveemos en la aplicacion q necesitamos y no en toda la aplicacion
+
 export class AuthService {
   toggleUserPanel = new EventEmitter<boolean>();
   currentUser: any;
 
   constructor(private http: HttpClient, private router: Router) {}
 
-  login_x(loginData: any) {
-    return this.http.post<any>(AUTH_SESSION, loginData).pipe(
-      tap((resp: any) => {
-        console.log('LOGIN_ACCESO: ', resp.user.acceso);
-        console.log('LOGIN_APLIC: ', resp.user.aplicacion);
-        console.log('LOGIN_ROLNAME: ', resp.user.rolName);
-        // console.log('TOKEN: ', resp.user.token);
-
-        localStorage.setItem('token', resp.user.token);
-        localStorage.setItem('currentUser', JSON.stringify(resp));
-      })
-    );
-  }
-
   login(loginData: any) {
     return this.http.post<any>(AUTH_SESSION, loginData).pipe(
       tap((resp: any) => {
-        // console.log('LOGIN_APLIC: ', resp.result.user.idAplicacion);
-        // console.log('LOGIN_ROLNAME: ', resp.result.user.rolName);
+        console.log('LOGIN_APLIC: ', resp.result.user.idAplicacion);
+        console.log('LOGIN_ROLNAME: ', resp.result.user.rolName);
         // console.log('TOKEN: ', resp.result.token);
 
         localStorage.setItem('token', resp.result.token);

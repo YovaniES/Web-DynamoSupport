@@ -1,15 +1,19 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { PersonalService } from 'src/app/core/services/personal.service';
 import Swal from 'sweetalert2';
+import { NgIf, NgFor } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
-  selector: 'app-modal-cuenta',
-  templateUrl: './modal-cuenta.component.html',
-  styleUrls: ['./modal-cuenta.component.scss']
+    selector: 'app-modal-cuenta',
+    templateUrl: './modal-cuenta.component.html',
+    styleUrls: ['./modal-cuenta.component.scss'],
+    standalone: true,
+    imports: [MatIconModule, FormsModule, ReactiveFormsModule, NgIf, NgFor]
 })
 export class ModalCuentaComponent implements OnInit {
   userID: number = 0;
