@@ -1,4 +1,5 @@
 import { LiquidacionModel } from '../models/liquidacion.models';
+import { SaveLiquidacionModel } from '../models/save-liquidacion.models';
 
 function buscarLiquidacionPorNombre(listLiquidaciones:any[], nombreLiquidacion: string): any{
   let liquidacionEncontrada;
@@ -32,8 +33,8 @@ function buscarProyectoPorNombre(listProy:any[], nombreProy: string): any{
 }
 
 
-export function mapearImportLiquidacion(data: any[], listLiquidaciones: any, listGestor: any[], listProy: any[]): LiquidacionModel[] {
-  const listaLiquid: LiquidacionModel[] = [];
+export function mapearImportLiquidacion(data: any[], listLiquidaciones: any, listGestor: any[], listProy: any[]): SaveLiquidacionModel[] {
+  const listaLiquid: SaveLiquidacionModel[] = [];
     data.map(columna => {
     // console.log('LIQ', columna, listLiquidaciones); // {Gestor: "Katia Chavez", Importe: 9925, Periodo:Thu Aug 10 2023 00:00:36 GMT-0500 (hora estándar de Perú) {}, Proyecto: "PETO21", Subservicio: "Soporte Equipo Lesly J.", Tipo: "ACTA"}
 
@@ -42,7 +43,7 @@ export function mapearImportLiquidacion(data: any[], listLiquidaciones: any, lis
     const proyectoEncontrado    = buscarProyectoPorNombre(listProy, columna.Proyecto);
 
     if (liquidacionEncontrada && gestorEncontrado) {
-      const liquidacionModel: LiquidacionModel = {
+      const liquidacionModel: SaveLiquidacionModel = {
         IdFactura      : columna.id,
         IdProyecto     : proyectoEncontrado,
         IdLiquidacion  : liquidacionEncontrada,

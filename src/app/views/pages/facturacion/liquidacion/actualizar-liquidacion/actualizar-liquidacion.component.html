@@ -12,305 +12,389 @@
   <div class="cli-form newvac-wrapper">
     <div class="chart-draw">
       <!-- -------------------------------------------REGISTROS ACTUALIZAR------------------------------->
-      <div style="display: flex" >
-      <div class="col-2 pr-subtitle mt-2">Registro liquidación</div>
-      <div class="flex-1"></div>
-      <div  class="mt-2 id-factura">ID : <span  class="total">{{factura_Id}}</span></div>
-    </div>
-    <div class="pr-section">
-      <div class="pr-module-container mb-3">
-        <div class="row g-3">
-
-          <div class="col-sm-3 cli-form-element">
-            <label>Proyecto</label>
-            <select class="cli-input-white" formControlName="codProy">
-              <option [value]="0" disabled>- Seleccione -</option>
-              <option [value]="cod.id" *ngFor="let cod of listProyectos">{{ cod.valor_texto_1 }}</option>
-            </select>
-          </div>
-
-          <div class="col-sm-3 cli-form-element">
-            <label class="form-label">Tipo de liquidación</label>
-            <select class="cli-input-white" formControlName="id_liquidacion">
-              <option [value]="0" disabled>-Seleccione-</option>
-              <option [value]="liq.id" *ngFor="let liq of listLiquidaciones">{{liq.nombre}}</option>
-            </select>
-          </div>
-
-          <div class="col-sm-3 cli-form-element" *ngIf="setearTipoLiquidacion()">
-            <label class="form-label">Regular Proy.</label>
-            <select class="cli-input-white" formControlName="id_regular_proy">
-              <option [value]="0" disabled>-Seleccione-</option>
-              <option [value]="val.id_correlativo" *ngFor="let val of listValidarProy">{{val.valor_texto_1}}</option>
-            </select>
-          </div>
-
-          <div class="col-sm-3 cli-form-element">
-            <label>Subservicio</label>
-            <input
-              type="text"
-              class="form-control cli-input-white"
-              formControlName="subservicio"/>
-          </div>
-
-          <div class="col-sm-3 cli-form-element">
-            <label class="form-label">Gestor</label>
-            <select class="cli-input-white" formControlName="id_gestor">
-              <option [value]="0" disabled>-Seleccione-</option>
-              <option [value]="g.id" *ngFor="let g of listGestores">{{g.nombre}}</option>
-            </select>
-          </div>
-
-          <div class="col-sm-3 cli-form-element">
-            <label>Importe</label>
-            <input
-              type="number"
-              class="form-control cli-input-white"
-              formControlName="venta_declarada"/>
-          </div>
-
-          <div class="col-sm-3 cli-form-element">
-            <div class="form-group">
-              <label>Fecha Periodo</label>
-               <input
-                type="month"
-                class="form-control cli-input-white"
-                formControlName="fechaPeriodo"/>
+      <div style="display: flex">
+        <div class="col-2 pr-subtitle mt-2">Registro liquidación</div>
+        <div class="flex-1"></div>
+        <div class="mt-2 id-factura">
+          ID : <span class="total">{{ factura_Id }}</span>
+        </div>
+      </div>
+      <div class="pr-section">
+        <div class="pr-module-container mb-3">
+          <div class="row g-3">
+            <div class="col-sm-3 cli-form-element">
+              <label>Proyecto</label>
+              <select class="cli-input-white" formControlName="codProy">
+                <option [value]="0" disabled>- Seleccione -</option>
+                <option [value]="cod.id" *ngFor="let cod of listProyectos">
+                  {{ cod.valor_texto_1 }}
+                </option>
+              </select>
             </div>
-          </div>
 
-          <div class="col-sm-3 cli-form-element">
-            <label class="form-label">Estado</label>
-              <select class="cli-input-white" formControlName="id_estado">
-              <option [value]="0" disabled>-Seleccione-</option>
-              <option [value]="est.id" *ngFor="let est of listEstados">{{est.nombre}}</option>
-            </select>
-          </div>
+            <div class="col-sm-3 cli-form-element">
+              <label class="form-label">Tipo de liquidación</label>
+              <select class="cli-input-white" formControlName="id_liquidacion">
+                <option [value]="0" disabled>-Seleccione-</option>
+                <option [value]="liq.id" *ngFor="let liq of listLiquidaciones">
+                  {{ liq.nombre }}
+                </option>
+              </select>
+            </div>
 
-          <div class="col-sm-3 cli-form-element">
-            <div class="form-group">
-              <label>Fecha creación</label>
+            <div
+              class="col-sm-3 cli-form-element"
+              *ngIf="setearTipoLiquidacion()"
+            >
+              <label class="form-label">Regular Proy.</label>
+              <select class="cli-input-white" formControlName="id_regular_proy">
+                <option [value]="0" disabled>-Seleccione-</option>
+                <option
+                  [value]="val.id_correlativo"
+                  *ngFor="let val of listValidarProy"
+                >
+                  {{ val.valor_texto_1 }}
+                </option>
+              </select>
+            </div>
+
+            <div class="col-sm-3 cli-form-element">
+              <label>Subservicio</label>
               <input
-                type="date"
-                readonly="true"
+                type="text"
                 class="form-control cli-input-white"
-                formControlName="fecha_crea"/>
-            </div>
-          </div>
-
-          <div class="col-sm-9 cli-form-element" *ngIf="setearTipoLiquidacion()">
-            <label class="form-label">Comentario Regularización</label>
-            <textarea
-              class="form-control"
-              style="background-image: none; border-color: #0dcaf0; font-size: 14px;"
-              rows="1"
-              placeholder="Describa un comentario de la Regularización..."
-              formControlName="comentarioLiq">
-            </textarea>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- AGREGAR VENTA DECLARADA-------------------------------------------------------------------- -->
-    <div class="pr-subtitle">Venta declarada - Factura</div>
-    <div class="pr-section">
-      <div class="pr-module-container mb-2">
-        <div class="row">
-          <div class="col-4">
-
-            <div style="background-color: #f6f3f3">
-              <button
-                class="btn-asignar btn-grey mb-1"
-                matTooltip="Agregar venta declarada"
-                type="submit"
-                (click)="agregarVentaDeclarada()"
-              ><mat-icon class="icon-18">add</mat-icon>
-              </button>
+                formControlName="subservicio"
+              />
             </div>
 
-            <div style="overflow: auto; min-height: 50px; color:#6c757d">
-              <div *ngIf="listVentaDeclarada.length > 0">
-                <table class="cli-table stripedtable underlinedtable">
-                  <thead>
-                    <tr class="bgc-blue-light c-white">
-                      <th>Acción</th>
-                      <th style="min-width: 35px">N°</th>
-                      <th>Periodo</th>
-                      <th>Importe</th>
-                      <th>Saldo</th>
-                    </tr>
-                  </thead>
+            <div class="col-sm-3 cli-form-element">
+              <label class="form-label">Gestor</label>
+              <select class="cli-input-white" formControlName="id_gestor">
+                <option [value]="0" disabled>-Seleccione-</option>
+                <option [value]="g.id" *ngFor="let g of listGestores">
+                  {{ g.nombre }}
+                </option>
+              </select>
+            </div>
 
-                  <tbody>
-                    <tr *ngFor="let vd of listVentaDeclarada; let i = index">
-                      <td>
-                        <div class="cli-table-actions">
-                          <button
-                            matTooltip="Actualizar"
-                            class="icon-btn btn-trans c-blue"
-                            (click)="actualizarVentaDeclarada(vd)"
-                            ><mat-icon class="icon-13">edit</mat-icon>
-                          </button>
-                          <button
-                            matTooltip="Eliminar"
-                            class="icon-btn btn-trans c-fucsia"
-                            (click)="eliminarVentaDeclarada(vd.idFactVenta)"
-                            ><mat-icon class="icon-13">delete_forever</mat-icon>
-                          </button>
-                        </div>
-                      </td>
-                      <!-- <td>{{ vd.idFactVenta }}</td> -->
-                      <td>{{ i + 1 }}</td>
-                      <td>{{ vd.periodo }}</td>
-                      <td style="font-weight: 600"><small style="font-weight: 200; margin-right:3px;">S/</small>{{ vd.venta_declarada | number : '1.0-2' }}</td>
-                      <td class="fact-saldo"><small style="font-weight: 200; margin-right:3px;">S/</small>{{(vd.venta_declarada - importTotal)| number : '1.0-2' }}</td>
-                    </tr>
-                  </tbody>
-                </table>
-                <div class="cli-loader" *ngIf="loadingItem">
-                  <mat-spinner
-                    style="margin-right: 20px"
-                    diameter="20"
-                  ></mat-spinner>cargando...
-                </div>
-              </div>
-              <div
-                *ngIf="!loadingItem && listVentaDeclarada.length == 0"
-                class="cli-loader mt-2"
-                style="color: #c9c9c9; font-size: 12px;"
-                >Aún no tiene venta declarada
+            <div class="col-sm-3 cli-form-element">
+              <label>Importe</label>
+              <input
+                type="number"
+                class="form-control cli-input-white"
+                formControlName="venta_declarada"
+              />
+            </div>
+
+            <div class="col-sm-3 cli-form-element">
+              <div class="form-group">
+                <label>Fecha Periodo</label>
+                <input
+                  type="month"
+                  class="form-control cli-input-white"
+                  formControlName="fechaPeriodo"
+                />
               </div>
             </div>
-          </div>
 
-
-          <!-- AGREGAR CERTIFICACION-------------------------------------------------------------------- -->
-          <div class="col-8">
-            <div style="background-color: #f6f3f3">
-              <button
-                class="btn-asignar btn-grey mb-1"
-                matTooltip="Agregar factura"
-                type="submit"
-                (click)="agregarFactura()"
-              ><mat-icon class="icon-18">add</mat-icon>
-              </button>
+            <div class="col-sm-3 cli-form-element">
+              <label class="form-label">Estado</label>
+              <select class="cli-input-white" formControlName="id_estado">
+                <option [value]="0" disabled>-Seleccione-</option>
+                <option [value]="est.id" *ngFor="let est of listEstados">
+                  {{ est.nombre }}
+                </option>
+              </select>
             </div>
-            <div style="overflow: auto; min-height: 50px; color:#6c757d;">
-              <div *ngIf="listFactura.length > 0">
-                <table class="cli-table stripedtable underlinedtable">
-                  <thead>
-                    <tr class="bgc-blue-light c-white">
-                      <th>Acción</th>
-                      <!-- <th>ID Certificación</th> -->
-                      <th>N°</th>
-                      <th>Ord. Compra</th>
-                      <th>Certificación</th>
-                      <th>Estado</th>
-                      <th style="min-width:100px">Factura</th>
-                      <th>Importe</th>
-                      <th>Fech. fact.</th>
-                    </tr>
-                  </thead>
 
-                  <tbody>
-                    <tr *ngFor="let factura of listFactura; let i = index">
-                      <td>
-                        <div class="cli-table-actions">
-                          <button
-                            matTooltip="Actualizar"
-                            class="icon-btn btn-trans c-blue"
-                            (click)="actualizarFactura(factura)"
-                          ><mat-icon class="icon-13">edit</mat-icon>
-                          </button>
-
-                          <button
-                            matTooltip="Eliminar"
-                            class="icon-btn btn-trans c-fucsia"
-                            (click)="eliminaFactura(factura.idFactCertificacion)"
-                          ><mat-icon class="icon-13">delete_forever</mat-icon>
-                          </button>
-                        </div>
-                      </td>
-                      <!-- <td>{{ factura.idFactCertificacion }}</td> -->
-                      <td>{{ i + 1 }}</td>
-                      <td>{{ factura.oc }}</td>
-                      <td>{{ factura.certificacion }}</td>
-                      <td>
-                        <span *ngIf="factura.id_estado == 663"   class="label estado-danger">{{ factura.estado }}</span>
-                        <span *ngIf="factura.id_estado == 182"   class="label estado-succes">{{ factura.estado }}</span>
-                        <span *ngIf="factura.id_estado == 183"   class="label estado-info">  {{ factura.estado }}</span>
-                      </td>
-                      <td>{{ factura.factura }}</td>
-                      <td style="text-align: end;"><small style="font-weight: 200; margin-right:3px;">S/</small>{{ factura.importe | number : '1.0-2' }}</td>
-                      <td>{{ factura.fecha_facturacion }}</td>
-                    </tr>
-                  </tbody>
-                </table>
-                <div class="col-12 fact-total"><small style="font-weight: 300; margin-right:3px; width: 52px;">Total: S/</small>
-                  {{obtenerImporteTotal() | number : '1.0-2'}}
-                </div>
-
-                <div class="cli-loader" *ngIf="loadingItem">
-                  <mat-spinner
-                    style="margin-right: 20px"
-                    diameter="20">
-                  </mat-spinner>cargando...
-                </div>
+            <div class="col-sm-3 cli-form-element">
+              <div class="form-group">
+                <label>Fecha creación</label>
+                <input
+                  type="date"
+                  readonly="true"
+                  class="form-control cli-input-white"
+                  formControlName="fecha_crea"
+                />
               </div>
-              <div
-                *ngIf="!loadingItem && listFactura.length == 0"
-                class="cli-loader mt-2"
-                style="color: #c9c9c9; font-size: 12px;"
-                >Aún no tiene factura agregada
-              </div>
+            </div>
+
+            <div
+              class="col-sm-9 cli-form-element"
+              *ngIf="setearTipoLiquidacion()"
+            >
+              <label class="form-label">Comentario Regularización</label>
+              <textarea
+                class="form-control"
+                style="
+                  background-image: none;
+                  border-color: #0dcaf0;
+                  font-size: 14px;
+                "
+                rows="1"
+                placeholder="Describa un comentario de la Regularización..."
+                formControlName="comentarioLiq"
+              >
+              </textarea>
             </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- ------------------------------HISTORICO DE CAMBIOS DE ESTADO------------------------------->
-    <div class="pr-subtitle mt-2">Histórico de cambios de estado</div>
-    <div class="pr-section">
-      <div class="pr-module-container">
-        <div style="overflow: auto; min-height: 82px; max-height: 82px; color:#6c757d;">
-          <table class="cli-table stripedtable underlinedtable">
-            <thead>
-              <tr class="bgc-turquey c-white">
-                <th>N°</th>
-                <th>ID Factura</th>
-                <th>Estado</th>
-                <th>Proyecto</th>
-                <th>Fecha y hora</th>
-                <th>Modificado por:</th>
-              </tr>
-            </thead>
+      <!-- AGREGAR VENTA DECLARADA-------------------------------------------------------------------- -->
+      <div class="pr-subtitle">Venta declarada - Factura</div>
+      <div class="pr-section">
+        <div class="pr-module-container mb-2">
+          <div class="row">
+            <div class="col-4">
+              <div style="background-color: #f6f3f3">
+                <button
+                  class="btn-asignar btn-grey mb-1"
+                  matTooltip="Agregar venta declarada"
+                  type="submit"
+                  (click)="agregarVentaDeclarada()"
+                >
+                  <mat-icon class="icon-18">add</mat-icon>
+                </button>
+              </div>
 
-            <tbody>
-              <tr *ngFor="let cambios of histCambiosEstado; let i = index">
-                <td>{{ i + 1 }}</td>
-                <td>{{ cambios.idFactura }}</td>
-                <td>{{ cambios.estado }}</td>
-                <td>{{ cambios.proyecto }}</td>
-                <td>{{ cambios.fecha }}</td>
-                <td>{{ cambios.username }}</td>
-              </tr>
-            </tbody>
-          </table>
-          <div class="cli-loader" *ngIf="loadingItem">
-            <mat-spinner style="margin-right: 20px" diameter="20"></mat-spinner>cargando...
+              <div style="overflow: auto; min-height: 50px; color: #6c757d">
+                <div *ngIf="listVentaDeclarada.length > 0">
+                  <table class="cli-table stripedtable underlinedtable">
+                    <thead>
+                      <tr class="bgc-blue-light c-white">
+                        <th>Acción</th>
+                        <th style="min-width: 35px">N°</th>
+                        <th>Periodo</th>
+                        <th>Importe</th>
+                        <th>Saldo</th>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+                      <tr *ngFor="let vd of listVentaDeclarada; let i = index">
+                        <td>
+                          <div class="cli-table-actions">
+                            <button
+                              matTooltip="Actualizar"
+                              class="icon-btn btn-trans c-blue"
+                              (click)="actualizarVentaDeclarada(vd)"
+                            >
+                              <mat-icon class="icon-13">edit</mat-icon>
+                            </button>
+                            <button
+                              matTooltip="Eliminar"
+                              class="icon-btn btn-trans c-fucsia"
+                              (click)="eliminarVentaDeclarada(vd.idFactVenta)"
+                            >
+                              <mat-icon class="icon-13"
+                                >delete_forever</mat-icon
+                              >
+                            </button>
+                          </div>
+                        </td>
+                        <!-- <td>{{ vd.idFactVenta }}</td> -->
+                        <td>{{ i + 1 }}</td>
+                        <td>{{ vd.periodo }}</td>
+                        <td style="font-weight: 600">
+                          <small style="font-weight: 200; margin-right: 3px"
+                            >S/</small
+                          >{{ vd.venta_declarada | number : "1.0-2" }}
+                        </td>
+                        <td class="fact-saldo">
+                          <small style="font-weight: 200; margin-right: 3px"
+                            >S/</small
+                          >{{
+                            vd.venta_declarada - importTotal | number : "1.0-2"
+                          }}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div class="cli-loader" *ngIf="loadingItem">
+                    <mat-spinner
+                      style="margin-right: 20px"
+                      diameter="20"
+                    ></mat-spinner
+                    >cargando...
+                  </div>
+                </div>
+                <div
+                  *ngIf="!loadingItem && listVentaDeclarada.length == 0"
+                  class="cli-loader mt-2"
+                  style="color: #c9c9c9; font-size: 12px"
+                >
+                  Aún no tiene venta declarada
+                </div>
+              </div>
+            </div>
+
+            <!-- AGREGAR CERTIFICACION-------------------------------------------------------------------- -->
+            <div class="col-8">
+              <div style="background-color: #f6f3f3">
+                <button
+                  class="btn-asignar btn-grey mb-1"
+                  matTooltip="Agregar factura"
+                  type="submit"
+                  (click)="agregarFactura()"
+                >
+                  <mat-icon class="icon-18">add</mat-icon>
+                </button>
+              </div>
+              <div style="overflow: auto; min-height: 50px; color: #6c757d">
+                <div *ngIf="listFactura.length > 0">
+                  <table class="cli-table stripedtable underlinedtable">
+                    <thead>
+                      <tr class="bgc-blue-light c-white">
+                        <th>Acción</th>
+                        <!-- <th>ID Certificación</th> -->
+                        <th>N°</th>
+                        <th>Ord. Compra</th>
+                        <th>Certificación</th>
+                        <th>Estado</th>
+                        <th style="min-width: 100px">Factura</th>
+                        <th>Importe</th>
+                        <th>Fech. fact.</th>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+                      <tr *ngFor="let factura of listFactura; let i = index">
+                        <td>
+                          <div class="cli-table-actions">
+                            <button
+                              matTooltip="Actualizar"
+                              class="icon-btn btn-trans c-blue"
+                              (click)="actualizarFactura(factura)"
+                            >
+                              <mat-icon class="icon-13">edit</mat-icon>
+                            </button>
+
+                            <button
+                              matTooltip="Eliminar"
+                              class="icon-btn btn-trans c-fucsia"
+                              (click)="
+                                eliminaFactura(factura.idFactCertificacion)
+                              "
+                            >
+                              <mat-icon class="icon-13"
+                                >delete_forever</mat-icon
+                              >
+                            </button>
+                          </div>
+                        </td>
+                        <!-- <td>{{ factura.idFactCertificacion }}</td> -->
+                        <td>{{ i + 1 }}</td>
+                        <td>{{ factura.oc }}</td>
+                        <td>{{ factura.certificacion }}</td>
+                        <td>
+                          <span
+                            *ngIf="factura.id_estado == 663"
+                            class="label estado-danger"
+                            >{{ factura.estado }}</span
+                          >
+                          <span
+                            *ngIf="factura.id_estado == 182"
+                            class="label estado-succes"
+                            >{{ factura.estado }}</span
+                          >
+                          <span
+                            *ngIf="factura.id_estado == 183"
+                            class="label estado-info"
+                          >
+                            {{ factura.estado }}</span
+                          >
+                        </td>
+                        <td>{{ factura.factura }}</td>
+                        <td style="text-align: end">
+                          <small style="font-weight: 200; margin-right: 3px"
+                            >S/</small
+                          >{{ factura.importe | number : "1.0-2" }}
+                        </td>
+                        <td>{{ factura.fecha_facturacion }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div class="col-12 fact-total">
+                    <small
+                      style="font-weight: 300; margin-right: 3px; width: 52px"
+                      >Total: S/</small
+                    >
+                    {{ obtenerImporteTotal() | number : "1.0-2" }}
+                  </div>
+
+                  <div class="cli-loader" *ngIf="loadingItem">
+                    <mat-spinner style="margin-right: 20px" diameter="20">
+                    </mat-spinner
+                    >cargando...
+                  </div>
+                </div>
+                <div
+                  *ngIf="!loadingItem && listFactura.length == 0"
+                  class="cli-loader mt-2"
+                  style="color: #c9c9c9; font-size: 12px"
+                >
+                  Aún no tiene factura agregada
+                </div>
+              </div>
+            </div>
           </div>
+        </div>
+      </div>
 
+      <!-- ------------------------------HISTORICO DE CAMBIOS DE ESTADO------------------------------->
+      <div class="pr-subtitle mt-2">Histórico de cambios de estado</div>
+      <div class="pr-section">
+        <div class="pr-module-container">
           <div
-            *ngIf="histCambiosEstado.length == 0"
-            class="cli-loader mt-2"
-            style="color: #c9c9c9; font-size: 12px;"
-            >Aquí se mostrará el histórico de estados...
+            style="
+              overflow: auto;
+              min-height: 82px;
+              max-height: 82px;
+              color: #6c757d;
+            "
+          >
+            <table class="cli-table stripedtable underlinedtable">
+              <thead>
+                <tr class="bgc-turquey c-white">
+                  <th>N°</th>
+                  <th>ID Factura</th>
+                  <th>Estado</th>
+                  <th>Proyecto</th>
+                  <th>Fecha y hora</th>
+                  <th>Modificado por:</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr *ngFor="let cambios of histCambiosEstado; let i = index">
+                  <td>{{ i + 1 }}</td>
+                  <td>{{ cambios.idFactura }}</td>
+                  <td>{{ cambios.estado }}</td>
+                  <td>{{ cambios.proyecto }}</td>
+                  <td>{{ cambios.fecha }}</td>
+                  <td>{{ cambios.username }}</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="cli-loader" *ngIf="loadingItem">
+              <mat-spinner
+                style="margin-right: 20px"
+                diameter="20"
+              ></mat-spinner
+              >cargando...
+            </div>
+
+            <div
+              *ngIf="histCambiosEstado.length == 0"
+              class="cli-loader mt-2"
+              style="color: #c9c9c9; font-size: 12px"
+            >
+              Aquí se mostrará el histórico de estados...
+            </div>
           </div>
         </div>
       </div>
-    </div>
     </div>
 
     <!-- --------------------------------------------BOTONES ------------------------------------------>
@@ -324,4 +408,3 @@
     </div>
   </div>
 </form>
-

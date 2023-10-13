@@ -14,7 +14,7 @@ import { MenuService } from 'src/app/core/services/menu.service';
   styles: [],
 })
 export class UserPanelComponent implements OnInit, OnDestroy {
-  active: boolean = true;
+  active: boolean = false; //true
   observablePanel: Subscription = new Subscription();
   fullname!: string;
   nameini!: string;

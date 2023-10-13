@@ -197,7 +197,7 @@ export class RegistroHardwareComponent implements OnInit {
 
   actualizarHardware(DATA: any) {
     // console.log('DATA_HARDWARE', DATA);
-    this.dialog
+    // this.dialog
       const dialogRef = this.dialog.open(ModalHardwareComponent, {width: '55%', data: DATA});
 
       dialogRef.afterClosed().subscribe((resp) => {

@@ -10,47 +10,38 @@
             <div class="col-sm-3 cli-form-element">
               <label class="form-label">ID Liquidación</label>
               <input
-                type="number"
+                type="texto"
                 class="form-control"
-                formControlName="codFact"/>
+                formControlName="idFactura"/>
             </div>
-
             <div class="col-sm-3 cli-form-element">
               <label class="form-label">Gestor</label>
-              <select class="form-select" formControlName="id_gestor">
+              <select class="form-select" formControlName="gestorNombre">
                 <option [value]="0" disabled>-Seleccione-</option>
-                <option [value]="g.id" *ngFor="let g of listGestores">{{g.nombre}}</option>
+                <option [value]="g.nombre_apellido" *ngFor="let g of listGestores">{{g.nombre_apellido}}</option>
               </select>
             </div>
 
             <div class="col-sm-3 cli-form-element">
               <label class="form-label">Proyecto</label>
-              <select class="form-select" formControlName="id_proy">
+              <select class="form-select" formControlName="proyecto">
                 <option [value]="0" disabled>-Seleccione-</option>
-                <option [value]="proy.id" *ngFor="let proy of listProyectos">{{proy.valor_texto_1}}</option>
-              </select>
-            </div>
-
-            <div class="col-sm-3 cli-form-element">
-              <label class="form-label">Tipo Liquidación</label>
-              <select class="form-select" formControlName="id_liquidacion">
-                <option [value]="0" disabled>-Seleccione-</option>
-                <option [value]="liq.id" *ngFor="let liq of listLiquidaciones">{{liq.nombre}}</option>
+                <option [value]="proy.nombre" *ngFor="let proy of listProyectos">{{proy.nombre}}</option>
               </select>
             </div>
 
             <div class="col-sm-3 cli-form-element">
               <label class="form-label">Estado</label>
-              <select class="form-select" formControlName="id_estado">
+              <select class="form-select" formControlName="estadoLiquidacion">
                 <option [value]="0" disabled>-Seleccione-</option>
-                <option [value]="est.id" *ngFor="let est of listEstados">{{est.nombre}}</option>
+                <option [value]="est.nombre" *ngFor="let est of listEstados">{{est.nombre}}</option>
               </select>
             </div>
 
             <div class="col-sm-3 cli-form-element">
               <label class="form-label">Importe</label>
               <input
-                type="number"
+                type="text"
                 class="form-control"
                 formControlName="importe"/>
             </div>
@@ -61,7 +52,7 @@
                  <input
                   type="month"
                   class="form-control cli-input-white"
-                  formControlName="f_periodo"/>
+                  formControlName="periodo"/>
               </div>
             </div>
 
@@ -91,7 +82,7 @@
                 type="button"
                 class="cli-btn btn-blue-light"
                 style="border-radius: 2px; padding: 0.225rem 0.75rem"
-                (click)="cargarOBuscarLiquidacion()"
+                (click)="getAllLiquidaciones()"
                 ><mat-icon class="icon-18">search</mat-icon>
                 Buscar
               </button>
@@ -167,7 +158,7 @@
           </thead>
 
           <tbody>
-            <tr *ngFor="let factura of listaLiquidacion | paginate:
+            <tr *ngFor="let liq of listaLiquidacion | paginate:
                       { itemsPerPage: pageSize,
                         currentPage : page,
                         totalItems  : totalFacturas
@@ -177,69 +168,70 @@
                   <button
                     matTooltip="Actualizar"
                     class="icon-btn btn-trans c-blue"
-                    (click)="actualizarFactura(factura)"
+                    (click)="actualizarLiquidacion(liq)"
                     ><mat-icon class="icon-13">edit</mat-icon>
                   </button>
                   <button
                     matTooltip="Eliminar"
                     class="icon-btn btn-trans c-fucsia"
-                    (click)="eliminarLiquidacion(factura.idFactura)"
+                    (click)="eliminarLiquidacion(liq.idFactura)"
                     ><mat-icon class="icon-13">delete_forever</mat-icon>
                   </button>
-                  <button
+                  <!-- <button
                     matTooltip="Duplicar"
                     class="icon-btn btn-trans c-green"
-                    (click)="duplicarLiquidacion(factura)"
+                    (click)="duplicarLiquidacion(liq)"
                     ><mat-icon class="icon-13">file_copy</mat-icon>
-                  </button>
+                  </button> -->
                 </div>
               </td>
-              <td style="font-weight: 600;">{{ factura.id_liq }}</td>
-              <td>{{ factura.periodo | date:"yyyy/MM" }}</td>
-              <td style="text-align: left">{{ factura.gestor }}</td>
+              <td style="font-weight: 600;">{{ liq.idFactura }}</td>
+              <td>{{ liq.periodo | date:"yyyy/MM" }}</td>
+              <td style="text-align: left">{{ liq.gestor }}</td>
 
               <td style="text-align:left ">
                 <div class="cli-table-user">
+                  <!-- OJO FALTA EL LIDER *****************+ -->
                   <button
-                    matTooltip={{factura.lider}}
+                    matTooltip={{liq.gestor}}
                     class="icon-btn btn-trans"
                     style="color: #ffaaa4;"
                     ><mat-icon class="icon-13">person_outline</mat-icon>
-                  </button>{{factura.proyecto | uppercase}}
+                  </button>{{liq.proyecto | uppercase}}
                 </div>
               </td>
               <td>
-                <span *ngIf="factura.liquidacion == 'Acta'" style="color:#498ff6">{{ factura.liquidacion | uppercase }}</span>
+                <span *ngIf="liq.tipoLiquidacion == 'Acta'" style="color:#498ff6">{{ liq.tipoLiquidacion | uppercase }}</span>
                 <div class="cli-table-user">
-                  <button *ngIf="factura.liquidacion == 'Regularización'"
+                  <button *ngIf="liq.tipoLiquidacion == 'Regularización'"
                     matTooltip="Ver comentario"
                     class="icon-btn btn-trans c-grey"
-                    (click)="abrirComentarioRegularizacion(factura.idFactura)"
+                    (click)="abrirComentarioRegularizacion(liq.idFactura)"
                     ><mat-icon class="icon-10">visibility</mat-icon>
-                  </button><span *ngIf="factura.liquidacion == 'Regularización'" style="color:#00d4ff">  {{ factura.liquidacion | uppercase }}</span>
+                  </button><span *ngIf="liq.tipoLiquidacion == 'Regularización'" style="color:#00d4ff">  {{ liq.tipoLiquidacion | uppercase }}</span>
                 </div>
-                <span *ngIf="factura.liquidacion == 'Pago Adelantado'"style="color:deeppink">{{ factura.liquidacion | uppercase }}</span>
+                <span *ngIf="liq.tipoLiquidacion == 'Pago Adelantado'"style="color:deeppink">{{ liq.tipoLiquidacion | uppercase }}</span>
               </td>
               <td>
-                <div *ngIf="factura.regularProy == 'Válido'"  ><mat-icon class="icon-13 icon-btn" style="color: #00ffb6">check</mat-icon></div>
-                <div *ngIf="factura.regularProy == 'Inválido'"><mat-icon class="icon-13 icon-btn" style="color: #f66b9a">close</mat-icon></div>
+                <!-- <div *ngIf="liq.regularProy == 'Válido'"  ><mat-icon class="icon-13 icon-btn" style="color: #00ffb6">check</mat-icon></div>
+                <div *ngIf="liq.regularProy == 'Inválido'"><mat-icon class="icon-13 icon-btn" style="color: #f66b9a">close</mat-icon></div> -->
               </td>
-              <td style="text-align: left; height: 33px;">{{ factura.subServicio }}</td>
+              <td style="text-align: left; height: 33px;">{{ liq.subServicio }}</td>
               <td>
-                <span *ngIf="factura.estado == 'Aprobado'"      class="label ">    {{ factura.estado | uppercase }}</span>
-                <span *ngIf="factura.estado == 'Cancelado'"     class="label ">    {{ factura.estado | uppercase }}</span>
-                <span *ngIf="factura.estado == 'En Elaboración'"class="label ">    {{ factura.estado | uppercase }}</span>
-                <span *ngIf="factura.estado == 'Enviado'"       class="label ">    {{ factura.estado | uppercase }}</span>
-                <span *ngIf="factura.estado == 'Facturado'"     class="label est-facturado">{{ factura.estado | uppercase }}</span>
-                <span *ngIf="factura.estado == 'MO Cargado'"    class="label est-cargado">  {{ factura.estado | uppercase }}</span>
-                <span *ngIf="factura.estado == 'MO_Visado'"     class="label est-visado">   {{ factura.estado | uppercase }}</span>
+                <span *ngIf="liq.estado == 'Aprobado'"      class="label ">    {{ liq.estado | uppercase }}</span>
+                <span *ngIf="liq.estado == 'Cancelado'"     class="label ">    {{ liq.estado | uppercase }}</span>
+                <span *ngIf="liq.estado == 'En Elaboración'"class="label ">    {{ liq.estado | uppercase }}</span>
+                <span *ngIf="liq.estado == 'Enviado'"       class="label ">    {{ liq.estado | uppercase }}</span>
+                <span *ngIf="liq.estado == 'Facturado'"     class="label est-facturado">{{ liq.estado | uppercase }}</span>
+                <span *ngIf="liq.estado == 'MO Cargado'"    class="label est-cargado">  {{ liq.estado | uppercase }}</span>
+                <span *ngIf="liq.estado == 'MO_Visado'"     class="label est-visado">   {{ liq.estado | uppercase }}</span>
               </td>
-              <td style="font-weight: 600; text-align: end;"><small class="icon-soles">S/</small>{{ factura.importe | number : '1.0-2'}}</td>
-              <td style="text-align: end; border-left-width: thin;"><small *ngIf="factura.declarado >0" class="icon-soles">S/</small>{{ factura.declarado | number : '1.0-2' }}</td>
-              <td style="text-align: end;"><small *ngIf="factura.facturado >0" class="icon-soles">S/</small>{{ factura.facturado | number : '1.0-2' }}</td>
+              <td style="font-weight: 600; text-align: end;"><small class="icon-soles">S/</small>{{ liq.importe | number : '1.0-2'}}</td>
+              <td style="text-align: end; border-left-width: thin;"><small *ngIf="liq.declarado >0" class="icon-soles">S/</small>{{ liq.declarado | number : '1.0-2' }}</td>
+              <td style="text-align: end;"><small *ngIf="liq.facturado >0" class="icon-soles">S/</small>{{ liq.facturado | number : '1.0-2' }}</td>
               <td style="text-align: end; border-right-width: thin; color: #f26897" >
                 <ng-container>
-                  <small class="icon-soles">S/</small>{{ (factura.declarado - factura.facturado) | number : '1.0-2' }}
+                  <small class="icon-soles">S/</small>{{ (liq.declarado - liq.facturado) | number : '1.0-2' }}
                 </ng-container>
               </td>
               <!-- <td style="text-align: end;"><small style="font-weight: 400; margin-right:3px;">S/</small>{{ (factura.saldo? factura.saldo: factura.importe) | number : '1.0-2' }}</td> -->

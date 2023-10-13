@@ -13,6 +13,7 @@ import { AgregarVentadeclaradaComponent } from './agregar-ventadeclarada/agregar
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatIconModule } from '@angular/material/icon';
+import { LiquidacionService } from 'src/app/core/services/liquidacion.service';
 
 @Component({
     selector: 'app-actualizar-liquidacion',
@@ -31,6 +32,7 @@ export class ActualizarLiquidacionComponent implements OnInit {
 
   constructor(
     private facturacionService: FacturacionService,
+    private liquidacionService: LiquidacionService,
     private authService: AuthService,
     private fb: FormBuilder,
     private utilService: UtilService,
@@ -184,6 +186,7 @@ export class ActualizarLiquidacionComponent implements OnInit {
       this.spinner.hide();
     })
   }
+
 
 
   eliminarVentaDeclarada(id: any){

@@ -4,6 +4,8 @@ const ENVIROMENT: string = 'PROD';
 // let PATH_CORREO  = 'https://localhost:44395/';
 let PATH_VISOR_DYNAMO = '';
 let PATH_BACK_NET  = '';
+let PATH_FACTURACION  = '';
+let PATH_MANTENIMIENTO = '';
 let AUTH_API = '';
 let API_SAVE_DATA_IMPORT = '';
 
@@ -24,7 +26,7 @@ switch (ENVIROMENT) {
     // PATH_VISOR_DYNAMO  = 'https://localhost:7197/';
 
 
-    API_SAVE_DATA_IMPORT = 'http://saveimporteddata.indratools.com/api/importar' // CONECTADO con: db_support
+    // API_SAVE_DATA_IMPORT = 'http://saveimporteddata.indratools.com/api/importar' // CONECTADO con: db_support
     // API_SAVE_DATA_IMPORT = 'http://backendpruebasdev.indratools.com/api/importar'
     // API_SAVE_DATA_IMPORT = 'https://localhost:7247/api/importar'
 
@@ -32,6 +34,10 @@ switch (ENVIROMENT) {
     PATH_BACK_NET = 'http://backdynamosupport.indratools.com/api/configurador/' //SUBSITE 21
     // PATH_BACK_NET = 'http://changestatevacations.indratools.com/api/configurador/' //BACK DE PRUEBA OJO | SUBSITE 25
     // PATH_BACK_NET  = 'https://localhost:3061/api/configurador/';
+
+    PATH_FACTURACION = 'https://localhost:7004/api/Facturacion' //NUEVO WEB API
+    PATH_MANTENIMIENTO = 'https://localhost:7176/api'
+    // https://localhost:7176/api/Proyecto/GetAllProyectos
     break;
   default:
     break;
@@ -42,6 +48,8 @@ export const AUTH_SESSION = AUTH_API + 'login';
 
 // REGISTRO-DYNAMO
 export const API_DYNAMO = PATH_BACK_NET + 'ExecuteQuery';
+export const BASE_LIQUIDACION = PATH_FACTURACION;
+export const BASE_MANTENIMIENTO = PATH_MANTENIMIENTO;
 // DATA VISOR DASHBOARD
 export const API_VISOR =  PATH_VISOR_DYNAMO + 'api/visor/';
 

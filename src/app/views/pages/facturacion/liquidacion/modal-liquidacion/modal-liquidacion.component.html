@@ -1,0 +1,313 @@
+<div style="display: flex">
+  <div class="flex-1"></div>
+  <div class="modal-title c-male">{{ DATA_LIQUID ? "Actualizar" : "Agregar" }} liquidación</div>
+  <div class="flex-1"></div>
+
+  <button (click)="close()" class="icon-btn btn-trans c-orange moda-close-btn"><mat-icon>close</mat-icon></button>
+</div>
+
+<form class="row g-3" [formGroup]="liquidacionForm">
+  <div class="cli-form newvac-wrapper">
+    <div class="chart-draw">
+      <!-- -------------------------------------------REGISTROS LIQ------------------------------->
+      <div style="display: flex" *ngIf="DATA_LIQUID">
+        <div class="col-2 pr-subtitle mt-2">Registro liquidación</div>
+        <div class="flex-1"></div>
+        <div class="mt-2 id-factura">ID : <span class="total">{{ factura_Id }}</span></div>
+      </div>
+
+      <div class="pr-section">
+        <div class="pr-module-container mb-3">
+          <div class="row g-3">
+            <div class="col-sm-4 cli-form-element">
+              <label>Proyecto *</label>
+              <select class="cli-input-white" formControlName="proyecto">
+                <option [value]="0" disabled>- Seleccione -</option>
+                <option [value]="proy.nombre" *ngFor="let proy of listProyectos">{{ proy.nombre }}</option>
+              </select>
+              <small class="form-text text-alert" *ngIf="campoNoValido('proyecto')" >* Seleccione el Proyecto es obligatorio</small>
+            </div>
+
+            <!-- <div class="col-sm-4 cli-form-element">
+            <label class="form-label">Tipo de liquidación *</label>
+            <select class="form-select" formControlName="idLiquidacion">
+              <option [value]="0" disabled>-Seleccione-</option>
+              <option [value]="liq.id" *ngFor="let liq of listLiquidaciones">{{liq.nombre}}</option>
+            </select>
+            <small class="form-text text-alert" *ngIf="campoNoValido('idLiquidacion')">* Seleccione la Liquidación es obligatorio</small>
+            </div> -->
+
+            <div class="col-sm-4 cli-form-element">
+              <label>Subservicio *</label>
+              <input type="text"
+                class="form-control cli-input-white"
+                formControlName="subServicio"/>
+              <small class="form-text text-alert" *ngIf="campoNoValido('subServicio')">* Ingrese el Subservicio es obligatorio</small>
+            </div>
+
+            <div class="col-sm-4 cli-form-element">
+              <label class="form-label">Gestor *</label>
+              <select class="form-select" formControlName="idGestor">
+                <option [value]="0" disabled>-Seleccione-</option>
+                <option [value]="g.nombre_apellido" *ngFor="let g of listGestores">{{ g.nombre_apellido }}</option>
+              </select>
+              <small class="form-text text-alert" *ngIf="campoNoValido('idGestor')">* Seleccione el Gestor es obligatorio</small>
+            </div>
+
+            <div class="col-sm-4 cli-form-element">
+              <label>Importe *</label>
+              <input type="number"
+                class="form-control cli-input-white"
+                formControlName="importe"/>
+              <small class="form-text text-alert" *ngIf="campoNoValido('importe')">* Ingrese el Importe es obligatorio</small>
+            </div>
+
+            <div class="col-sm-4 cli-form-element">
+              <label>Fecha Periodo *</label>
+              <input
+                type="month"
+                class="form-control"
+                formControlName="periodo"/>
+              <small class="form-text text-alert" *ngIf="campoNoValido('periodo')">* Ingrese el Periodo es obligatorio</small>
+            </div>
+
+            <div class="col-sm-4 cli-form-element" *ngIf="DATA_LIQUID">
+              <label class="form-label">Estado</label>
+              <select class="form-select" formControlName="idEstado">
+                <option [value]="0" disabled>-Seleccione-</option>
+                <option [value]="est.nombre" *ngFor="let est of listEstados">{{ est.nombre }}</option>
+              </select>
+              <small class="form-text text-alert" *ngIf="campoNoValido('idEstado')">* Este campo es obligatorio</small>
+            </div>
+
+            <div class="col-sm-3 cli-form-element" *ngIf="DATA_LIQUID">
+                <label>Fecha creación</label>
+                <input type="date" readonly="true"
+                    class="form-control cli-input-white"
+                    formControlName="fecha_crea"/>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <ng-container *ngIf="DATA_LIQUID">
+      <!-- AGREGAR VENTA DECLARADA-------------------------------------------------------------------- -->
+      <div class="pr-subtitle">Venta declarada - Certificación</div>
+      <div class="pr-section">
+        <div class="pr-module-container mb-2">
+          <div class="row">
+            <div class="col-4">
+              <div style="background-color: #f6f3f3">
+                <button
+                  class="btn-asignar btn-grey mb-1"
+                  matTooltip="Agregar venta declarada"
+                  type="submit"
+                  (click)="abrirAgregaOactualizarVentaDeclarada()"
+                >
+                  <mat-icon class="icon-18">add</mat-icon>
+                </button>
+              </div>
+
+              <div style="overflow: auto; min-height: 50px; color: #6c757d">
+                <div *ngIf="listVentaDeclarada.length > 0">
+                  <table class="cli-table stripedtable underlinedtable">
+                    <thead>
+                      <tr class="bgc-blue-light c-white">
+                        <th>Acción</th>
+                        <th style="min-width: 35px">N°</th>
+                        <th>Periodo</th>
+                        <th>Importe</th>
+                        <th>Saldo</th>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+                      <tr *ngFor="let vd of listVentaDeclarada; let i = index">
+                        <td>
+                          <div class="cli-table-actions">
+                            <button
+                              matTooltip="Actualizar"
+                              class="icon-btn btn-trans c-blue"
+                              (click)="abrirAgregaOactualizarVentaDeclarada(vd)"
+                              ><mat-icon class="icon-13">edit</mat-icon>
+                            </button>
+                            <button
+                              matTooltip="Eliminar"
+                              class="icon-btn btn-trans c-fucsia"
+                              (click)="eliminaVentaDeclarada(vd.idFactVenta)"
+                              ><mat-icon class="icon-13">delete_forever</mat-icon>
+                            </button>
+                          </div>
+                        </td>
+                        <!-- <td>{{ vd.idFactVenta }}</td> -->
+                        <td>{{ i + 1 }}</td>
+                        <td>{{ vd.periodo }}</td>
+                        <td style="font-weight: 600"><small style="font-weight: 200; margin-right: 3px">S/</small>{{ vd.venta_declarada | number : "1.0-2" }}</td>
+                        <td class="fact-saldo"><small style="font-weight: 200; margin-right: 3px">S/</small>{{vd.venta_declarada - importTotal | number : "1.0-2"}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div class="cli-loader" *ngIf="loadingItem">
+                    <mat-spinner style="margin-right: 20px" diameter="20"></mat-spinner>cargando...</div>
+                </div>
+                <div *ngIf="!loadingItem && listVentaDeclarada.length == 0"
+                  class="cli-loader mt-2"
+                  style="color: #c9c9c9; font-size: 12px"
+                  >Aún no tiene venta declarada
+                </div>
+              </div>
+            </div>
+
+            <!-- AGREGAR CERTIFICACION-------------------------------------------------------------------- -->
+            <div class="col-8">
+              <div style="background-color: #f6f3f3">
+                <button
+                  class="btn-asignar btn-grey mb-1"
+                  matTooltip="Agregar factura"
+                  type="submit"
+                  (click)="abrirAgregarOactualizarCertificacion()"
+                >
+                  <mat-icon class="icon-18">add</mat-icon>
+                </button>
+              </div>
+              <div style="overflow: auto; min-height: 50px; color: #6c757d">
+                <div *ngIf="listVentaDeclarada.length > 0">
+                  <table class="cli-table stripedtable underlinedtable">
+                    <thead>
+                      <tr class="bgc-blue-light c-white">
+                        <th>Acción</th>
+                        <!-- <th>ID Certificación</th> -->
+                        <th>N°</th>
+                        <th>Ord. Compra</th>
+                        <th>Certificación</th>
+                        <th>Estado</th>
+                        <th style="min-width: 100px">Factura</th>
+                        <th>Importe</th>
+                        <th>Fech. fact.</th>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+                      <tr *ngFor="let factura of listVentaDeclarada; let i = index">
+                        <td>
+                          <div class="cli-table-actions">
+                            <button
+                              matTooltip="Actualizar"
+                              class="icon-btn btn-trans c-blue"
+                              (click)="abrirAgregarOactualizarCertificacion(factura)"
+                              ><mat-icon class="icon-13">edit</mat-icon>
+                            </button>
+
+                            <button
+                              matTooltip="Eliminar"
+                              class="icon-btn btn-trans c-fucsia"
+                              (click)="eliminaVentaDeclarada(factura.idFactCertificacion)"
+                              ><mat-icon class="icon-13">delete_forever</mat-icon>
+                            </button>
+                          </div>
+                        </td>
+                        <!-- <td>{{ factura.idFactCertificacion }}</td> -->
+                        <td>{{ i + 1 }}</td>
+                        <td>{{ factura.oc }}</td>
+                        <td>{{ factura.certificacion }}</td>
+                        <td>
+                          <span *ngIf="factura.id_estado == 663" class="label estado-danger">{{ factura.estado }}</span>
+                          <span *ngIf="factura.id_estado == 182" class="label estado-succes">{{ factura.estado }}</span>
+                          <span *ngIf="factura.id_estado == 183" class="label estado-info">  {{ factura.estado }}</span>
+                        </td>
+                        <td>{{ factura.factura }}</td>
+                        <td style="text-align: end">
+                          <small style="font-weight: 200; margin-right: 3px">S/</small>{{ factura.importe | number : "1.0-2" }}
+                        </td>
+                        <td>{{ factura.fecha_facturacion }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div class="col-12 fact-total"><small style="font-weight: 300; margin-right: 3px; width: 52px">Total: S/</small>{{ obtenerImporteTotal() | number : "1.0-2" }}</div>
+                  <div class="cli-loader" *ngIf="loadingItem"><mat-spinner style="margin-right: 20px" diameter="20"></mat-spinner>cargando...</div>
+                </div>
+                <div
+                  *ngIf="!loadingItem && listVentaDeclarada.length == 0"
+                  class="cli-loader mt-2"
+                  style="color: #c9c9c9; font-size: 12px"
+                  >Aún no tiene factura agregada
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </ng-container>
+    <!-- ------------------------------HISTORICO DE CAMBIOS DE ESTADO------------------------------->
+    <ng-container *ngIf="DATA_LIQUID">
+      <div class="pr-subtitle mt-2">Histórico de cambios de estado</div>
+      <div class="pr-section">
+        <div class="pr-module-container">
+          <div
+            style="
+              overflow: auto;
+              min-height: 82px;
+              max-height: 82px;
+              color: #6c757d;
+            "
+          >
+            <table class="cli-table stripedtable underlinedtable">
+              <thead>
+                <tr class="bgc-turquey c-white">
+                  <th>N°</th>
+                  <th>ID Factura</th>
+                  <th>Estado</th>
+                  <th>Proyecto</th>
+                  <th>Fecha y hora</th>
+                  <th>Modificado por:</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr *ngFor="let cambios of histCambiosEstado; let i = index">
+                  <td>{{ i + 1 }}</td>
+                  <td>{{ cambios.idFactura }}</td>
+                  <td>{{ cambios.estado }}</td>
+                  <td>{{ cambios.proyecto }}</td>
+                  <td>{{ cambios.fecha }}</td>
+                  <td>{{ cambios.username }}</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="cli-loader" *ngIf="loadingItem">
+              <mat-spinner
+                style="margin-right: 20px"
+                diameter="20"
+              ></mat-spinner
+              >cargando...
+            </div>
+
+            <div
+              *ngIf="histCambiosEstado.length == 0"
+              class="cli-loader mt-2"
+              style="color: #c9c9c9; font-size: 12px"
+            >
+              Aquí se mostrará el histórico de estados...
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+    <!-- --------------------------------------------BOTONES ------------------------------------------>
+    <div class="cli-form-buttons" style="margin-top: 8%">
+      <button class="cli-btn btn-m btn-cancel" type="submit" (click)="close()">
+        <mat-icon class="icon-18">cancel</mat-icon> Cancelar
+      </button>
+
+      <button
+        class="cli-btn btn-m btn-blue"
+        (click)="crearOactualizarLiq()"
+        [disabled]="liquidacionForm.invalid"
+      >
+        <mat-icon class="icon-18">save</mat-icon> {{ actionBtn }}
+      </button>
+    </div>
+  </div>
+</form>

@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { API_DYNAMO } from '../constants/url.constants';
+import { LiquidacionModel } from '../models/liquidacion.models';
 
 @Injectable({
   providedIn: 'root',
@@ -115,5 +116,12 @@ export class FacturacionService {
   listaComentarioByID(obj: any[]) {
     return this.http.post(API_DYNAMO, obj);
   }
+
+  // insertarListadoLiquidacion(listImport: LiquidacionModel[]) {
+  //   return this.http.post(PATH_IMPORT_LIQ + '/guardar', listImport);
+  // }
+
+
+
 }
 
