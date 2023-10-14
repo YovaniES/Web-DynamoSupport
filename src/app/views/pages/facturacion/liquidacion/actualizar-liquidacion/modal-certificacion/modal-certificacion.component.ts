@@ -38,9 +38,10 @@ export class ModalCertificacionComponent implements OnInit {
     this.getListEstadosCert();
 
     if (this.DATA_CERT) {
-      this.cargarVentaDeclaradaByID()
+      this.cargarCertificacionByID(this.DATA_CERT.idFactura)
       console.log('DATA_CERT', this.DATA_CERT);
-      console.log('DATA_CERT_ID', this.DATA_CERT.idCertificacion);
+      // console.log('DATA_CERT_ID', this.DATA_CERT.certifForm.idCertificacion);
+      console.log('ID_CERT_MODAL', this.DATA_CERT.idCertificacion);
     }
   }
 
@@ -50,58 +51,59 @@ export class ModalCertificacionComponent implements OnInit {
      ordenCompra   : ['',[Validators.required]],
      importe       : ['',[Validators.required]],
      certificacion : ['',[Validators.required]],
-     estFactura    : ['Certificado',[Validators.required]],
+     estFactura    : [182,[Validators.required]],
      factura       : ['',[Validators.required]],
      fechaFact     : ['',[Validators.required]],
-     comentario    : ['']
+     comentario    : [''],
     })
    }
 
-  agregarOactualizarCertificacion(){
-    if (!this.DATA_CERT) {
-      return
+  crearOactualizarCertificacion(){
+    if (this.certifForm.invalid) {
+      return Object.values(this.certifForm.controls).forEach((controls) => {
+        controls.markAllAsTouched();
+      })
     }
 
-    this.spinner.show();
-    if (this.DATA_CERT) {
-      if (this.certifForm.valid) { this.agregarCertificacion() }
+    const idCert = this.certifForm.get('idCertifacion')?.value;
+
+    if (idCert > 0) {
+      if (this.certifForm.valid) {
+        console.log('ACT_CERT');
+        this.actualizarCertificacion();
+      }
     } else {
-      this.actualizarCertificacion();
+      console.log('CREAR_CERT');
+      this.crearCertificacion()
     }
   }
 
-  agregarCertificacion() {
+  crearCertificacion(): void{
     const formValues = this.certifForm.getRawValue();
 
-    let parametro: any =  {
-        queryId: 111,
-        mapValue: {
-          p_idFactura         : this.DATA_CERT.fForm.id_factura.idFactura,
-          p_fecha_facturacion : formValues.fechaFact,
-          p_importe           : formValues.importe,
-          p_oc                : formValues.ordenCompra,
-          p_certificacion     : formValues.certificacion,
-          p_idEstado          : formValues.estFactura,
-          p_factura           : formValues.factura,
-          p_fechacreacion     : '',
-          p_comentario        : formValues.comentario,
-          p_usuario           : this.userID,
-          CONFIG_USER_ID      : this.userID,
-          CONFIG_OUT_MSG_ERROR: '',
-          CONFIG_OUT_MSG_EXITO: '',
-        },
-      };
-     console.log('VAOR_CERTIF', this.certifForm.value , parametro);
-    this.facturacionService.agregarCertificacion(parametro).subscribe((resp: any) => {
-      Swal.fire({
-        title: 'Agregar Factura!',
-        text: `La Factura: ${formValues.factura}, fue agregado con éxito`,
-        icon: 'success',
-        confirmButtonText: 'Ok',
-      });
+    const request = {
+      idFactura       : this.DATA_CERT.certifForm.idFactura,
+      fechaFacturacion: formValues.fechaFact,
+      importe         : formValues.importe,
+      idEstado        : formValues.estFactura,
+      orden_compra    : formValues.ordenCompra,
+      certificacion   : formValues.certificacion,
+      factura         : formValues.factura,
+      comentario      : formValues.comentario,
+      usuario         : this.userID,
+    }
 
-      this.close(true);
-    });
+    this.liquidacionService.crearCertificacion(request).subscribe((resp: any) => {
+      if (resp.message) {
+        Swal.fire({
+          title: 'Crear certificación!',
+          text: `${resp.message}`,
+          icon: 'success',
+          confirmButtonText: 'Ok'
+        })
+        this.close(true);
+      }
+    })
   }
 
   actualizarCertificacion(){
@@ -150,40 +152,13 @@ export class ModalCertificacionComponent implements OnInit {
      });
   }
 
-  // actionBtn: string = 'Agregar'
-  // cargarFacturaByID(){
-  //   if (!this.DATA_CERT.isCreation) {
-  //   this.actionBtn = 'Actualizar'
-  //     this.certifForm.controls['ordenCompra'  ].setValue(this.DATA_CERT.oc);
-  //     this.certifForm.controls['importe'      ].setValue(this.DATA_CERT.importe);
-  //     this.certifForm.controls['certificacion'].setValue(this.DATA_CERT.certificacion);
-  //     this.certifForm.controls['estFactura'   ].setValue(this.DATA_CERT.id_estado);
-  //     this.certifForm.controls['factura'      ].setValue(this.DATA_CERT.factura);
-  //     this.certifForm.controls['comentario'   ].setValue(this.DATA_CERT.comentario);
-
-  //     // if (this.DATA_CERT.fecha_facturacion !='null' && this.DATA_CERT.fecha_facturacion != '') {
-  //     //   this.certifForm.controls['fechaFact'].setValue(this.DATA_CERT.fecha_facturacion)
-  //     // }
-
-  //     if (this.DATA_CERT.fecha_facturacion !='null' && this.DATA_CERT.fecha_facturacion != '') {
-  //       let fechaF = this.DATA_CERT.fecha_facturacion
-  //       const str   = fechaF.split('/');
-  //       const year  = Number(str[2]);
-  //       const month = Number(str[1]);
-  //       const date  = Number(str[0]);
-  //       this.certifForm.controls['fechaFact'].setValue(this.datePipe.transform(new Date(year, month-1, date), 'yyyy-MM-dd'))
-  //     }
-  //   }
-  // }
-
-  actionBtn: string = 'Agregar';
-  cargarVentaDeclaradaByID(idVD?: any){
-    if (this.DATA_CERT) {
-      console.log('CERT***', this.DATA_CERT[0]);
+  actionBtn: string = 'Crear';
+  cargarCertificacionByID(idCert?: any){
+    if (!this.DATA_CERT.isCreation) {
       console.log('XYZ*', this.DATA_CERT);
 
       this.actionBtn = 'Actualizar'
-      this.liquidacionService.getCertificacionById(this.DATA_CERT[0].idCertificacion).subscribe((resp: any) => {
+      this.liquidacionService.getCertificacionById(this.DATA_CERT.idCertificacion).subscribe((resp: any) => {
 
         console.log('CARGA_ID_CERT', resp);
 
@@ -191,7 +166,7 @@ export class ModalCertificacionComponent implements OnInit {
           ordenCompra  : resp.orden_compra,
           importe      : resp.importe,
           certificacion: resp.certificacion,
-          estFactura   : resp.estado,
+          estFactura   : resp.idEstado,
           factura      : resp.factura,
           fechaFact    : moment.utc(resp.fecha_facturacion).format('YYYY-MM-DD'),
           comentario   : resp.comentario
@@ -207,15 +182,6 @@ export class ModalCertificacionComponent implements OnInit {
      console.log('ID-USER', this.userID);
    })
   }
-
-  // getListEstadosCer_xt(){
-  //   let parametro: any[] = [{queryId: 106}];
-
-  //   this.facturacionService.getListEstadosCert(parametro[0]).subscribe((resp: any) => {
-  //           this.listEstadosCert = resp.list;
-  //           console.log('EST-FACTX', resp);
-  //   });
-  // }
 
   listEstadosCert: any[] = [];
   getListEstadosCert(){

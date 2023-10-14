@@ -32,6 +32,14 @@ export class LiquidacionService {
     return this.http.post(BASE_LIQUIDACION, requestLiq);
   }
 
+  crearVentaDeclarada(requestVd: any): Observable<any>{
+    return this.http.post(BASE_VENTADECLARADA, requestVd);
+  }
+
+  crearCertificacion(requestCert: any): Observable<any>{
+    return this.http.post(BASE_CERTIFICACION, requestCert);
+  }
+
   actualizarLiquidacion(idFact: number, requestLiq: RequestLiquidacion){
     return this.http.put<any>(`${BASE_LIQUIDACION}/${idFact}`, requestLiq)
   }
@@ -49,14 +57,9 @@ export class LiquidacionService {
 
   getVentaDeclaradaById(idVentaDecl: number){
     return this.http.get(`${BASE_VENTADECLARADA}/${idVentaDecl}`)
-    .pipe(
-      map((resp: any) => {
+    .pipe(map((resp: any) => {
         console.log('DATA_BY_ID', resp.result);
 
-        // for (let i = 0; i < resp.result.length; i++) {
-        //   console.log('ID_SERV_VD', resp, resp.result.length);
-
-      // }
           return resp.result;
       })
     );
@@ -64,8 +67,7 @@ export class LiquidacionService {
 
   getCertificacionById(idcert: number){
     return this.http.get(`${BASE_CERTIFICACION}/${idcert}`)
-    .pipe(
-      map((resp: any) => {
+    .pipe(map((resp: any) => {
         console.log('DATA_BY_CERT', resp.result);
 
           return resp.result;

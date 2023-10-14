@@ -1,6 +1,6 @@
 <div style="display: flex">
   <div class="flex-1"></div>
-  <div class="modal-title c-male">{{DATA_CERT ? 'Actualizar' : 'Agregar'}} Certificación</div>
+  <div class="modal-title c-male">{{DATA_CERT && DATA_CERT.isCreation ? 'Crear' : 'Actualizar'}} Certificación</div>
   <div class="flex-1"></div>
 
   <button (click)="close()" class="icon-btn btn-trans c-orange moda-close-btn">
@@ -18,7 +18,7 @@
               <div class="form-group">
                 <label>Orden de compra *</label>
                 <input
-                  type="number"
+                  type="text"
                   min="0"
                   class="form-control cli-input-white"
                   formControlName="ordenCompra"/>
@@ -41,7 +41,7 @@
               <div class="form-group">
                 <label>Certificación *</label>
                 <input
-                  type="number"
+                  type="text"
                   min="0"
                   class="form-control cli-input-white"
                   formControlName="certificacion"/>
@@ -53,7 +53,7 @@
               <label class="form-label">Estado *</label>
               <select class="cli-input-white" formControlName="estFactura">
                 <option [value]="0" disabled>-Seleccione-</option>
-                <option [value]="est.nombre" *ngFor="let est of listEstadosCert">{{est.nombre}}</option>
+                <option [value]="est.id" *ngFor="let est of listEstadosCert">{{est.nombre}}</option>
               </select>
               <small class="form-text text-alert" *ngIf="campoNoValido('estFactura')">* Ingrese el Estado es obligatorio</small>
             </div>
@@ -102,7 +102,7 @@
       <button
         class="cli-btn btn-m btn-blue"
         [disabled]="certifForm.invalid"
-        (click)="agregarOactualizarCertificacion()">
+        (click)="crearOactualizarCertificacion()">
         <mat-icon class="icon-18">save</mat-icon> {{actionBtn}}
       </button>
     </div>

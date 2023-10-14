@@ -41,7 +41,6 @@ switch (ENVIROMENT) {
     // PATH_FACTURACION = 'https://localhost:7004/api/Facturacion' //NUEVO WEB API
     PATH_FACTURACION = 'https://dynamosupport.azurewebsites.net/api/Facturacion' //NUEVO WEB API
     PATH_MANTENIMIENTO = 'https://localhost:7176/api'
-    // https://localhost:7176/api/Proyecto/GetAllProyectos
     PATH_VENTADECLARADA = 'https://dynamosupport.azurewebsites.net/api/VentaDeclarada'
     PATH_CERTIFICACION = 'https://dynamosupport.azurewebsites.net/api/Certificacion'
     PATH_HISTORICO_LIQUIDACION = 'https://dynamosupport.azurewebsites.net/api/HistoricoFacturacion'

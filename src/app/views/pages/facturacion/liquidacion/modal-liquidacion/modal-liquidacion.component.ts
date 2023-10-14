@@ -123,11 +123,10 @@ export class ModalLiquidacionComponent implements OnInit {
         Swal.fire({
           title: 'Crear liquidación!',
           text : `${resp.message}`,
-          // text : `La Liquidación: ${formValues.id_liquidacion},fue creado con éxito`,
           icon : 'success',
           confirmButtonText: 'Ok',
         });
-        // this.close(true);
+        this.close(true);
       }
     })
   }
@@ -254,37 +253,39 @@ export class ModalLiquidacionComponent implements OnInit {
 
 
   modalCrearVentaDeclarada(DATA_VD?: any){
-    const dialogRef = this.dialog.open(ModalVentadeclaradaComponent, { width:'35%' });
+    const dialogRef = this.dialog.open(ModalVentadeclaradaComponent, { width:'35%', data: {vdForm: this.liquidacionForm.value, isCreation: true} });
 
     dialogRef.afterClosed().subscribe(resp => {
       if (resp) {
-        // this.cargarFactura()
+        this.getListVentaDeclarada()
       }
     })
   }
 
   modalActualizarVentaDeclarada(DATA_VD?: any){
-    const dialogRef = this.dialog.open(ModalVentadeclaradaComponent, { width:'35%', data: this.listVentaDeclarada});
+    console.log('X-Z', DATA_VD);
+
+    const dialogRef = this.dialog.open(ModalVentadeclaradaComponent, { width:'35%', data: DATA_VD});
 
     dialogRef.afterClosed().subscribe(resp => {
       if (resp) {
-        // this.cargarFactura()
+        this.getListVentaDeclarada()
       }
     })
   }
 
-  abrirActualizarModalCertificacion(DATA?: any){
-    this.dialog.open(ModalCertificacionComponent, { width:'35%', data: this.listCertificacion}).afterClosed().subscribe(resp => {
+  modalCrearModalCertificacion(){
+    this.dialog.open(ModalCertificacionComponent, { width:'35%', data: {certifForm: this.liquidacionForm.value, isCreation: true}}).afterClosed().subscribe(resp => {
       if (resp) {
-        // this.cargarFactura()
+        this.getListCertificacion();
       }
     })
   };
 
-  abrirCrearModalCertificacion(){
-    this.dialog.open(ModalCertificacionComponent, { width:'35%',}).afterClosed().subscribe(resp => {
+  modalActualizarModalCertificacion(DATA?: any){
+    this.dialog.open(ModalCertificacionComponent, { width:'35%', data: DATA}).afterClosed().subscribe(resp => {
       if (resp) {
-        // this.cargarFactura()
+        this.getListCertificacion();
       }
     })
   };

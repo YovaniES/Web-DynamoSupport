@@ -67,7 +67,6 @@ export class LiquidacionComponent implements OnInit {
 
   ngOnInit(): void {
     this.newFilfroForm();
-    // this.cargarOBuscarLiquidacion();
     this.getAllLiquidaciones()
     this.getListGestores();
     this.getistProyectos();
@@ -185,24 +184,6 @@ export class LiquidacionComponent implements OnInit {
         });
       }
 
-      //     // if (columna.FECHAPROCESO.length == 8) {
-      //   importacionCorrecta = false;
-
-      //   Swal.fire({
-      //     icon:'error',
-      //     title:'ERROR, La fecha de proceso solo acepta un total de 8 dígitos y en formato YYYYMMDD',
-      //     text:`La columna: 'FECHAPROCESO' vs fila: ${(indice + 2)}`
-      //     });
-      // }
-
-      // if ((columna.NUMDOCUMENTO.length >= 8 ||  columna.NUMDOCUMENTO.length < 9) && columna.TIPODOCUMENTO == 'DNI') {
-
-      //   Swal.fire({
-      //     icon:'error',
-      //     title:'Algo salio mal, Corregir en',
-      //     text:`La columna: 'NUMDOCUMENTO' y fila: ${(indice+2)}`
-      //   });
-      // }
     })
     return importacionCorrecta;
   }
@@ -245,7 +226,6 @@ export class LiquidacionComponent implements OnInit {
       if (resp.value) {
         this.facturacionService.eliminarLiquidacion(parametro[0]).subscribe(resp => {
 
-          // this.cargarOBuscarLiquidacion();
           this.getAllLiquidaciones()
             Swal.fire({
               title: 'Eliminar Liquidación',
@@ -321,7 +301,6 @@ export class LiquidacionComponent implements OnInit {
     this.dialog.open(ModalLiquidacionComponent, { width: '70%', height: '80%', data: DATA })
       .afterClosed().subscribe((resp) => {
         if (resp) {
-          // this.cargarOBuscarLiquidacion();
           this.getAllLiquidaciones()
         }
       });
@@ -355,7 +334,6 @@ export class LiquidacionComponent implements OnInit {
     const dialogRef = this.dialog.open(ModalComentarioComponent, { width: '60%',data: dataComentario});
     dialogRef.afterClosed().subscribe((resp) => {
       if (resp) {
-        // this.cargarOBuscarLiquidacion();
         this.getAllLiquidaciones()
       }
     });
@@ -366,7 +344,6 @@ export class LiquidacionComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(resp => {
       if (resp) {
-        // this.cargarOBuscarLiquidacion()
         this.getAllLiquidaciones()
       }
     })

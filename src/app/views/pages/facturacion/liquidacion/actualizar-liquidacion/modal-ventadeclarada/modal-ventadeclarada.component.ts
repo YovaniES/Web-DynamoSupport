@@ -19,7 +19,6 @@ import * as moment from 'moment';
     imports: [MatIconModule, FormsModule, ReactiveFormsModule, NgIf]
 })
 export class ModalVentadeclaradaComponent implements OnInit {
-  ventaDeclaradaForm!: FormGroup;
 
   constructor(
     private facturacionService: FacturacionService,
@@ -36,15 +35,17 @@ export class ModalVentadeclaradaComponent implements OnInit {
   ngOnInit(): void {
     this.newForm();
     this.getUserID();
+
     if (this.DATA_VD) {
-      this.cargarVentaDeclaradaByID(this.DATA_VD.idVentaDeclarada);
+      this.cargarVentaDeclaradaByID(this.DATA_VD.idFactura);
       console.log('DATA_MODAL_VD', this.DATA_VD, this.DATA_VD.idVentaDeclarada);
     }
   }
 
+  ventaDeclaradaForm!: FormGroup;
   newForm(){
     this.ventaDeclaradaForm = this.fb.group({
-    //  ventaDeclarada : [this.DATA_VD.vdForm.venta_declarada, [Validators.required]],
+     idCertifacion  : [''],
      ventaDeclarada : ['', [Validators.required]],
      periodo        : ['', [Validators.required]],
      comentario     : ['-',[Validators.required]],
@@ -52,47 +53,49 @@ export class ModalVentadeclaradaComponent implements OnInit {
     })
    }
 
-   agregarOactualizarVentaDeclarada(){
-    if (!this.DATA_VD) {
-    return
-      }
+  crearOactualizarVentaDeclarada(){
+    if (this.ventaDeclaradaForm.invalid) {
+      return Object.values(this.ventaDeclaradaForm.controls).forEach((controls) => {
+        controls.markAllAsTouched();
+      })
+    }
+    const idVd = this.ventaDeclaradaForm.get('idCertifacion')?.value;
 
-    if (this.DATA_VD) {
-      if (this.ventaDeclaradaForm.valid) { this.agregarVentaDeclarada()}
+    if (idVd > 0) {
+      if (this.ventaDeclaradaForm.valid) {
+        console.log('ACT_VD');
+        this.actualizarVentaDeclarada();
+      }
     } else {
-      this.actualizarVentaDeclarada();
+      console.log('CREAR_VD');
+      this.crearVentaDeclarada()
     }
    }
 
-   agregarVentaDeclarada() {
-    this.spinner.show();
-    const formValues = this.ventaDeclaradaForm.getRawValue();
+  crearVentaDeclarada(): void{
+    // const request = {...this.ventaDeclaradaForm.value};
+    // request.periodo = request.periodo + '-' + '01';
 
-    let parametro: any =  {
-        queryId: 105,
-        mapValue: {
-          p_idFactura       : this.DATA_VD.vdForm.id_factura.idFactura,
-          p_periodo         : this.utilService.generarPeriodo(formValues.periodo),
-          p_venta_declarada : formValues.ventaDeclarada, //this.DATA_VD.vdForm.venta_declarada, //formValues.ventaDeclarada,
-          p_comentario      : formValues.comentario,
-          p_fecha_creacion  : '',
-          p_usuario_creacion: this.userID,
-          CONFIG_USER_ID    : this.userID,
-          // CONFIG_OUT_MSG_ERROR    : "",
-          // CONFIG_OUT_MSG_EXITO    : "",
-        },
-      };
-     console.log('VAOR_VD', this.ventaDeclaradaForm.value , parametro, this.DATA_VD.vdForm.id_factura.idFactura);
-    this.facturacionService.agregarVentaDeclarada(parametro).subscribe((resp: any) => {
-      Swal.fire({
-        title: 'Agregar Venta Declarada!',
-        text : `La venta declarada, fue creado con éxito`,
-        icon : 'success',
-        confirmButtonText: 'Ok',
-      });
-      this.close(true);
-    });
-    this.spinner.hide();
+    const formValues = this.ventaDeclaradaForm.getRawValue();
+    const request = {
+      idFactura      : this.DATA_VD.vdForm.idFactura,
+      periodo        : formValues.periodo + '-' + '01',
+      venta_declarada: formValues.ventaDeclarada,
+      comentario     : formValues.comentario,
+      usuario        : this.userID
+    }
+
+    this.liquidacionService.crearVentaDeclarada(request).subscribe((resp: any) => {
+      if (resp.message) {
+        Swal.fire({
+          title: 'Crear venta declarada!',
+          text: `${resp.message}`,
+          icon: 'success',
+          confirmButtonText: 'Ok'
+        })
+        this.close(true);
+      }
+    })
   }
 
   actualizarVentaDeclarada() {
@@ -136,31 +139,12 @@ export class ModalVentadeclaradaComponent implements OnInit {
      });
   }
 
-  // cargarVentaDeclaradaByID_xxxx(){
-  //   if (!this.DATA_VD.isCreation) {
-  //     this.titleBtn = 'Actualizar'
-  //     this.ventaDeclaradaForm.controls['ventaDeclarada'].setValue(this.DATA_VD.venta_declarada);
-  //     this.ventaDeclaradaForm.controls['periodo'       ].setValue(this.formatPeriodo(this.DATA_VD.periodo));
-  //     this.ventaDeclaradaForm.controls['comentario'    ].setValue(this.DATA_VD.comentario);
-
-  //     if (this.DATA_VD.dFecha !='null' && this.DATA_VD.dFecha != '') {
-  //       this.ventaDeclaradaForm.controls['fechaCrea'].setValue(this.DATA_VD.dFecha)
-  //       }
-  //     console.log('VD_PER', this.formatPeriodo(this.DATA_VD.periodo)); // 2022-09
-
-  //   }
-  // }
-
-  actionBtn: string = 'Agregar';
+  actionBtn: string = 'Crear';
   cargarVentaDeclaradaByID(idVD?: any){
-    if (this.DATA_VD) {
-      console.log('VD***', this.DATA_VD[0].idVentaDeclarada);
-      console.log('XYZ', this.DATA_VD);
+    if (!this.DATA_VD.isCreation) {
 
       this.actionBtn = 'Actualizar'
-      this.liquidacionService.getVentaDeclaradaById(this.DATA_VD[0].idVentaDeclarada).subscribe((resp: any) => {
-        // for (let i = 0; i < resp.result.length; i++) { }
-
+      this.liquidacionService.getVentaDeclaradaById(this.DATA_VD.idVentaDeclarada).subscribe((resp: any) => {
         console.log('CARGA_ID_VD', resp);
 
         this.ventaDeclaradaForm.reset({
@@ -183,7 +167,6 @@ export class ModalVentadeclaradaComponent implements OnInit {
    getUserID(){
     this.authService.getCurrentUser().subscribe( resp => {
       this.userID   = resp.result.user.userId;
-      // console.log('ID-USER', this.userID);
     })
    }
 
