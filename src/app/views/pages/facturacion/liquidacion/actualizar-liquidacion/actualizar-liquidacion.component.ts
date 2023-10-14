@@ -8,12 +8,14 @@ import { AuthService } from 'src/app/core/services/auth.service';
 import { FacturacionService } from 'src/app/core/services/facturacion.service';
 import { UtilService } from 'src/app/core/services/util.service';
 import Swal from 'sweetalert2';
-import { AgregarCertificacionComponent } from './agregar-certificacion/agregar-certificacion.component';
-import { AgregarVentadeclaradaComponent } from './agregar-ventadeclarada/agregar-ventadeclarada.component';
+// import { AgregarCertificacionComponent } from './modal-certificacion/modal-certificacion.component';
+// import { AgregarVentadeclaradaComponent } from './modal-ventadeclarada/modal-ventadeclarada.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatIconModule } from '@angular/material/icon';
 import { LiquidacionService } from 'src/app/core/services/liquidacion.service';
+import { ModalVentadeclaradaComponent } from './modal-ventadeclarada/modal-ventadeclarada.component';
+import { ModalCertificacionComponent } from './modal-certificacion/modal-certificacion.component';
 
 @Component({
     selector: 'app-actualizar-liquidacion',
@@ -376,7 +378,7 @@ export class ActualizarLiquidacionComponent implements OnInit {
 
   agregarVentaDeclarada(){
     // console.log('DA-LIQ', DATA);
-    const dialogRef = this.dialog.open(AgregarVentadeclaradaComponent, { width:'25%', data: {vdForm: this.facturaForm.value, isCreation: true}});
+    const dialogRef = this.dialog.open(ModalVentadeclaradaComponent, { width:'25%', data: {vdForm: this.facturaForm.value, isCreation: true}});
 
     dialogRef.afterClosed().subscribe(resp => {
       if (resp) {
@@ -387,7 +389,7 @@ export class ActualizarLiquidacionComponent implements OnInit {
 
   actualizarVentaDeclarada(DATA: any){
     // console.log('DATA_VD', DATA);
-    const dialogRef = this.dialog.open(AgregarVentadeclaradaComponent, { width:'25%', data: DATA });
+    const dialogRef = this.dialog.open(ModalVentadeclaradaComponent, { width:'25%', data: DATA });
 
     dialogRef.afterClosed().subscribe(resp => {
       if (resp) {
@@ -397,7 +399,7 @@ export class ActualizarLiquidacionComponent implements OnInit {
   }
 
   agregarFactura(){
-    const dialogRef = this.dialog.open(AgregarCertificacionComponent, { width:'35%', data: {fForm: this.facturaForm.value, isCreation: true}});
+    const dialogRef = this.dialog.open(ModalCertificacionComponent, { width:'35%', data: {fForm: this.facturaForm.value, isCreation: true}});
 
     dialogRef.afterClosed().subscribe(resp => {
       if (resp) {
@@ -409,7 +411,7 @@ export class ActualizarLiquidacionComponent implements OnInit {
   actualizarFactura(DATA: any){
     // console.log('DATA_F', DATA);
     // const DATA = this.facturaForm.value
-    const dialogRef = this.dialog.open(AgregarCertificacionComponent, { width:'35%', data: DATA});
+    const dialogRef = this.dialog.open(ModalCertificacionComponent, { width:'35%', data: DATA});
 
     dialogRef.afterClosed().subscribe(resp => {
       if (resp) {

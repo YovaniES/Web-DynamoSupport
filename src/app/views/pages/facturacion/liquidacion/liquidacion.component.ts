@@ -98,11 +98,9 @@ export class LiquidacionComponent implements OnInit {
 
     const request: FiltroLiqModel = {...this.liquidacionForm.value}
     // request.periodo = request.periodo? '' : request.periodo + '-' + '01';
-
     request.periodoActual = request.periodoActual? this.modificarMes(-1): '',
 
     this.liquidacionService.getAllLiquidaciones(request).subscribe((resp: any) => {
-
       console.log('LIST_LIQ =>', resp);
 
       this.blockUI.stop();

@@ -1,7 +1,7 @@
 import { DatePipe, NgIf, NgFor, DecimalPipe } from '@angular/common';
-import { Component, Inject, OnInit, inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -10,24 +10,29 @@ import { MatIconModule } from '@angular/material/icon';
 import { MantenimientoService } from 'src/app/core/services/mantenimiento.service';
 import { LiquidacionService } from 'src/app/core/services/liquidacion.service';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { AgregarCertificacionComponent } from '../actualizar-liquidacion/agregar-certificacion/agregar-certificacion.component';
-import { AgregarVentadeclaradaComponent } from '../actualizar-liquidacion/agregar-ventadeclarada/agregar-ventadeclarada.component';
+import { ModalCertificacionComponent } from '../actualizar-liquidacion/modal-certificacion/modal-certificacion.component';
+import { ModalVentadeclaradaComponent } from '../actualizar-liquidacion/modal-ventadeclarada/modal-ventadeclarada.component';
 
 @Component({
     selector: 'app-modal-liquidacion',
     templateUrl: './modal-liquidacion.component.html',
     styleUrls: ['./modal-liquidacion.component.scss'],
     standalone: true,
-    imports: [NgIf, MatIconModule, FormsModule, ReactiveFormsModule, NgFor, MatProgressSpinnerModule, DecimalPipe]
+    imports: [NgIf,
+      MatIconModule,
+      FormsModule,
+      ReactiveFormsModule,
+      NgFor,
+      MatProgressSpinnerModule,
+      DecimalPipe,
+      DatePipe]
 })
 export class ModalLiquidacionComponent implements OnInit {
   @BlockUI() blockUI!: NgBlockUI;
-  factura_Id: number = 0;
+  liquidacion_Id: number = 0;
 
   loadingItem: boolean = false;
-
   userID: number = 0;
-  liquidacionForm!: FormGroup;
 
   constructor(
     private liquidacionService  : LiquidacionService,
@@ -35,7 +40,6 @@ export class ModalLiquidacionComponent implements OnInit {
     private authService         : AuthService,
     private fb                  : FormBuilder,
     public datePipe             : DatePipe,
-    // private dialog              : MatDialogRef<AgregarCertificacionComponent>,
     private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public DATA_LIQUID: any
   ){}
@@ -48,13 +52,17 @@ export class ModalLiquidacionComponent implements OnInit {
     this.getListProyectos();
 
     if (this.DATA_LIQUID) {
-      this.factura_Id = this.DATA_LIQUID.idFactura;
+      this.liquidacion_Id = this.DATA_LIQUID.idFactura;
       this.cargarLiqById(this.DATA_LIQUID.idFactura);
 
-      console.log('DATA_MODAL_LIQUID', this.DATA_LIQUID);
+      // console.log('DATA_MODAL_LIQUID', this.DATA_LIQUID);
+      this.getListVentaDeclarada();
+      this.getListCertificacion();
+      this.getListHistoricoCambios()
     }
   }
 
+  liquidacionForm!: FormGroup;
   newForm(){
     this.liquidacionForm = this.fb.group({
      idFactura      : [''],
@@ -68,7 +76,6 @@ export class ModalLiquidacionComponent implements OnInit {
      idUsuarioCrea  : ['' ],
      fecha_crea     : ['' ],
      ver_estado     : ['' ],
-    //  id_reg_proy    : [1,  [Validators.required]],
     })
   }
 
@@ -97,11 +104,9 @@ export class ModalLiquidacionComponent implements OnInit {
 
     if (idFact > 0) {
       console.log('A C T',);
-
       this.actualizarLiquidacion(idFact);
     }else {
       console.log('C R E A R');
-
       this.crearLiquidacion();
     }
   }
@@ -142,8 +147,7 @@ export class ModalLiquidacionComponent implements OnInit {
         this.liquidacionForm.reset({
           idFactura      : resp.idFactura,
           periodo        : resp.periodo,
-          // periodo        : DATE_FORMAT(resp.periodo, '%Y-%m') ,
-          proyecto       : resp.proyecto,
+          // proyecto       : resp.proyecto,
           // idLiquidacion  : resp.idLiquidacion,
           subServicio    : resp.subServicio,
           idGestor       : resp.gestor,
@@ -157,19 +161,46 @@ export class ModalLiquidacionComponent implements OnInit {
     }
   }
 
-    // moment.utc(formValues.fechaInicVac).format('YYYY-MM-DD'),
-    // DATE_FORMAT(F.periodo, '%Y-%m') AS periodo,
-
-
   formatPeriodo(fechaPeriodo: string){
     const mesAndYear = fechaPeriodo.split('/');
     return mesAndYear[0] + '-' + mesAndYear[1]
   }
 
   listVentaDeclarada:any[] = [];
-  eliminaVentaDeclarada(idVd: number){
+  getListVentaDeclarada(){
+    this.blockUI.start('Cargando lista venta declarada...');
+    // console.log('ID_LIQ_VD', this.DATA_LIQUID.idFactura);
+    const requestId = {
+      idFactura : this.DATA_LIQUID.idFactura
+    }
 
+    this.liquidacionService.getAllVentaDeclarada(requestId).subscribe((resp: any) => {
+      // console.log('DATA_VD', resp, resp.result);
+      this.blockUI.stop();
+
+      this.listVentaDeclarada = [];
+      this.listVentaDeclarada = resp.result;
+    })
   }
+
+  listCertificacion:any[] = [];
+  getListCertificacion(){
+    // console.log('ID_LIQ_VD', this.DATA_LIQUID.idFactura);
+    const requestId = {
+      idFactura : this.DATA_LIQUID.idFactura
+    }
+
+
+    this.liquidacionService.getListCertificacion(requestId).subscribe((resp: any) => {
+      console.log('DATA_CERT', resp);
+
+      this.listCertificacion = [];
+      this.listCertificacion = resp.result;
+    })
+  }
+
+  eliminaVentaDeclarada(idVd: number){}
+  eliminarCertificacion(idCert: number){}
 
   importTotal: number = 0;
   obtenerImporteTotal(): number{
@@ -183,6 +214,12 @@ export class ModalLiquidacionComponent implements OnInit {
   }
 
   histCambiosEstado: any[] = [];
+  getListHistoricoCambios(){
+    this.liquidacionService.getHistLiquidacion(this.DATA_LIQUID.idFactura).subscribe((resp: any) => {
+      // console.log('HIST', resp);
+      this.histCambiosEstado = resp.result;
+    })
+  }
 
 
 
@@ -215,8 +252,9 @@ export class ModalLiquidacionComponent implements OnInit {
     })
   }
 
-  abrirAgregaOactualizarVentaDeclarada(DATA_VD?: any){
-    const dialogRef = this.dialog.open(AgregarVentadeclaradaComponent, { width:'35%', data: {fForm: this.liquidacionForm.value, isCreation: true}});
+
+  modalCrearVentaDeclarada(DATA_VD?: any){
+    const dialogRef = this.dialog.open(ModalVentadeclaradaComponent, { width:'35%' });
 
     dialogRef.afterClosed().subscribe(resp => {
       if (resp) {
@@ -225,10 +263,26 @@ export class ModalLiquidacionComponent implements OnInit {
     })
   }
 
-  abrirAgregarOactualizarCertificacion(DATA?: any){
-    console.log('DATA_F', DATA);
-    // const DATA = this.facturaForm.value
-    this.dialog.open(AgregarCertificacionComponent, { width:'35%', data: {fForm: this.liquidacionForm.value, isCreation: true}}).afterClosed().subscribe(resp => {
+  modalActualizarVentaDeclarada(DATA_VD?: any){
+    const dialogRef = this.dialog.open(ModalVentadeclaradaComponent, { width:'35%', data: this.listVentaDeclarada});
+
+    dialogRef.afterClosed().subscribe(resp => {
+      if (resp) {
+        // this.cargarFactura()
+      }
+    })
+  }
+
+  abrirActualizarModalCertificacion(DATA?: any){
+    this.dialog.open(ModalCertificacionComponent, { width:'35%', data: this.listCertificacion}).afterClosed().subscribe(resp => {
+      if (resp) {
+        // this.cargarFactura()
+      }
+    })
+  };
+
+  abrirCrearModalCertificacion(){
+    this.dialog.open(ModalCertificacionComponent, { width:'35%',}).afterClosed().subscribe(resp => {
       if (resp) {
         // this.cargarFactura()
       }
@@ -247,3 +301,4 @@ export class ModalLiquidacionComponent implements OnInit {
     // this.dialog.close(succes);
   }
 }
+

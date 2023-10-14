@@ -2,7 +2,6 @@
   <div class="flex-1"></div>
   <div class="modal-title c-male">{{ DATA_LIQUID ? "Actualizar" : "Agregar" }} liquidación</div>
   <div class="flex-1"></div>
-
   <button (click)="close()" class="icon-btn btn-trans c-orange moda-close-btn"><mat-icon>close</mat-icon></button>
 </div>
 
@@ -13,7 +12,7 @@
       <div style="display: flex" *ngIf="DATA_LIQUID">
         <div class="col-2 pr-subtitle mt-2">Registro liquidación</div>
         <div class="flex-1"></div>
-        <div class="mt-2 id-factura">ID : <span class="total">{{ factura_Id }}</span></div>
+        <div class="mt-2 id-factura">ID : <span class="total">{{ liquidacion_Id }}</span></div>
       </div>
 
       <div class="pr-section">
@@ -103,9 +102,8 @@
                   class="btn-asignar btn-grey mb-1"
                   matTooltip="Agregar venta declarada"
                   type="submit"
-                  (click)="abrirAgregaOactualizarVentaDeclarada()"
-                >
-                  <mat-icon class="icon-18">add</mat-icon>
+                  (click)="modalCrearVentaDeclarada()"
+                  ><mat-icon class="icon-18">add</mat-icon>
                 </button>
               </div>
 
@@ -116,6 +114,7 @@
                       <tr class="bgc-blue-light c-white">
                         <th>Acción</th>
                         <th style="min-width: 35px">N°</th>
+                        <th>ID VD</th>
                         <th>Periodo</th>
                         <th>Importe</th>
                         <th>Saldo</th>
@@ -129,20 +128,20 @@
                             <button
                               matTooltip="Actualizar"
                               class="icon-btn btn-trans c-blue"
-                              (click)="abrirAgregaOactualizarVentaDeclarada(vd)"
+                              (click)="modalActualizarVentaDeclarada(vd)"
                               ><mat-icon class="icon-13">edit</mat-icon>
                             </button>
                             <button
                               matTooltip="Eliminar"
                               class="icon-btn btn-trans c-fucsia"
-                              (click)="eliminaVentaDeclarada(vd.idFactVenta)"
+                              (click)="eliminaVentaDeclarada(vd.idVentaDeclarada)"
                               ><mat-icon class="icon-13">delete_forever</mat-icon>
                             </button>
                           </div>
                         </td>
-                        <!-- <td>{{ vd.idFactVenta }}</td> -->
                         <td>{{ i + 1 }}</td>
-                        <td>{{ vd.periodo }}</td>
+                        <td>{{ vd.idVentaDeclarada }}</td>
+                        <td style="min-width: 60px;">{{ vd.periodo | date: 'yyyy-MM'}}</td>
                         <td style="font-weight: 600"><small style="font-weight: 200; margin-right: 3px">S/</small>{{ vd.venta_declarada | number : "1.0-2" }}</td>
                         <td class="fact-saldo"><small style="font-weight: 200; margin-right: 3px">S/</small>{{vd.venta_declarada - importTotal | number : "1.0-2"}}</td>
                       </tr>
@@ -159,20 +158,19 @@
               </div>
             </div>
 
-            <!-- AGREGAR CERTIFICACION-------------------------------------------------------------------- -->
+            <!-- CERTIFICACION-------------------------------------------------------------------- -->
             <div class="col-8">
               <div style="background-color: #f6f3f3">
                 <button
                   class="btn-asignar btn-grey mb-1"
                   matTooltip="Agregar factura"
                   type="submit"
-                  (click)="abrirAgregarOactualizarCertificacion()"
-                >
-                  <mat-icon class="icon-18">add</mat-icon>
+                  (click)="abrirCrearModalCertificacion()"
+                  ><mat-icon class="icon-18">add</mat-icon>
                 </button>
               </div>
               <div style="overflow: auto; min-height: 50px; color: #6c757d">
-                <div *ngIf="listVentaDeclarada.length > 0">
+                <div *ngIf="listCertificacion.length > 0">
                   <table class="cli-table stripedtable underlinedtable">
                     <thead>
                       <tr class="bgc-blue-light c-white">
@@ -189,46 +187,46 @@
                     </thead>
 
                     <tbody>
-                      <tr *ngFor="let factura of listVentaDeclarada; let i = index">
+                      <tr *ngFor="let certif of listCertificacion; let i = index">
                         <td>
                           <div class="cli-table-actions">
                             <button
                               matTooltip="Actualizar"
                               class="icon-btn btn-trans c-blue"
-                              (click)="abrirAgregarOactualizarCertificacion(factura)"
+                              (click)="abrirActualizarModalCertificacion(certif)"
                               ><mat-icon class="icon-13">edit</mat-icon>
                             </button>
 
                             <button
                               matTooltip="Eliminar"
                               class="icon-btn btn-trans c-fucsia"
-                              (click)="eliminaVentaDeclarada(factura.idFactCertificacion)"
+                              (click)="eliminarCertificacion(certif.idCertificacion)"
                               ><mat-icon class="icon-13">delete_forever</mat-icon>
                             </button>
                           </div>
                         </td>
-                        <!-- <td>{{ factura.idFactCertificacion }}</td> -->
+                        <!-- <td>{{ certif.idFactCertificacion }}</td> -->
                         <td>{{ i + 1 }}</td>
-                        <td>{{ factura.oc }}</td>
-                        <td>{{ factura.certificacion }}</td>
+                        <td>{{ certif.orden_compra }}</td>
+                        <td>{{ certif.certificacion }}</td>
                         <td>
-                          <span *ngIf="factura.id_estado == 663" class="label estado-danger">{{ factura.estado }}</span>
-                          <span *ngIf="factura.id_estado == 182" class="label estado-succes">{{ factura.estado }}</span>
-                          <span *ngIf="factura.id_estado == 183" class="label estado-info">  {{ factura.estado }}</span>
+                          <span *ngIf="certif.idEstado == 663" class="label estado-danger">{{ certif.estado }}</span>
+                          <span *ngIf="certif.idEstado == 182" class="label estado-succes">{{ certif.estado }}</span>
+                          <span *ngIf="certif.idEstado == 183" class="label estado-info">  {{ certif.estado }}</span>
                         </td>
-                        <td>{{ factura.factura }}</td>
+                        <td>{{ certif.factura }}</td>
                         <td style="text-align: end">
-                          <small style="font-weight: 200; margin-right: 3px">S/</small>{{ factura.importe | number : "1.0-2" }}
+                          <small style="font-weight: 200; margin-right: 3px">S/</small>{{ certif.importe | number : "1.0-2" }}
                         </td>
-                        <td>{{ factura.fecha_facturacion }}</td>
+                        <td>{{ certif.fecha_facturacion | date: 'dd/MM/yyyy' }}</td>
                       </tr>
                     </tbody>
                   </table>
                   <div class="col-12 fact-total"><small style="font-weight: 300; margin-right: 3px; width: 52px">Total: S/</small>{{ obtenerImporteTotal() | number : "1.0-2" }}</div>
                   <div class="cli-loader" *ngIf="loadingItem"><mat-spinner style="margin-right: 20px" diameter="20"></mat-spinner>cargando...</div>
                 </div>
-                <div
-                  *ngIf="!loadingItem && listVentaDeclarada.length == 0"
+
+                <div *ngIf="!loadingItem && listVentaDeclarada.length == 0"
                   class="cli-loader mt-2"
                   style="color: #c9c9c9; font-size: 12px"
                   >Aún no tiene factura agregada
@@ -271,24 +269,18 @@
                   <td>{{ cambios.idFactura }}</td>
                   <td>{{ cambios.estado }}</td>
                   <td>{{ cambios.proyecto }}</td>
-                  <td>{{ cambios.fecha }}</td>
-                  <td>{{ cambios.username }}</td>
+                  <td>{{ cambios.fecha | date:'dd/MM/yyyy HH:mm' }}</td>
+                  <td>{{ cambios.usuario }}</td>
                 </tr>
               </tbody>
             </table>
             <div class="cli-loader" *ngIf="loadingItem">
-              <mat-spinner
-                style="margin-right: 20px"
-                diameter="20"
-              ></mat-spinner
-              >cargando...
+              <mat-spinner style="margin-right: 20px" diameter="20"></mat-spinner>cargando...
             </div>
 
-            <div
-              *ngIf="histCambiosEstado.length == 0"
+            <div *ngIf="histCambiosEstado.length == 0"
               class="cli-loader mt-2"
-              style="color: #c9c9c9; font-size: 12px"
-            >
+              style="color: #c9c9c9; font-size: 12px">
               Aquí se mostrará el histórico de estados...
             </div>
           </div>
@@ -305,8 +297,7 @@
         class="cli-btn btn-m btn-blue"
         (click)="crearOactualizarLiq()"
         [disabled]="liquidacionForm.invalid"
-      >
-        <mat-icon class="icon-18">save</mat-icon> {{ actionBtn }}
+        ><mat-icon class="icon-18">save</mat-icon> {{ actionBtn }}
       </button>
     </div>
   </div>
