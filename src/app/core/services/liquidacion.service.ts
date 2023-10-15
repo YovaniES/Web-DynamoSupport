@@ -40,9 +40,19 @@ export class LiquidacionService {
     return this.http.post(BASE_CERTIFICACION, requestCert);
   }
 
-  actualizarLiquidacion(idFact: number, requestLiq: RequestLiquidacion){
+  actualizarLiquidacion(idFact: number, requestLiq: any[]){
     return this.http.put<any>(`${BASE_LIQUIDACION}/${idFact}`, requestLiq)
   }
+
+  actualizarVentaDeclarada(idVd: number, requestVd: any){
+    return this.http.put<any>(`${BASE_VENTADECLARADA}/${idVd}`, requestVd);
+  }
+
+
+  actualizarCertificacion(idCert: number, requestCert: any){
+    return this.http.put<any>(`${BASE_CERTIFICACION}/${idCert}`, requestCert);
+  }
+
 
   // VENTA DECLARADA Y CERTIFICACIONES
   getAllVentaDeclarada(idLiq: any): Observable<any>{ //any <> IResponse: {message: , result: , }

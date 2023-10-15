@@ -315,19 +315,6 @@ export class LiquidacionComponent implements OnInit {
     })
   }
 
-  // duplicarLiquidacion(DATA: any){
-  //   console.log('ENV_DATA', DATA);
-
-  //   const dialogRef = this.dialog.open(ModalLiquidacionComponent, {width:'55%', data: DATA});
-  //   dialogRef.afterClosed().subscribe(resp => {
-  //     if (resp) {
-  //       // this.cargarOBuscarLiquidacion()
-  //     this.getAllLiquidaciones()
-  //     }
-  //   })
-  // }
-
-
   abrirComentarioRegularizacion(dataComentario: any) {
     console.log('DATA_DETALLE', dataComentario);
 

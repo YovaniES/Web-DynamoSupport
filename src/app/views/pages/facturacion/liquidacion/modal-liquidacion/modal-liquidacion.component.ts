@@ -1,7 +1,7 @@
 import { DatePipe, NgIf, NgFor, DecimalPipe } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -41,6 +41,8 @@ export class ModalLiquidacionComponent implements OnInit {
     private fb                  : FormBuilder,
     public datePipe             : DatePipe,
     private dialog: MatDialog,
+    private dialogRef: MatDialogRef<ModalVentadeclaradaComponent>,
+
     @Inject(MAT_DIALOG_DATA) public DATA_LIQUID: any
   ){}
 
@@ -67,31 +69,18 @@ export class ModalLiquidacionComponent implements OnInit {
     this.liquidacionForm = this.fb.group({
      idFactura      : [''],
      periodo        : ['', [Validators.required]],
-     proyecto       : ['', [Validators.required]],
+     idProyecto     : ['', [Validators.required]],
      idLiquidacion  : ['',], //acta,
      subServicio    : ['', [Validators.required]],
      idGestor       : ['', [Validators.required]],
-     importe        : ['', [Validators.required]],
-     idEstado       : [178],
+     ventaDeclarada : ['', [Validators.required]],
+     idEstado       : [''],
+
      idUsuarioCrea  : ['' ],
      fecha_crea     : ['' ],
-     ver_estado     : ['' ],
+     id_reg_proy    : [0]
     })
   }
-
-
-  // crearOduplicarLiquidacion(){
-  //   this.spinner.show();
-
-  //   if (!this.DATA_DUPLICIDAD) {
-
-  //     if (this.liquidacionForm.valid) {
-  //       this.crearLiquidacion()
-  //     } else {
-  //       this.duplicarLiquidacion();
-  //     }
-  //   }
-  // }
 
   crearOactualizarLiq(){
     if (this.liquidacionForm.invalid) {
@@ -104,7 +93,7 @@ export class ModalLiquidacionComponent implements OnInit {
 
     if (idFact > 0) {
       console.log('A C T',);
-      this.actualizarLiquidacion(idFact);
+      this.actualizarLiquidacion();
     }else {
       console.log('C R E A R');
       this.crearLiquidacion();
@@ -115,7 +104,9 @@ export class ModalLiquidacionComponent implements OnInit {
     const request =  {...this.liquidacionForm.value}
 
     const fechaActual = new Date();
-    request.periodo = request.periodo + '-'+ '01'
+    request.periodo = request.periodo + '-'+ '01';
+    request.idUsuarioCrea = this.userID;
+    request.idEstado = 178  //Enviado
     // request.periodo = request.periodo + '-'+ fechaActual.getDay()
 
     this.liquidacionService.createLiquidacion(request).subscribe((resp: any) => {
@@ -131,28 +122,43 @@ export class ModalLiquidacionComponent implements OnInit {
     })
   }
 
-  actualizarLiquidacion(id: number){
+  actualizarLiquidacion(){
+    const requestLiq = {...this.liquidacionForm.value}
+    requestLiq.periodo = requestLiq.periodo + '-' + '01'
+    requestLiq.idUsuarioActualiza = this.userID;
+    requestLiq.idEstado = 180  //MO_CARGADO OJO FALTA EL IDESTADO, PARA QUITARLO
 
+    this.liquidacionService.actualizarLiquidacion(this.DATA_LIQUID.idFactura, requestLiq).subscribe((resp: any) => {
+      if (resp.success) {
+          Swal.fire({
+            title: 'Actualizar liquidación!',
+            text : `${resp.message}`,
+            icon : 'success',
+            confirmButtonText: 'Ok',
+          });
+          this.close(true);
+      }
+    })
   }
 
-  // periodo:"2023-01-01T00:00:00"
   actionBtn: string = 'Crear';
   cargarLiqById(idLiq: number): void{
     // this.blockUI.start("Cargando data...");
-
     if (this.DATA_LIQUID) {
       this.actionBtn = 'Actualizar'
       this.liquidacionService.getLiquidacionById(idLiq).subscribe((resp: any) => {
+        console.log('DATA_BY_ID_LIQ', resp);
+
         this.liquidacionForm.reset({
           idFactura      : resp.idFactura,
           periodo        : resp.periodo,
-          // proyecto       : resp.proyecto,
-          // idLiquidacion  : resp.idLiquidacion,
+          idProyecto     : resp.idProyecto,
+          idLiquidacion  : resp.idTipoLiquidacion,
           subServicio    : resp.subServicio,
-          idGestor       : resp.gestor,
-          importe        : resp.importe,
+          idGestor       : resp.idGestor,
+          ventaDeclarada : resp.importe,
           idEstado       : resp.estado,
-          fecha_crea     : resp.fechaCrea,
+          fecha_crea     : resp.fechaCreacion,
           // idUsuarioCrea  : resp.idUsuarioCrea,
           // ver_estado     : resp.ver_estado,
         })
@@ -189,7 +195,6 @@ export class ModalLiquidacionComponent implements OnInit {
       idFactura : this.DATA_LIQUID.idFactura
     }
 
-
     this.liquidacionService.getListCertificacion(requestId).subscribe((resp: any) => {
       console.log('DATA_CERT', resp);
 
@@ -219,8 +224,6 @@ export class ModalLiquidacionComponent implements OnInit {
       this.histCambiosEstado = resp.result;
     })
   }
-
-
 
   getUserID(){
     this.authService.getCurrentUser().subscribe( resp => {
@@ -253,7 +256,7 @@ export class ModalLiquidacionComponent implements OnInit {
 
 
   modalCrearVentaDeclarada(DATA_VD?: any){
-    const dialogRef = this.dialog.open(ModalVentadeclaradaComponent, { width:'35%', data: {vdForm: this.liquidacionForm.value, isCreation: true} });
+    const dialogRef = this.dialog.open(ModalVentadeclaradaComponent, { width:'25%', data: {vdForm: this.liquidacionForm.value, isCreation: true} });
 
     dialogRef.afterClosed().subscribe(resp => {
       if (resp) {
@@ -265,7 +268,7 @@ export class ModalLiquidacionComponent implements OnInit {
   modalActualizarVentaDeclarada(DATA_VD?: any){
     console.log('X-Z', DATA_VD);
 
-    const dialogRef = this.dialog.open(ModalVentadeclaradaComponent, { width:'35%', data: DATA_VD});
+    const dialogRef = this.dialog.open(ModalVentadeclaradaComponent, { width:'25%', data: DATA_VD});
 
     dialogRef.afterClosed().subscribe(resp => {
       if (resp) {
@@ -299,7 +302,7 @@ export class ModalLiquidacionComponent implements OnInit {
   }
 
   close(succes?: boolean) {
-    // this.dialog.close(succes);
+    this.dialogRef.close(succes);
   }
 }
 

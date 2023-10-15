@@ -2,10 +2,7 @@ import { DatePipe, NgIf } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { NgxSpinnerService } from 'ngx-spinner';
 import { AuthService } from 'src/app/core/services/auth.service';
-import { FacturacionService } from 'src/app/core/services/facturacion.service';
-import { UtilService } from 'src/app/core/services/util.service';
 import Swal from 'sweetalert2';
 import { MatIconModule } from '@angular/material/icon';
 import { LiquidacionService } from 'src/app/core/services/liquidacion.service';
@@ -21,12 +18,9 @@ import * as moment from 'moment';
 export class ModalVentadeclaradaComponent implements OnInit {
 
   constructor(
-    private facturacionService: FacturacionService,
     private liquidacionService: LiquidacionService,
-    private utilService: UtilService,
     private authService: AuthService,
     private fb: FormBuilder,
-    private spinner: NgxSpinnerService,
     public datePipe: DatePipe,
     private dialogRef: MatDialogRef<ModalVentadeclaradaComponent>,
     @Inject(MAT_DIALOG_DATA) public DATA_VD: any
@@ -45,11 +39,13 @@ export class ModalVentadeclaradaComponent implements OnInit {
   ventaDeclaradaForm!: FormGroup;
   newForm(){
     this.ventaDeclaradaForm = this.fb.group({
-     idCertifacion  : [''],
-     ventaDeclarada : ['', [Validators.required]],
-     periodo        : ['', [Validators.required]],
-     comentario     : ['-',[Validators.required]],
-     fechaCrea      : ['']
+     ventaDeclarada  : ['', [Validators.required]],
+     periodo         : ['', [Validators.required]],
+     comentario      : ['-',[Validators.required]],
+     fechaCrea       : [''],
+
+     idUsuarioActualiza: [''],
+     idFactura: ['']
     })
    }
 
@@ -59,13 +55,11 @@ export class ModalVentadeclaradaComponent implements OnInit {
         controls.markAllAsTouched();
       })
     }
-    const idVd = this.ventaDeclaradaForm.get('idCertifacion')?.value;
+    // const idVd = this.ventaDeclaradaForm.get('idVentaDeclarada')?.value;
 
-    if (idVd > 0) {
-      if (this.ventaDeclaradaForm.valid) {
+    if (this.DATA_VD.idVentaDeclarada > 0) {
         console.log('ACT_VD');
         this.actualizarVentaDeclarada();
-      }
     } else {
       console.log('CREAR_VD');
       this.crearVentaDeclarada()
@@ -73,9 +67,6 @@ export class ModalVentadeclaradaComponent implements OnInit {
    }
 
   crearVentaDeclarada(): void{
-    // const request = {...this.ventaDeclaradaForm.value};
-    // request.periodo = request.periodo + '-' + '01';
-
     const formValues = this.ventaDeclaradaForm.getRawValue();
     const request = {
       idFactura      : this.DATA_VD.vdForm.idFactura,
@@ -98,45 +89,29 @@ export class ModalVentadeclaradaComponent implements OnInit {
     })
   }
 
-  actualizarVentaDeclarada() {
-    this.spinner.show();
-
+  actualizarVentaDeclarada(){
     const formValues = this.ventaDeclaradaForm.getRawValue();
-    let parametro: any[] = [{ queryId: 110,
-        mapValue: {
-          p_idFactVenta       : this.DATA_VD.idFactVenta,
-          p_idFactura         : this.DATA_VD.idFactura,
-          p_periodo           : this.utilService.generarPeriodo(formValues.periodo) ,
-          p_venta_declarada   : formValues.ventaDeclarada ,
-          p_comentario        : formValues.comentario ,
-          p_dFecha            : formValues.fechaCrea,
-          p_usuario           : this.userID ,
-          CONFIG_USER_ID      : this.userID,
-          CONFIG_OUT_MSG_ERROR: "",
-          CONFIG_OUT_MSG_EXITO: "",
-        },
-      }];
-     this.facturacionService.actualizarVentaDeclarada(parametro[0]).subscribe({next: (res) => {
-        this.spinner.hide();
 
-        this.close(true)
+    const request = {
+      idFactVenta    : this.DATA_VD.idVentaDeclarada,
+      idFactura      : this.DATA_VD.idFactura,
+      periodo        : formValues.periodo + '-' + '01' ,
+      venta_declarada: formValues.ventaDeclarada,
+      comentario     : this.ventaDeclaradaForm.controls['comentario'].value,
+      usuario        : this.userID
+    }
+
+    this.liquidacionService.actualizarVentaDeclarada(this.DATA_VD.idVentaDeclarada, request).subscribe((resp: any) => {
+      if (resp.success) {
           Swal.fire({
             title: 'Actualizar venta declarada!',
-            text : `La Venta declarada, se actualizó con éxito`,
+            text : `${resp.message}`,
             icon : 'success',
-            confirmButtonText: 'Ok'
-            });
-
-          this.ventaDeclaradaForm.reset();
-          this.dialogRef.close('Actualizar');
-        }, error:()=>{
-          Swal.fire(
-            'ERROR',
-            'No se pudo actualizar la venta declarada',
-            'warning'
-          );
-        }
-     });
+            confirmButtonText: 'Ok',
+          });
+          this.close(true);
+      }
+    })
   }
 
   actionBtn: string = 'Crear';

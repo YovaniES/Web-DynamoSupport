@@ -16,7 +16,7 @@
           <div class="row g-3">
             <div class="col-sm-6 cli-form-element">
               <div class="form-group">
-                <label>Orden de compra *</label>
+                <label>Orden de compra <small style="color: #ff4081;">*</small></label>
                 <input
                   type="text"
                   min="0"
@@ -28,7 +28,7 @@
 
             <div class="col-sm-6 cli-form-element">
               <div class="form-group">
-                <label>Importe *</label>
+                <label>Importe <small style="color: #ff4081;">*</small></label>
                 <input
                   type="number"
                   class="form-control cli-input-white"
@@ -39,7 +39,7 @@
 
             <div class="col-sm-6 cli-form-element">
               <div class="form-group">
-                <label>Certificación *</label>
+                <label>Certificación <small style="color: #ff4081;">*</small></label>
                 <input
                   type="text"
                   min="0"
@@ -50,7 +50,7 @@
             </div>
 
             <div class="col-sm-6 cli-form-element">
-              <label class="form-label">Estado *</label>
+              <label class="form-label">Estado <small style="color: #ff4081;">*</small></label>
               <select class="cli-input-white" formControlName="estFactura">
                 <option [value]="0" disabled>-Seleccione-</option>
                 <option [value]="est.id" *ngFor="let est of listEstadosCert">{{est.nombre}}</option>
@@ -60,7 +60,7 @@
 
             <div class="col-sm-6 cli-form-element">
               <div class="form-group">
-                <label>Factura *</label>
+                <label>Factura <small style="color: #ff4081;">*</small></label>
                 <input
                   type="text"
                   class="form-control cli-input-white"
@@ -71,7 +71,7 @@
 
             <div class=" col-sm-6 cli-form-element">
               <div class="form-group">
-                <label>Fecha de facturación *</label>
+                <label>Fecha de facturación <small style="color: #ff4081;">*</small></label>
                 <input
                   type="date"
                   class="form-control cli-input-white"
