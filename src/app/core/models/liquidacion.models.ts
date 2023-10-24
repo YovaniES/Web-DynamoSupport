@@ -1,5 +1,6 @@
 export interface LiquidacionModel {
   idFactura         : number ;
+  id_Liquidacion    : string;
   periodo?          : Date;
   idProyecto        : number;
   proyecto          : string;
@@ -8,6 +9,7 @@ export interface LiquidacionModel {
   subServicio       : string;
   idGestor          : number;
   gestor            : string;
+  lider             : string;
   estado            : string;
   ordenCompra       : string;
   codCertificacion  : string;

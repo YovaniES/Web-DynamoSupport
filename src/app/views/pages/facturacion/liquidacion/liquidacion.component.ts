@@ -112,7 +112,7 @@ export class LiquidacionComponent implements OnInit {
   importacion = 0;
   DATAimport: any[] = [];
   readExcell(e: any){
-    console.log('|==>',e, this.liquidacionForm);
+    console.log('e|==>',e, this.liquidacionForm);
     this.importacion ++
     this.blockUI.start("Espere por favor, estamos Importando la Data... " + this.importacion) ;
 
@@ -201,7 +201,28 @@ export class LiquidacionComponent implements OnInit {
 
 
   eliminarLiquidacion(idLiq: number){
+    Swal.fire({
+      title:'¿Eliminar Liquidación?',
+      text: `¿Estas seguro que deseas eliminar la Liquidación: ${idLiq}?`,
+      icon: 'question',
+      confirmButtonColor: '#ec4756',
+      cancelButtonColor: '#0d6efd',
+      confirmButtonText: 'Si, Eliminar!',
+      showCancelButton: true,
+      cancelButtonText: 'Cancelar',
+    }).then((result) => {
+      if (result.isConfirmed){
+        this.liquidacionService.deleteLiquidacion(idLiq).subscribe(resp => {
 
+          Swal.fire({
+            title: 'Eliminar Liquidación',
+            text: `${resp.message}, con el ${idLiq}`,
+            icon: 'success',
+          });
+          this.getAllLiquidaciones()
+        });
+      };
+    });
   }
 
   eliminarLiquidacion_xyzzzzzz(id: number){

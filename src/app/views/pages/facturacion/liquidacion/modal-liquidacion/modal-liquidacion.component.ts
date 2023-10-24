@@ -54,7 +54,7 @@ export class ModalLiquidacionComponent implements OnInit {
     this.getListProyectos();
 
     if (this.DATA_LIQUID) {
-      this.liquidacion_Id = this.DATA_LIQUID.idFactura;
+      this.liquidacion_Id = this.DATA_LIQUID.id_Liquidacion;
       this.cargarLiqById(this.DATA_LIQUID.idFactura);
 
       // console.log('DATA_MODAL_LIQUID', this.DATA_LIQUID);
@@ -126,7 +126,7 @@ export class ModalLiquidacionComponent implements OnInit {
     const requestLiq = {...this.liquidacionForm.value}
     requestLiq.periodo = requestLiq.periodo + '-' + '01'
     requestLiq.idUsuarioActualiza = this.userID;
-    requestLiq.idEstado = 180  //MO_CARGADO OJO FALTA EL IDESTADO, PARA QUITARLO
+    // requestLiq.idEstado = 180  //MO_CARGADO OJO FALTA EL IDESTADO, PARA QUITARLO
 
     this.liquidacionService.actualizarLiquidacion(this.DATA_LIQUID.idFactura, requestLiq).subscribe((resp: any) => {
       if (resp.success) {
@@ -157,7 +157,7 @@ export class ModalLiquidacionComponent implements OnInit {
           subServicio    : resp.subServicio,
           idGestor       : resp.idGestor,
           ventaDeclarada : resp.importe,
-          idEstado       : resp.estado,
+          idEstado       : resp.idEstado,
           fecha_crea     : resp.fechaCreacion,
           // idUsuarioCrea  : resp.idUsuarioCrea,
           // ver_estado     : resp.ver_estado,
@@ -203,8 +203,55 @@ export class ModalLiquidacionComponent implements OnInit {
     })
   }
 
-  eliminaVentaDeclarada(idVd: number){}
-  eliminarCertificacion(idCert: number){}
+  eliminaVentaDeclarada(idVd: number){
+    Swal.fire({
+      title:'¿Eliminar venta declarada?',
+      text: `¿Estas seguro que deseas eliminar la venta declarada?`,
+      icon: 'question',
+      confirmButtonColor: '#ec4756',
+      cancelButtonColor: '#0d6efd',
+      confirmButtonText: 'Si, Eliminar!',
+      showCancelButton: true,
+      cancelButtonText: 'Cancelar',
+    }).then((result) => {
+      if (result.isConfirmed){
+        this.liquidacionService.eliminaVentaDeclarada(idVd).subscribe(resp => {
+
+          Swal.fire({
+            title: 'Eliminar venta declarada',
+            text: `${resp.message}, con el ${idVd}`,
+            icon: 'success',
+          });
+          this.getListVentaDeclarada()
+        });
+      };
+    });
+  }
+
+  eliminarCertificacion(idCert: number){
+    Swal.fire({
+      title:'¿Eliminar certificación?',
+      text: `¿Estas seguro que deseas eliminar la certificación?`,
+      icon: 'question',
+      confirmButtonColor: '#ec4756',
+      cancelButtonColor: '#0d6efd',
+      confirmButtonText: 'Si, Eliminar!',
+      showCancelButton: true,
+      cancelButtonText: 'Cancelar',
+    }).then((result) => {
+      if (result.isConfirmed){
+        this.liquidacionService.eliminarCertificacion(idCert).subscribe(resp => {
+
+          Swal.fire({
+            title: 'Eliminar certificación',
+            text: `${resp.message}, con el ${idCert}`,
+            icon: 'success',
+          });
+          this.getListCertificacion()
+        });
+      };
+    });
+  }
 
   importTotal: number = 0;
   obtenerImporteTotal(): number{
@@ -236,6 +283,8 @@ export class ModalLiquidacionComponent implements OnInit {
    getListEstados(){
      this.mantenimientoService.getAllEstados().subscribe((resp: any) => {
        this.listEstados = resp.result;
+       console.log('ESTADOS_LIQ', this.listEstados);
+
      })
    }
 

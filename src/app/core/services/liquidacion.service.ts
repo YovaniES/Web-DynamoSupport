@@ -48,11 +48,22 @@ export class LiquidacionService {
     return this.http.put<any>(`${BASE_VENTADECLARADA}/${idVd}`, requestVd);
   }
 
-
   actualizarCertificacion(idCert: number, requestCert: any){
     return this.http.put<any>(`${BASE_CERTIFICACION}/${idCert}`, requestCert);
   }
 
+
+  deleteLiquidacion(idLiq: number): Observable<any>{
+    return this.http.delete<any>(`${BASE_LIQUIDACION}/${idLiq}`)
+  }
+
+  eliminaVentaDeclarada(idVd: number): Observable<any>{
+    return this.http.delete<any>(`${BASE_VENTADECLARADA}/${idVd}`)
+  }
+
+  eliminarCertificacion(idCert: number): Observable<any>{
+    return this.http.delete<any>(`${BASE_CERTIFICACION}/${idCert}`)
+  }
 
   // VENTA DECLARADA Y CERTIFICACIONES
   getAllVentaDeclarada(idLiq: any): Observable<any>{ //any <> IResponse: {message: , result: , }

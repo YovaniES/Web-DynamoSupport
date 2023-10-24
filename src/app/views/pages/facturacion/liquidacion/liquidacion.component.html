@@ -185,7 +185,7 @@
                   </button> -->
                 </div>
               </td>
-              <td style="font-weight: 600;">{{ liq.idFactura }}</td>
+              <td style="font-weight: 600;">{{ liq.id_Liquidacion }}</td>
               <td>{{ liq.periodo | date:"yyyy/MM" }}</td>
               <td style="text-align: left">{{ liq.gestor }}</td>
 
@@ -193,7 +193,7 @@
                 <div class="cli-table-user">
                   <!-- OJO FALTA EL LIDER *****************+ -->
                   <button
-                    matTooltip={{liq.gestor}}
+                    matTooltip={{liq.lider}}
                     class="icon-btn btn-trans"
                     style="color: #ffaaa4;"
                     ><mat-icon class="icon-13">person_outline</mat-icon>

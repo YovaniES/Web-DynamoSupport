@@ -8,15 +8,15 @@ export class MantenimientoService {
   constructor(private http: HttpClient) {}
 
   getAllGestores() {
-    return this.http.get(BASE_MANTENIMIENTO + '/Gestor/GetAllGestores');
+    return this.http.get(BASE_MANTENIMIENTO + '/Gestor');
   }
 
   getAllProyectos(){
-    return this.http.get(BASE_MANTENIMIENTO + '/Proyecto/GetAllProyectos');
+    return this.http.get(BASE_MANTENIMIENTO + '/Proyecto');
   }
 
   getAllEstados(){
-    return this.http.get(BASE_MANTENIMIENTO + '/EstadoLiquidacion/GetAllEstadosLiquidacion');
+    return this.http.get(BASE_MANTENIMIENTO + '/EstadoLiquidacion');
   }
   // getLiquidacionById(idLiq: number) {
   //   return this.http.get(`${BASE_MANTENIMIENTO}'/GetLiquidacionById/'${idLiq}`);
