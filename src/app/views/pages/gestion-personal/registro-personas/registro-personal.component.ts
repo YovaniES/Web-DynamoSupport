@@ -83,7 +83,7 @@ export class RegistroPersonalComponent implements OnInit {
 
   listaPersonal: any[] = [];
   cargarOBuscarPersonal(){
-    this.blockUI.start("Cargando personal...");
+    this.blockUI.start("Cargando colaboradores...");
     let parametro: any[] = [{
       "queryId": 121,
       "mapValue": {

@@ -5,7 +5,6 @@ let PATH_VISOR_DYNAMO  = '';
 let PATH_BACK_NET      = '';
 let PATH_FACTURACION   = '';
 let PATH_MANTENIMIENTO = '';
-let PATH_HISTORICO_LIQUIDACION = '';
 let AUTH_API = '';
 let API_SAVE_DATA_IMPORT = '';
 
@@ -18,9 +17,10 @@ switch (ENVIROMENT) {
     break;
   case 'PROD':
     AUTH_API = 'https://securitydynamo.azurewebsites.net/api/Auth/'
-    // AUTH_API      = 'http://localhost:5167/aut/seguridad/';
+    // AUTH_API = 'https://localhost:7012/api/Auth/'
 
-    PATH_VISOR_DYNAMO  = 'http://visordynamosupportapi.indratools.com/';
+    // PATH_VISOR_DYNAMO  = 'http://visordynamosupportapi.indratools.com/';
+    PATH_VISOR_DYNAMO = 'https://localhost:7197/'
 
     // API_SAVE_DATA_IMPORT = 'http://saveimporteddata.indratools.com/api/importar' // CONECTADO con: db_support
     // API_SAVE_DATA_IMPORT = 'http://backendpruebasdev.indratools.com/api/importar'
@@ -30,7 +30,6 @@ switch (ENVIROMENT) {
 
     PATH_FACTURACION   = 'https://facturaciondynamo.azurewebsites.net/api'
     PATH_MANTENIMIENTO = 'https://mantenimientodynamo.azurewebsites.net/api'
-    // PATH_HISTORICO_LIQUIDACION = 'https://facturaciondynamo.azurewebsites.net/api/HistoricoFacturacion'
     break;
   default:
     break;

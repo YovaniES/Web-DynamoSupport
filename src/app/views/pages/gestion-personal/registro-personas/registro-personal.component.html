@@ -1,6 +1,6 @@
 <div class="cli-card fit-card">
   <div class="cli-card-body">
-    <div class="modal-title c-male">Mantenimiento del personal</div>
+    <div class="modal-title c-male">Mantenimiento de colaboradores</div>
     <div>
       <!-- BUSCADOR POR FILTRO ---------------------------------------------------------------->
       <div class="card" style="border-radius: 2px; font-weight: 600; padding: 7px">
@@ -96,7 +96,7 @@
             style="margin: 0"
             type="button"
             (click)="crearPersonal()"
-            ><mat-icon class="icon-18">person_add</mat-icon>Agregar Personal
+            ><mat-icon class="icon-18">person_add</mat-icon>Agregar colaborador
           </button>
 
           <button
@@ -115,7 +115,7 @@
 
         <div class="flex-1"></div>
         <div class="mt-2" style="color: #345df3; font-weight: 600;">
-          Total : <span class="total">{{ listaPersonal.length }} Personas</span>
+          Total : <span class="total">{{ listaPersonal.length }} Colaboradores</span>
         </div>
       </div>
 
@@ -125,7 +125,7 @@
           <thead>
             <tr class="bgc-blue-light c-white">
               <th>Acción</th>
-              <th style="min-width:75px;">ID Personal</th>
+              <th style="min-width:75px;">ID Colaborador</th>
               <th style="text-align:left; min-width: 175px;">Nombres y Apellidos</th>
               <th>Correo</th>
               <th>Perfil</th>
@@ -222,7 +222,7 @@
           *ngIf="!loadingItem && listaPersonal.length == 0"
           class="cli-loader mt-5"
           style="color: #f83434"
-          >No hay personal para mostrar
+          >No hay colaboradores para mostrar
         </div>
       </div>
     </div>
