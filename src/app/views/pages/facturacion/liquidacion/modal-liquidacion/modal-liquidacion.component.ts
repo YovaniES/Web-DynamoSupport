@@ -73,7 +73,7 @@ export class ModalLiquidacionComponent implements OnInit {
      idLiquidacion  : ['',], //acta,
      subServicio    : ['', [Validators.required]],
      idGestor       : ['', [Validators.required]],
-     ventaDeclarada : ['', [Validators.required]],
+     venta_declarada: ['', [Validators.required]],
      idEstado       : [''],
 
      idUsuarioCrea  : ['' ],
@@ -121,11 +121,12 @@ export class ModalLiquidacionComponent implements OnInit {
       }
     })
   }
-
+  // idUsuarioActualiza
   actualizarLiquidacion(){
     const requestLiq = {...this.liquidacionForm.value}
     requestLiq.periodo = requestLiq.periodo + '-' + '01'
     requestLiq.idUsuarioActualiza = this.userID;
+    requestLiq.ventaDeclarada = this.liquidacionForm.controls['venta_declarada'].value
     // requestLiq.idEstado = 180  //MO_CARGADO OJO FALTA EL IDESTADO, PARA QUITARLO
 
     this.liquidacionService.actualizarLiquidacion(this.DATA_LIQUID.idFactura, requestLiq).subscribe((resp: any) => {
@@ -143,12 +144,12 @@ export class ModalLiquidacionComponent implements OnInit {
 
   actionBtn: string = 'Crear';
   cargarLiqById(idLiq: number): void{
-    // this.blockUI.start("Cargando data...");
+    this.blockUI.start("Cargando data...");
     if (this.DATA_LIQUID) {
       this.actionBtn = 'Actualizar'
       this.liquidacionService.getLiquidacionById(idLiq).subscribe((resp: any) => {
         console.log('DATA_BY_ID_LIQ', resp);
-
+        this.blockUI.stop();
         this.liquidacionForm.reset({
           idFactura      : resp.idFactura,
           periodo        : resp.periodo,
@@ -156,7 +157,7 @@ export class ModalLiquidacionComponent implements OnInit {
           idLiquidacion  : resp.idTipoLiquidacion,
           subServicio    : resp.subServicio,
           idGestor       : resp.idGestor,
-          ventaDeclarada : resp.importe,
+          venta_declarada: resp.importe,
           idEstado       : resp.idEstado,
           fecha_crea     : resp.fechaCreacion,
           // idUsuarioCrea  : resp.idUsuarioCrea,
@@ -173,7 +174,7 @@ export class ModalLiquidacionComponent implements OnInit {
 
   listVentaDeclarada:any[] = [];
   getListVentaDeclarada(){
-    this.blockUI.start('Cargando lista venta declarada...');
+    // this.blockUI.start('Cargando lista venta declarada...');
     // console.log('ID_LIQ_VD', this.DATA_LIQUID.idFactura);
     const requestId = {
       idFactura : this.DATA_LIQUID.idFactura
@@ -181,7 +182,7 @@ export class ModalLiquidacionComponent implements OnInit {
 
     this.liquidacionService.getAllVentaDeclarada(requestId).subscribe((resp: any) => {
       // console.log('DATA_VD', resp, resp.result);
-      this.blockUI.stop();
+      // this.blockUI.stop();
 
       this.listVentaDeclarada = [];
       this.listVentaDeclarada = resp.result;

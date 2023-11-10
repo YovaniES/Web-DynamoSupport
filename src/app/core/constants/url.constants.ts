@@ -19,17 +19,17 @@ switch (ENVIROMENT) {
     AUTH_API = 'https://securitydynamo.azurewebsites.net/api/Auth/'
     // AUTH_API = 'https://localhost:7012/api/Auth/'
 
-    // PATH_VISOR_DYNAMO  = 'http://visordynamosupportapi.indratools.com/';
-    PATH_VISOR_DYNAMO = 'https://localhost:7197/'
+    PATH_VISOR_DYNAMO  = 'http://visordynamosupportapi.indratools.com/'; //SUBSITE 31
+    // PATH_VISOR_DYNAMO = 'https://localhost:7197/'
 
     // API_SAVE_DATA_IMPORT = 'http://saveimporteddata.indratools.com/api/importar' // CONECTADO con: db_support
+    API_SAVE_DATA_IMPORT = 'https://localhost:7247/api/importar' // CONECTADO con: db_support
     // API_SAVE_DATA_IMPORT = 'http://backendpruebasdev.indratools.com/api/importar'
 
     PATH_BACK_NET = 'http://backdynamosupport.indratools.com/api/configurador/' //SUBSITE 21
     // PATH_BACK_NET = 'http://changestatevacations.indratools.com/api/configurador/' //BACK DE PRUEBA OJO | SUBSITE 25
-
     PATH_FACTURACION   = 'https://facturaciondynamo.azurewebsites.net/api'
-    PATH_MANTENIMIENTO = 'https://mantenimientodynamo.azurewebsites.net/api'
+    PATH_MANTENIMIENTO = 'https://dmantenimientodynamo.azurewebsites.net/api'
     break;
   default:
     break;

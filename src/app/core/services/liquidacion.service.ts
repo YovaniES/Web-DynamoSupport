@@ -18,6 +18,10 @@ export class LiquidacionService {
     return this.http.post(BASE_LIQUIDACION + '/GetAllLiquidacion', listLiq);
   }
 
+  getAllListaExportVD(){
+    return this.http.get(BASE_LIQUIDACION + '/exportVentaDeclarada');
+  }
+
   getLiquidacionById(idLiq: number): Observable<any>{ //liqById
     return this.http.get(`${BASE_LIQUIDACION}/GetLiquidacionById/${idLiq}`).pipe(
       map((resp: any) => {

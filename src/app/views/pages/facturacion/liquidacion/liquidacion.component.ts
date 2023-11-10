@@ -71,6 +71,7 @@ export class LiquidacionComponent implements OnInit {
     this.getListGestores();
     this.getistProyectos();
     this.getListEstados();
+    this.getAllListaExportVD();
     // this.exportListVD_Fact();
     // console.log('PERIODO_ACTUAL-LIQ',this.modificarMes(0)); //2023-09
   }
@@ -84,7 +85,6 @@ export class LiquidacionComponent implements OnInit {
       estadoLiquidacion: [''],
       importe          : [''],
       periodo          : [''],
-
       import           : [''],
       periodoActual    : [true],
     })
@@ -100,8 +100,7 @@ export class LiquidacionComponent implements OnInit {
     request.periodoActual = request.periodoActual? this.modificarMes(-1): '',
 
     this.liquidacionService.getAllLiquidaciones(request).subscribe((resp: any) => {
-      console.log('LIST_LIQ =>', resp);
-
+      // console.log('LIST_LIQ =>', resp);
       this.blockUI.stop();
 
       this.listaLiquidacion = [];
@@ -127,14 +126,11 @@ export class LiquidacionComponent implements OnInit {
       var sheetNames = wb.SheetNames;
 
       this.DATAimport = XLSX.utils.sheet_to_json(wb.Sheets[sheetNames[0]])
-      // console.log('DATA_EXCELL', this.DATAimport);
+      console.log('DATA_EXCELL', this.DATAimport); // { Gestor:"Cesar Leyva", Importe: 12345, Periodo:Wed Nov 01 2023, Proyecto:"PETO21", Subservicio:"PRUEBA 08-11-2023-IMPORT-EXCELL", Tipo: "ACTA"}
 
-      // this.validarImportacionExcell();
       if (this.validarImportacionExcell()) {
       this.guardarListaimportado();
       }
-      // this.guardarListaimportado();
-
       this.blockUI.stop();
     }
   }
@@ -149,7 +145,6 @@ export class LiquidacionComponent implements OnInit {
 
         this.spinner.hide();
         if (resp && resp.message == 'ok') {
-          // this.cargarOBuscarLiquidacion();
           this.getAllLiquidaciones()
 
           Swal.fire({
@@ -259,14 +254,24 @@ export class LiquidacionComponent implements OnInit {
     this.spinner.hide();
   }
 
-  listVD_Fact: any[] = [];
-  exportListVD_Fact(){
-    let parametro: any[] = [{queryId: 136}];
+  // listVD_Fact: any[] = [];
+  // exportListVD_Fact(){
+  //   let parametro: any[] = [{queryId: 136}];
 
-    this.facturacionService.exportListVD_Fact(parametro[0]).subscribe((resp: any) => {
-            this.listVD_Fact = resp.list;
-            // console.log('EXPORT-VD_FACT', resp);
-    });
+  //   this.facturacionService.exportListVD_Fact(parametro[0]).subscribe((resp: any) => {
+  //           this.listVD_Fact = resp.list;
+  //           // console.log('EXPORT-VD_FACT', resp);
+  //   });
+  // }
+
+  listExportVentaDeclarada: any[] = []
+  getAllListaExportVD(){
+    this.liquidacionService.getAllListaExportVD().subscribe((resp: any) => {
+      console.log('LIST_EXPORT_VD =>', resp);
+
+      this.listExportVentaDeclarada = [];
+      this.listExportVentaDeclarada = resp.result;
+    })
   }
 
   listGestores: any[] = [];
@@ -336,10 +341,22 @@ export class LiquidacionComponent implements OnInit {
     })
   }
 
+
+  duplicarLiquidacion(DATA: any){
+    console.log('ENV_DATA', DATA);
+
+    const dialogRef = this.dialog.open(ModalLiquidacionComponent, {width:'55%', data: DATA});
+    dialogRef.afterClosed().subscribe(resp => {
+      if (resp) {
+        this.getAllLiquidaciones()
+      }
+    })
+  }
+
   abrirComentarioRegularizacion(dataComentario: any) {
     console.log('DATA_DETALLE', dataComentario);
 
-    const dialogRef = this.dialog.open(ModalComentarioComponent, { width: '60%',data: dataComentario});
+    const dialogRef = this.dialog.open(ModalComentarioComponent, { width: '55%',data: dataComentario});
     dialogRef.afterClosed().subscribe((resp) => {
       if (resp) {
         this.getAllLiquidaciones()
@@ -348,7 +365,7 @@ export class LiquidacionComponent implements OnInit {
   }
 
   actualizacionMasiva(){
-    const dialogRef = this.dialog.open(ActualizacionMasivaComponent, {width:'20%', });
+    const dialogRef = this.dialog.open(ActualizacionMasivaComponent, {width:'25%', });
 
     dialogRef.afterClosed().subscribe(resp => {
       if (resp) {
@@ -358,11 +375,11 @@ export class LiquidacionComponent implements OnInit {
   }
 
   exportarRegistro(){
-    this.exportExcellService.exportarExcel(this.listaLiquidacion, 'Factura_Filtro')
+    this.exportExcellService.exportarExcel(this.listaLiquidacion, 'LIQUIDACION_Filtro')
   }
 
   exportarVD_FACT(){
-    this.exportExcellService.exportarExcel(this.listVD_Fact, 'FACTURACION-VENT_DECLARADA')
+    this.exportExcellService.exportarExcel(this.listExportVentaDeclarada, 'FACTURACION-VENTA_DECLARADA')
   }
 }
 

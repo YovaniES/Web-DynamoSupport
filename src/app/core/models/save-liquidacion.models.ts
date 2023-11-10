@@ -1,12 +1,12 @@
 export interface SaveLiquidacionModel{
-  IdFactura      : number;
-  IdProyecto     : number;
-  IdLiquidacion  : number;
-  SubServicio    : string;
-  IdGestor       : number;
-  Venta_declarada: string;
-  IdEstado       : number;
-  Periodo        : Date;
-  Id_reg_proy    : number;
-  FechaCrea      : Date
+  // IdFactura        : number;
+  IdProyecto       : number;
+  Sub_servicio     : string;
+  IdTipoLiquidacion: number;
+  IdGestor         : number;
+  Venta_declarada  : string;
+  Periodo          : Date;
+  Id_reg_proy      : number;
+  IdEstado         : number;
+  FechaCreacion    : Date
 };
