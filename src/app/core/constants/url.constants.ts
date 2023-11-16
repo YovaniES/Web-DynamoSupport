@@ -16,7 +16,9 @@ switch (ENVIROMENT) {
     AUTH_API = '';
     break;
   case 'PROD':
-    AUTH_API = 'https://securitydynamo.azurewebsites.net/api/Auth/'
+    // AUTH_API = 'https://securitydynamo.azurewebsites.net/api/Auth/'
+    AUTH_API = 'http://backendpruebasdev.indratools.com/api/Auth/' //SUBSITE33 (LOGIN CON BD_DynamoSupport_PROD)
+
     // AUTH_API = 'https://localhost:7012/api/Auth/'
 
     PATH_VISOR_DYNAMO  = 'http://visordynamosupportapi.indratools.com/'; //SUBSITE 31
@@ -26,9 +28,10 @@ switch (ENVIROMENT) {
     API_SAVE_DATA_IMPORT = 'https://localhost:7247/api/importar' // CONECTADO con: db_support
     // API_SAVE_DATA_IMPORT = 'http://backendpruebasdev.indratools.com/api/importar'
 
-    PATH_BACK_NET = 'http://backdynamosupport.indratools.com/api/configurador/' //SUBSITE 21
-    // PATH_BACK_NET = 'http://changestatevacations.indratools.com/api/configurador/' //BACK DE PRUEBA OJO | SUBSITE 25
-    PATH_FACTURACION   = 'https://facturaciondynamo.azurewebsites.net/api'
+    PATH_BACK_NET = 'http://backdynamosupport.indratools.com/api/configurador/' //SUBSITE21
+
+    // PATH_FACTURACION   = 'https://facturaciondynamo.azurewebsites.net/api'
+    PATH_FACTURACION   = 'http://facturacionwebapi.indratools.com/api'//SUBSITE34 (CON BD_DynamoSupport_PROD)
     PATH_MANTENIMIENTO = 'https://dmantenimientodynamo.azurewebsites.net/api'
     break;
   default:
@@ -62,3 +65,8 @@ export const API_CORREO = 'https://localhost:44395/api/email'; //NO SE USA EN DY
 // NOTA: SUBSITE 28 => http://saveimporteddata.indratools.com
 // NOTA: SUBSITE 33 => 'http://backendpruebasdev.indratools.com' | BACKEN SOLO PRUEBAS EN DEV
 // changestatevacations.indratools.com : NOTA => SE ESTA USANDO PARA PRUEBAS DE DEV. Ya luego regresar con su API de cambiar estado de las vacaciones. 13/09/2023
+
+
+
+// OJO****
+// PATH_BACK_NET = 'http://changestatevacations.indratools.com/api/configurador/' //BACK DE PRUEBA OJO | SUBSITE 25

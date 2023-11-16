@@ -94,7 +94,16 @@ export class ModalCertificacionComponent implements OnInit {
       }
     })
   }
-
+  // "idCertificacion": 122,
+  // "idFactura": 60,
+  // "fechaFacturacion": "2023-10-12",
+  // "importe": 17408.06,
+  // "orden_compra": "9403857489",
+  // "certificacion": "5034532879",
+  // "idEstado": 663,
+  // "factura": "F001-013974",
+  // "comentario": "-",idFactura
+  // "usuario": 474
   actualizarCertificacion(){
     const formValues = this.certifForm.getRawValue();
 
@@ -105,7 +114,8 @@ export class ModalCertificacionComponent implements OnInit {
       importe         : formValues.importe,
       orden_compra    : formValues.ordenCompra,
       certificacion   : formValues.certificacion,
-      idEstado        : 663,
+      idEstado        : formValues.estFactura,
+      // idEstado        : 663,
       factura         : formValues.factura,
       comentario      : formValues.comentario,
       usuario         : this.userID
